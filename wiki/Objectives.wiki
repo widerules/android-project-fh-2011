@@ -10,7 +10,7 @@ _Objectives for each person_
   * OpenGL / rendering 3D _*(Oliver)*_
   * Elements (Balls/Enemies) _*(Jörn)*_
   * Menu / interface 2D _*(Eva)*_
-  * _ [Sound] _
+  * _ [ Sound ] _
   * Presentation / Documentation _*(All)*_
 
 
