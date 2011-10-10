@@ -10,7 +10,7 @@ _Objectives for each person_
   * OpenGL / rendering 3D _*(Oliver)*_
   * Elements (Balls/Enemies) _*(Jörn)*_
   * Menu / interface 2D _*(Eva)*_
-  * _ [ Sound ] _
+  * _ Sound _
   * Presentation / Documentation _*(All)*_
 
 
@@ -27,7 +27,7 @@ _Objectives for each person_
   * Splashscreen (in hdp/mdp/ldp)
   * *Textures for Balls:*
   * red, blue, black, yellow, green
-  * *Objecttextres:*
+  * *Objecttextures:*
   * wall
   * gras
   * sand
