@@ -40,6 +40,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	private final String 	m_vertexShaderCode = 
         "attribute vec4 vPosition; \n" +
         "void main(){              \n" +
+        //" normalVec = normalize (gl_NormalMatrix * gl_Normal);\n" +
         " gl_Position = vPosition; \n" +
         "}                         \n";
     
@@ -55,7 +56,6 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	/**
 	 * Is called for each redraw of the View
 	 */
-	@Override
 	public void onDrawFrame(GL10 gl) {
 		// Redraw background Color
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -76,7 +76,6 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	 *  Is called if the view-geometry changes, perhaps if the screen's orientation changes
 	 *  between landsape an portrait
 	 */
-	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		GLES20.glViewport(0, 0, width, height);
 	}
@@ -84,7 +83,6 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	/**
 	 * Is called once to initalize the GLSurfaceView environmet
 	 */
-	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, this.m_vertexShaderCode);
         int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, this.m_fragmentShaderCode);
