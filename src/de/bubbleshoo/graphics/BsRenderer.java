@@ -12,13 +12,39 @@ import de.bubbleshoo.data.BsElement;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
+import android.os.SystemClock;
 
 /**
  * @author oliverl
  *
  */
 public class BsRenderer implements GLSurfaceView.Renderer{
-
+	/**
+	 * Needed for projectionmatrix
+	 */
+	private int muMVPMatrixHandle;
+	
+	/**
+	 * Modelviewprojectionmatrix (proj * view)
+	 */
+	private float[] mMVPMatrix = new float[16];
+	
+	/**
+	 * View Matrix
+	 */
+	private float[] mVMatrix = new float[16];
+	
+	/**
+	 * Projectionmatrix
+	 */
+	private float[] mProjMatrix = new float[16];
+	
+	/**
+	 * MotionMatrix
+	 */
+	private float[] mMMatrix = new float[16];
+	
 	/**
 	 * Programm for Vertex- and Fragmentshader
 	 */
@@ -38,11 +64,15 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	 *  Vertex shader
 	 */
 	private final String 	m_vertexShaderCode = 
+		// This matrix member variable provides a hook to manipulate
+        // the coordinates of the objects that use this vertex shader
+        "uniform mat4 uMVPMatrix;   \n" +
+
         "attribute vec4 vPosition; \n" +
         "void main(){              \n" +
         //" normalVec = normalize (gl_NormalMatrix * gl_Normal);\n" +
-        " gl_Position = vPosition; \n" +
-        "}                         \n";
+        " gl_Position = uMVPMatrix  * vPosition; \n" +
+        "}\n";
     
 	/**
 	 * Fragment Shader
@@ -60,6 +90,21 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 		// Redraw background Color
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 		
+		// Apply a ModelView Projection transformation
+        //Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
+		// Create a rotation for the triangle
+        long time = SystemClock.uptimeMillis() % 4000L;
+        float angle = 0.090f * ((int) time);
+        // Rotatio around z-axis
+        Matrix.setRotateM(mMMatrix, 0, angle, 1.0f, 1.0f, 1.0f);
+        // result multiplied with View-matrix
+        Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
+        // result multiplied with projectionmatrix
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+
+        GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+
+        // Draw triangles
         for (BsElement bsEmt : this.m_lstElements) {
         	// Add program to OpenGL environment
             GLES20.glUseProgram(this.mProgram);
@@ -78,6 +123,17 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	 */
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		GLES20.glViewport(0, 0, width, height);
+		
+		float fRatio = (float) width / height;
+		// this projection matrix is applied to object coodinates
+        // in the onDrawFrame() method
+		// public static void frustumM (float[] m, int offset, float left, float right, float bottom, float top, float near, float far) 
+        Matrix.frustumM(mProjMatrix, 0, -fRatio, fRatio, -1, 1, 2, 9);
+        // reference the uMVPMatrix shader matrix variable
+        muMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
+        // define a camera view matrix
+        // Set Viewpoint 3 back and 1 up in the scene
+        Matrix.setLookAtM(mVMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 	}
 
 	/**
