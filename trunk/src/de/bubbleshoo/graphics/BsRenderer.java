@@ -55,6 +55,10 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	 */
     private int maPositionHandle;
     
+    /**
+     * Rotationswinkel
+     */
+    private float fAngle;
 	/**
 	 * Elements to draw
 	 */
@@ -93,10 +97,10 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 		// Apply a ModelView Projection transformation
         //Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
 		// Create a rotation for the triangle
-        long time = SystemClock.uptimeMillis() % 4000L;
-        float angle = 0.090f * ((int) time);
+//        long time = SystemClock.uptimeMillis() % 4000L;
+//        float angle = 0.090f * ((int) time);
         // Rotatio around z-axis
-        Matrix.setRotateM(mMMatrix, 0, angle, 1.0f, 1.0f, 1.0f);
+        Matrix.setRotateM(mMMatrix, 0, -fAngle, 0.0f, 1.0f, 0.0f);
         // result multiplied with View-matrix
         Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
         // result multiplied with projectionmatrix
@@ -186,6 +190,20 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	 */
 	public List<BsElement> getLstElements() {
 		return m_lstElements;
+	}
+
+	/**
+	 * @param fAngle the fAngle to set
+	 */
+	public void setAngle(float fAngle) {
+		this.fAngle = fAngle;
+	}
+
+	/**
+	 * @return the fAngle
+	 */
+	public float getAngle() {
+		return fAngle;
 	}
 
 }
