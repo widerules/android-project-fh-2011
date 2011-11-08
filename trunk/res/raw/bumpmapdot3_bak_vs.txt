@@ -1,0 +1,55 @@
+// Vertex Shader Bump Mapping
+
+uniform mat4 uMVPMatrix;
+uniform mat4 normalMatrix;
+
+// eye pos
+uniform vec3 eyePos;
+
+// position and normal of the vertices
+attribute vec4 aPosition;
+attribute vec3 aNormal; 
+
+// texture variables
+uniform float hasTexture;
+varying float tex;
+attribute vec2 textureCoord;
+varying vec2 tCoord;
+
+// lighting
+// vec3?
+uniform vec4 lightPos;
+uniform vec4 lightColor;
+
+// normals to pass on
+varying vec3 vNormal;
+varying vec3 EyespaceNormal;
+
+varying vec3 lightDir, eyeVec;
+
+attribute vec4 rm_Binormal;
+attribute vec4 rm_Tangent;
+   
+void main( void )
+{
+   gl_Position = normalMatrix * aPosition;
+   tCoord    = textureCoord.xy;
+
+   vec4 fvObjectPosition = normalMatrix * aPosition;
+
+   vec3 fvViewDirection  = eyePos - fvObjectPosition.xyz;
+   vec3 fvLightDirection = lightPos - fvObjectPosition.xyz;
+ 
+   vec3 fvNormal         = (uMVPMatrix * aNormal).xyz;
+   vec3 fvBinormal       = (uMVPMatrix * rm_Binormal).xyz;
+   vec3 fvTangent        = (uMVPMatrix * rm_Tangent).xyz;
+ 
+   eyeVec.x  = dot( fvTangent, fvViewDirection );
+   eyeVec.y  = dot( fvBinormal, fvViewDirection );
+   eyeVec.z  = dot( fvNormal, fvViewDirection );
+
+   lightDir.x  = dot( fvTangent, fvLightDirection.xyz );
+   lightDir.y  = dot( fvBinormal, fvLightDirection.xyz );
+   lightDir.z  = dot( fvNormal, fvLightDirection.xyz );
+   
+}

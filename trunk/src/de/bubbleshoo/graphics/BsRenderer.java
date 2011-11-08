@@ -3,12 +3,15 @@
  */
 package de.bubbleshoo.graphics;
 
+import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import de.bubbleshoo.data.BsElement;
+import de.bubbleshoo.data.Bs3DObject;
+import de.bubbleshoo.data.BsMesh;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -20,6 +23,12 @@ import android.os.SystemClock;
  *
  */
 public class BsRenderer implements GLSurfaceView.Renderer{
+	private static final int FLOAT_SIZE_BYTES = 4;
+    private static final int TRIANGLE_VERTICES_DATA_STRIDE_BYTES = 8 * FLOAT_SIZE_BYTES;
+    private static final int TRIANGLE_VERTICES_DATA_POS_OFFSET = 0;
+    private static final int TRIANGLE_VERTICES_DATA_NOR_OFFSET = 3;
+    private static final int TRIANGLE_VERTICES_DATA_TEX_OFFSET = 6;
+    
 	/**
 	 * Needed for projectionmatrix
 	 */
@@ -62,7 +71,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	/**
 	 * Elements to draw
 	 */
-	private List<BsElement>	m_lstElements;
+	private List<Bs3DObject>	m_lstElements;
 	
 	/**
 	 *  Vertex shader
@@ -100,24 +109,43 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 //        long time = SystemClock.uptimeMillis() % 4000L;
 //        float angle = 0.090f * ((int) time);
         // Rotatio around z-axis
-        Matrix.setRotateM(mMMatrix, 0, -fAngle, 0.0f, 1.0f, 0.0f);
+        //Matrix.setRotateM(mMMatrix, 0, -fAngle, 0.0f, 1.0f, 0.0f);
         // result multiplied with View-matrix
-        Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
+        //Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
         // result multiplied with projectionmatrix
-        Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
-
-        GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-
-        // Draw triangles
-        for (BsElement bsEmt : this.m_lstElements) {
+        //Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+        
+        
+        // Draw Meshs
+        for (Bs3DObject bsEmt : this.m_lstElements) {
+        	
+        	GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+        	
+        	bsEmt.setAngleY(-fAngle);
+        	Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, bsEmt.getModelMatrix(), 0);
+            Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+            
         	// Add program to OpenGL environment
             GLES20.glUseProgram(this.mProgram);
-        	// Prepare the triangle data
-            GLES20.glVertexAttribPointer(this.maPositionHandle, 3, GLES20.GL_FLOAT, false, 12, bsEmt.getVertexBuffer());
-            GLES20.glEnableVertexAttribArray(this.maPositionHandle);
             
-            // Draw the triangle
-            GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
+            // the vertex coordinates
+            FloatBuffer _vb = bsEmt.getMesh().get_vb();
+            _vb.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
+            GLES20.glVertexAttribPointer(GLES20.glGetAttribLocation(this.mProgram, "vPosition")/*shader.maPositionHandle*/, 
+            		3, GLES20.GL_FLOAT, false, TRIANGLE_VERTICES_DATA_STRIDE_BYTES, _vb);
+            GLES20.glEnableVertexAttribArray(GLES20.glGetAttribLocation(this.mProgram, "vPosition"));//shader.maPositionHandle);
+
+            // the normal info
+//            _vb.position(TRIANGLE_VERTICES_DATA_NOR_OFFSET);
+//            GLES20.glVertexAttribPointer(GLES20.glGetAttribLocation(this.mProgram, "aNormal")/*shader.maNormalHandle*/, 
+//            		3, GLES20.GL_FLOAT, false, TRIANGLE_VERTICES_DATA_STRIDE_BYTES, _vb);
+//            GLES20.glEnableVertexAttribArray(GLES20.glGetAttribLocation(this.mProgram, "aNormal"));//shader.maNormalHandle);
+            
+            
+            // Draw with indices
+            ShortBuffer _ib = bsEmt.getMesh().get_ib();
+            short[] _indices = bsEmt.getMesh().get_indices();
+            GLES20.glDrawElements(GLES20.GL_TRIANGLES, _indices.length, GLES20.GL_UNSIGNED_SHORT, _ib);
 		}
 	}
 
@@ -137,7 +165,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
         muMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
         // define a camera view matrix
         // Set Viewpoint 3 back and 1 up in the scene
-        Matrix.setLookAtM(mVMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        Matrix.setLookAtM(mVMatrix, 0, 0, 0, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 	}
 
 	/**
@@ -148,7 +176,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
         int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, this.m_fragmentShaderCode);
 
 		// Set the background frame color
-		GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+		GLES20.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		
 		this.mProgram = GLES20.glCreateProgram();             // create empty OpenGL Program
         GLES20.glAttachShader(this.mProgram, vertexShader);   // add the vertex shader to program
@@ -181,14 +209,14 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	/**
 	 * @param m_lstElements the m_lstElements to set
 	 */
-	public void setLstElements(List<BsElement> lstElements) {
+	public void setLstElements(List<Bs3DObject> lstElements) {
 		this.m_lstElements = lstElements;
 	}
 
 	/**
 	 * @return the m_lstElements
 	 */
-	public List<BsElement> getLstElements() {
+	public List<Bs3DObject> getLstElements() {
 		return m_lstElements;
 	}
 

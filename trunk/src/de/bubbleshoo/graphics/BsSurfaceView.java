@@ -6,9 +6,12 @@ package de.bubbleshoo.graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.bubbleshoo.data.BsElement;
+import de.bubbleshoo.data.Bs3DObject;
+import de.bubbleshoo.data.BsMesh;
+import de.bubbleshoo.main.R;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
 import android.view.MotionEvent;
 
 /**
@@ -70,7 +73,7 @@ public class BsSurfaceView extends GLSurfaceView {
 	/**
 	 * Elements to draw
 	 */
-	private List<BsElement>	m_lstElements;
+	private List<Bs3DObject>	m_lstElements;
 	
 	/**
 	 * Constructor
@@ -81,7 +84,7 @@ public class BsSurfaceView extends GLSurfaceView {
 		// Create an OpenGL ES 2.0 Context
 		setEGLContextClientVersion(2);
 		// Init Elements
-		initElementList();
+		initElementList(context);
 		// Set the renderer for drawing on the GLSurfaceView
 		this.m_bsRenderer = new BsRenderer();
 		this.m_bsRenderer.setLstElements(this.m_lstElements);
@@ -94,18 +97,49 @@ public class BsSurfaceView extends GLSurfaceView {
 	/**
 	 * Initialize all elements to draw
 	 */
-	private void initElementList() {
-		this.m_lstElements = new ArrayList<BsElement>();
+	private void initElementList(Context context) {
+		this.m_lstElements = new ArrayList<Bs3DObject>();
+		Bs3DObject emt = null;
 		
-		// Dreieck
-		 float triangleCoords[] = {
-		            // X, Y, Z
-		            -0.5f, -0.25f, 0,
-		             0.5f, -0.25f, 0,
-		             0.0f,  0.559016994f, 0
-		        };
-		 
-		 BsElement emt1 = new BsElement(triangleCoords);
-		 this.m_lstElements.add(emt1);
+		try {
+            //int[] normalMapTextures = {R.raw.diffuse_old, R.raw.diffusenormalmap_deepbig};
+            int[] bumpMapTextures = {R.raw.fieldstone, R.raw.fieldstonebump_dot3};
+            emt = new Bs3DObject(bumpMapTextures, R.raw.texturedcube, true, context);
+            emt.setAngleY(0.0f);
+            emt.setScale(0.5f, 0.5f, 0.5f);
+            emt.setTranslate(-2.5f, 0.0f, 0.0f);
+            this.m_lstElements.add(emt);
+            emt = new Bs3DObject(bumpMapTextures, R.raw.texturedcube, true, context);
+            emt.setAngleY(0.0f);
+            emt.setScale(0.5f, 0.5f, 0.5f);
+            emt.setTranslate(2.5f, 0.0f, 0.0f);
+            this.m_lstElements.add(emt);
+	    } catch (Exception e) {
+	            //showAlert("" + e.getMessage());
+	    }
+    
+//		// Dreieck
+//		 float triangleCoords[] = {
+//		            // X, Y, Z
+//		            -0.5f, -0.25f, 0,
+//		             0.5f, -0.25f, 0,
+//		             0.0f,  0.559016994f, 0
+//		        };
+//		 emt = new BsMesh(triangleCoords);
+//		 this.m_lstElements.add(emt);
+//		// Array of vertices to a cube.
+//		 float cube3D[] =
+//		 {
+//		     0.50f,-0.50f,-0.50f,   // vertex 1
+//		     0.50f,-0.50f,0.50f,    // vertex 2
+//		     -0.50f,-0.50f,0.50f,   // vertex 3
+//		     -0.50f,-0.50f,-0.50f,  // vertex 4
+//		     0.50f,0.50f,-0.50f,    // vertex 5
+//		     -0.50f,0.50f,-0.50f,   // vertex 6
+//		     0.50f,0.50f,0.50f,     // vertex 7
+//		     -0.50f,0.50f,0.50f     // vertex 8
+//		 };
+//		 emt = new BsMesh(cube3D);
+//		 this.m_lstElements.add(emt);
 	}
 }
