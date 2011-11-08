@@ -36,17 +36,24 @@ public class Bs3DObject {
 	        
 	        private float[] mScaleMatrix = new float[16];   // scaling
 	        private float[] mRotXMatrix = new float[16];    // rotation x
-	        private float[] mRotYMatrix = new float[16];    // rotation x
+	        private float[] mRotYMatrix = new float[16];    // rotation y
+	        private float[] mRotMatrix = new float[16];		// Rotation
+	        private float[] mTransMatrix = new float[16];	// Translation
 	        private float[] mMMatrix = new float[16];       // rotation
 	        
 	        // scaling
-	        float scaleX = 1.0f;
-	        float scaleY = 1.0f;
-	        float scaleZ = 1.0f;
+	        private float scaleX = 1.0f;
+	        private float scaleY = 1.0f;
+	        private float scaleZ = 1.0f;
 	        
 	        // rotation 
-	        public float mAngleX;
-	        public float mAngleY;
+	        private float mAngleX;
+	        private float mAngleY;
+	        
+	        // translating
+	        private float m_transX = 0.0f;
+	        private float m_transY = 0.0f;
+	        private float m_transZ = 0.0f;
 	        
 	        // Mesh
 	        BsMesh mesh;                                              // The mesh of triangles
@@ -190,17 +197,19 @@ public class Bs3DObject {
 	         * @return
 	         */
 	        public float[] getModelMatrix() {
+	        	float tempMatrix[] = new float[16];
 	        	// scaling
                 Matrix.setIdentityM(mScaleMatrix, 0);
                 Matrix.scaleM(mScaleMatrix, 0, scaleX, scaleY, scaleZ);
                 // Rotation along x
                 Matrix.setRotateM(mRotXMatrix, 0, this.mAngleY, -1.0f, 0.0f, 0.0f);
                 Matrix.setRotateM(mRotYMatrix, 0, this.mAngleX, 0.0f, 1.0f, 0.0f);
-                
-                float tempMatrix[] = new float[16]; 
-                Matrix.multiplyMM(tempMatrix, 0, mRotYMatrix, 0, mRotXMatrix, 0);
-                Matrix.multiplyMM(mMMatrix, 0, mScaleMatrix, 0, tempMatrix, 0);
-                
+                Matrix.multiplyMM(mRotMatrix, 0, mRotYMatrix, 0, mRotXMatrix, 0);
+                                
+                Matrix.multiplyMM(tempMatrix, 0, mScaleMatrix, 0, mRotMatrix, 0);
+                // Translate Object
+                Matrix.translateM(mTransMatrix, 0, tempMatrix, 0, this.m_transX, this.m_transY, this.m_transZ);
+                mMMatrix = mTransMatrix;
                 return mMMatrix;
 	        }
 	        
@@ -210,7 +219,7 @@ public class Bs3DObject {
 	         * @param y
 	         * @param z
 	         */
-	        public void scale(float x, float y, float z) {
+	        public void setScale(float x, float y, float z) {
 	        	scaleX = x;
 	        	scaleY = y;
 	        	scaleZ = z;
@@ -219,11 +228,53 @@ public class Bs3DObject {
 	        /**
 	         * Set the Scale to identity (1, 1, 1)
 	         */
-	        public void scaleIdentity() {
+	        public void setScaleIdentity() {
 	        	scaleX = 1.0f;
 	        	scaleY = 1.0f;
 	        	scaleZ = 1.0f;
 	        }
+	        
+	        /**
+			 * @return the m_transX
+			 */
+			public float getTransX() {
+				return m_transX;
+			}
+
+			/**
+			 * @return the m_transY
+			 */
+			public float getTransY() {
+				return m_transY;
+			}
+
+			/**
+			 * @return the m_transZ
+			 */
+			public float getTransZ() {
+				return m_transZ;
+			}
+			
+			/**
+			 * translate the object to a position
+			 * @param x
+			 * @param y
+			 * @param z
+			 */
+			public void setTranslate(float x, float y, float z) {
+				this.m_transX += x;
+				this.m_transY += y;
+				this.m_transZ += z;
+			}
+			
+			/**
+			 * Set Translateidentity (0, 0, 0)
+			 */
+			public void setTranslateIdentity() {
+				this.m_transX = 0.0f;
+				this.m_transY = 0.0f;
+				this.m_transZ = 0.0f;
+			}
 	        
 	        /**
 			 * @return the mAngleX

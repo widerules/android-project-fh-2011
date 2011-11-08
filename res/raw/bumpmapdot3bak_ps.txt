@@ -1,0 +1,48 @@
+// Frag Shader BumpMap
+
+precision mediump float;
+
+// Texture Variables
+uniform sampler2D texture1; // color texture
+uniform sampler2D texture2; // normal map texture
+varying float tex;
+varying vec2 tCoord;
+
+varying vec3 vNormal;
+varying vec3 EyespaceNormal;
+
+// light
+uniform vec4 lightPos;
+uniform vec4 lightColor;
+
+// material
+uniform vec4 matAmbient;
+uniform vec4 matDiffuse;
+uniform vec4 matSpecular;
+uniform float matShininess;
+
+// eye pos
+uniform vec3 eyePos;
+
+// from vertex s
+varying vec3 lightDir, eyeVec;
+
+void main( void )
+{
+   vec3  fvLightDirection = normalize( lightDir );
+   vec3  fvNormal         = normalize( ( texture2D( texture1, tCoord ).xyz * 2.0 ) - 1.0 );
+   float fNDotL           = dot( fvNormal, fvLightDirection ); 
+   
+   vec3  fvReflection     = normalize( ( ( 2.0 * fvNormal ) * fNDotL ) - fvLightDirection ); 
+   vec3  fvViewDirection  = normalize( eyeVec );
+   float fRDotV           = max( 0.0, dot( fvReflection, fvViewDirection ) );
+   
+   vec4  fvBaseColor      = texture2D( texture1, tCoord );
+   
+   vec4  fvTotalAmbient   = matAmbient * fvBaseColor; 
+   vec4  fvTotalDiffuse   = matDiffuse * fNDotL * fvBaseColor; 
+   vec4  fvTotalSpecular  = matSpecular * ( pow( fRDotV, matShininess ) );
+  
+   gl_FragColor = ( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular );
+       
+}
