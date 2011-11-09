@@ -115,28 +115,24 @@ public class BsRenderer implements GLSurfaceView.Renderer{
         
         
         // Draw Meshs
-		boolean iss = false;
         for (Bs3DObject bsEmt : this.m_lstElements) {
-        	if (iss == false) {
-        		fAngle_X = BsDataholder.getHandykipplageX() * TOUCH_SCALE_FACTOR;
-        		fAngle_Y = BsDataholder.getHandykipplageY() * TOUCH_SCALE_FACTOR;
-        		if (Math.abs(fAngle_X) > MAXANGLEVIEW) {
-        			if (fAngle_X < 0)
-        				fAngle_X = -MAXANGLEVIEW;
-        			else
-        				fAngle_X = MAXANGLEVIEW;
-        		}
-        		
-        		if (Math.abs(fAngle_Y) > MAXANGLEVIEW) {
-        			if (fAngle_Y < 0)
-        				fAngle_Y = -MAXANGLEVIEW;
-        			else
-        				fAngle_Y = MAXANGLEVIEW;
-        		}
-        		Matrix.setLookAtM(mVMatrix, 0, -fAngle_X, -fAngle_Y, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-        		//bsEmt.setAngleY(-fAngle);
-        		iss = true;
-        	}
+    		fAngle_X = BsDataholder.getHandykipplageX() * TOUCH_SCALE_FACTOR;
+    		fAngle_Y = BsDataholder.getHandykipplageY() * TOUCH_SCALE_FACTOR;
+    		if (Math.abs(fAngle_X) > MAXANGLEVIEW) {
+    			if (fAngle_X < 0)
+    				fAngle_X = -MAXANGLEVIEW;
+    			else
+    				fAngle_X = MAXANGLEVIEW;
+    		}
+    		
+    		if (Math.abs(fAngle_Y) > MAXANGLEVIEW) {
+    			if (fAngle_Y < 0)
+    				fAngle_Y = -MAXANGLEVIEW;
+    			else
+    				fAngle_Y = MAXANGLEVIEW;
+    		}
+    		Matrix.setLookAtM(mVMatrix, 0, -fAngle_X, -fAngle_Y, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+    		//bsEmt.setAngleY(-fAngle);
         	
         	
         	bsEmt.drawObject(mProgram, muMVPMatrixHandle, mVMatrix, mProjMatrix);
