@@ -92,7 +92,7 @@ public class BsSurfaceView extends GLSurfaceView {
 		setRenderer(this.m_bsRenderer);
 		
 		// Render the view only when there is a change
-        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 	}
 
 	/**
