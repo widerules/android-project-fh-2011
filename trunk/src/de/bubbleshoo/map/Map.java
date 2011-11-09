@@ -8,8 +8,9 @@ public class Map {
 	/*
 	 * Attribute
 	 */
-	private List<Feld> gamemap = new ArrayList<Feld>();
+	private List<ArrayList<Feld>> gamemap = new ArrayList<ArrayList<Feld>>();
 	
+
 	
 	/*
 	 * Konstruktoren
@@ -17,8 +18,21 @@ public class Map {
 	
 	
 	/*
+	 * Methoden
+	 */
+	
+	
+	
+	/*
 	 * Getter /Setter
 	 */
 	
+	public List<ArrayList<Feld>> getGamemap() {
+		return gamemap;
+	}
+
+	public void setGamemap(List<ArrayList<Feld>> gamemap) {
+		this.gamemap = gamemap;
+	}
 	
 }
