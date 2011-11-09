@@ -109,9 +109,14 @@ public class BsRenderer implements GLSurfaceView.Renderer{
         
         
         // Draw Meshs
+		boolean iss = false;
         for (Bs3DObject bsEmt : this.m_lstElements) {
-        	bsEmt.setAngleY(-fAngle);
+        	if (iss == false) {
+        		bsEmt.setAngleY(-fAngle);
+        		iss = true;
+        	}
         	
+        	//Matrix.setLookAtM(mVMatrix, 0, 0, 0, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         	bsEmt.drawObject(mProgram, muMVPMatrixHandle, mVMatrix, mProjMatrix);
 		}
 	}
