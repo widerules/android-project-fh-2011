@@ -91,7 +91,7 @@ public class BsSurfaceView extends GLSurfaceView {
 		this.m_bsRenderer.setLstElements(this.m_lstElements);
 		setRenderer(this.m_bsRenderer);
 		
-		// Render the view only when there is a change
+		// Render the view always
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 	}
 
