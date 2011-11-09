@@ -82,9 +82,6 @@ public class Bs3DObject {
 	        /***************************
 	         * CONSTRUCTOR(S)
 	         **************************/
-	        public Bs3DObject(int meshID, boolean hasTexture, Context context) {
-	                this(new int[0], meshID, hasTexture, context);
-	        }
 	        
 	        public Bs3DObject(int[] texFile, int meshID, boolean hasTexture, Context context) {
 	                this.texFiles = texFile;
