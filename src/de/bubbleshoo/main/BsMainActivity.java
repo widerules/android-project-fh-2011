@@ -51,6 +51,11 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	    private boolean 		kompassOn=false;
 	    private boolean 		lichtOn=false;
     
+	    /*
+	     * Android Attribute
+	     */
+	    private static Context anwendungsContex;
+	    
     /** 
      * Construktor
      * Called when the activity is first created. 
@@ -58,7 +63,8 @@ public class BsMainActivity extends Activity implements SensorEventListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
+        anwendungsContex=this.getApplicationContext();
+        
         //LanDscape
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  
         
@@ -260,5 +266,19 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	         ConfigurationInfo info = am.getDeviceConfigurationInfo();
 	         return (info.reqGlEsVersion >= 0x20000);
 	     }
-	
+
+
+	    
+	    /*
+	     * Getter Setter
+	     */
+		public static Context getAnwendungsContex() {
+			return anwendungsContex;
+		}
+
+		public static void setAnwendungsContex(Context anwendungsContex) {
+			BsMainActivity.anwendungsContex = anwendungsContex;
+		}
+	    
+	    
 }
