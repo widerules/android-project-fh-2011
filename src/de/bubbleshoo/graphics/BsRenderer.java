@@ -9,6 +9,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import de.bubbleshoo.data.Bs3DObject;
+import de.bubbleshoo.sensors.BsDataholder;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -117,8 +118,8 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 		boolean iss = false;
         for (Bs3DObject bsEmt : this.m_lstElements) {
         	if (iss == false) {
-        		fAngle_X *= TOUCH_SCALE_FACTOR;
-        		fAngle_Y *= TOUCH_SCALE_FACTOR;
+        		fAngle_X = BsDataholder.getHandykipplageX() * TOUCH_SCALE_FACTOR;
+        		fAngle_Y = BsDataholder.getHandykipplageY() * TOUCH_SCALE_FACTOR;
         		if (Math.abs(fAngle_X) > MAXANGLEVIEW) {
         			if (fAngle_X < 0)
         				fAngle_X = -MAXANGLEVIEW;
