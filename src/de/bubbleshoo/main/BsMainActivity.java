@@ -7,6 +7,9 @@ import de.bubbleshoo.graphics.BsSurfaceView;
 import de.bubbleshoo.sensors.BsDataholder;
 import de.bubbleshoo.settings.GeneralSettings;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.pm.ConfigurationInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -74,9 +77,16 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 		mlight=mSensorManager.getSensorList(Sensor.TYPE_LIGHT).get(0);;
 		mSensorManager.registerListener(mlichtListener, mlight,SensorManager.SENSOR_DELAY_NORMAL);
 		}
-		
-        this.m_GLView = new BsSurfaceView(this);
-        setContentView(this.m_GLView);
+		 if (detectOpenGLES20()) 
+	        {
+			   this.m_GLView = new BsSurfaceView(this);
+		       setContentView(this.m_GLView);
+	        } 
+	        else
+	        {
+	        	Log.e(GeneralSettings.LoggerKategorie, "OpenGL ES 2.0 not supported on device.  Exiting...");
+	        	finish();
+	        }     
     }
     
 	/** 
@@ -89,6 +99,7 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 		this.m_GLView.onPause();
 		//Sensoren unregistrieren
 		mSensorManager.unregisterListener(this);
+		
 		if(kompassOn)
         mSensorManager.unregisterListener(mCompassListener);
         if(lichtOn)
@@ -231,6 +242,16 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	            float y = event.getY(0) - event.getY(1);
 	            return FloatMath.sqrt(x * x + y * y);
 	    }
-	
+	    /** Guckt ob das Handy OpeG
+	     * 
+	     * @return
+	     */   
+	    private boolean detectOpenGLES20() 
+	     {
+	         ActivityManager am =
+	             (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+	         ConfigurationInfo info = am.getDeviceConfigurationInfo();
+	         return (info.reqGlEsVersion >= 0x20000);
+	     }
 	
 }
