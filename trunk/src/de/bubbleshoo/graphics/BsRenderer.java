@@ -3,15 +3,12 @@
  */
 package de.bubbleshoo.graphics;
 
-import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
 import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import de.bubbleshoo.data.Bs3DObject;
-import de.bubbleshoo.data.BsMesh;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -23,12 +20,7 @@ import android.os.SystemClock;
  *
  */
 public class BsRenderer implements GLSurfaceView.Renderer{
-	private static final int FLOAT_SIZE_BYTES = 4;
-    private static final int TRIANGLE_VERTICES_DATA_STRIDE_BYTES = 8 * FLOAT_SIZE_BYTES;
-    private static final int TRIANGLE_VERTICES_DATA_POS_OFFSET = 0;
-    private static final int TRIANGLE_VERTICES_DATA_NOR_OFFSET = 3;
-    private static final int TRIANGLE_VERTICES_DATA_TEX_OFFSET = 6;
-    
+	    
 	/**
 	 * Needed for projectionmatrix
 	 */
@@ -118,34 +110,9 @@ public class BsRenderer implements GLSurfaceView.Renderer{
         
         // Draw Meshs
         for (Bs3DObject bsEmt : this.m_lstElements) {
-        	
-        	GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-        	
         	bsEmt.setAngleY(-fAngle);
-        	Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, bsEmt.getModelMatrix(), 0);
-            Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
-            
-        	// Add program to OpenGL environment
-            GLES20.glUseProgram(this.mProgram);
-            
-            // the vertex coordinates
-            FloatBuffer _vb = bsEmt.getMesh().get_vb();
-            _vb.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
-            GLES20.glVertexAttribPointer(GLES20.glGetAttribLocation(this.mProgram, "vPosition")/*shader.maPositionHandle*/, 
-            		3, GLES20.GL_FLOAT, false, TRIANGLE_VERTICES_DATA_STRIDE_BYTES, _vb);
-            GLES20.glEnableVertexAttribArray(GLES20.glGetAttribLocation(this.mProgram, "vPosition"));//shader.maPositionHandle);
-
-            // the normal info
-//            _vb.position(TRIANGLE_VERTICES_DATA_NOR_OFFSET);
-//            GLES20.glVertexAttribPointer(GLES20.glGetAttribLocation(this.mProgram, "aNormal")/*shader.maNormalHandle*/, 
-//            		3, GLES20.GL_FLOAT, false, TRIANGLE_VERTICES_DATA_STRIDE_BYTES, _vb);
-//            GLES20.glEnableVertexAttribArray(GLES20.glGetAttribLocation(this.mProgram, "aNormal"));//shader.maNormalHandle);
-            
-            
-            // Draw with indices
-            ShortBuffer _ib = bsEmt.getMesh().get_ib();
-            short[] _indices = bsEmt.getMesh().get_indices();
-            GLES20.glDrawElements(GLES20.GL_TRIANGLES, _indices.length, GLES20.GL_UNSIGNED_SHORT, _ib);
+        	
+        	bsEmt.drawObject(mProgram, muMVPMatrixHandle, mVMatrix, mProjMatrix);
 		}
 	}
 
