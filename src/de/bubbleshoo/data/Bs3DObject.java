@@ -5,6 +5,8 @@ package de.bubbleshoo.data;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 
 import android.R.bool;
 import android.content.Context;
@@ -33,6 +35,10 @@ public class Bs3DObject {
 	        
 	        // Constants
 	        private static final int FLOAT_SIZE_BYTES = 4;
+	        private static final int TRIANGLE_VERTICES_DATA_STRIDE_BYTES = 8 * FLOAT_SIZE_BYTES;
+	        private static final int TRIANGLE_VERTICES_DATA_POS_OFFSET = 0;
+	        private static final int TRIANGLE_VERTICES_DATA_NOR_OFFSET = 3;
+	        private static final int TRIANGLE_VERTICES_DATA_TEX_OFFSET = 6;
 	        
 	        private float[] mScaleMatrix = new float[16];   // scaling
 	        private float[] mRotXMatrix = new float[16];    // rotation x
@@ -40,6 +46,11 @@ public class Bs3DObject {
 	        private float[] mRotMatrix = new float[16];		// Rotation
 	        private float[] mTransMatrix = new float[16];	// Translation
 	        private float[] mMMatrix = new float[16];       // rotation
+	        
+	        /**
+	    	 * Modelviewprojectionmatrix (proj * view)
+	    	 */
+	    	private float[] mMVPMatrix = new float[16];
 	        
 	        // scaling
 	        private float scaleX = 1.0f;
@@ -91,14 +102,6 @@ public class Bs3DObject {
 	        /**************************
 	         * OTHER METHODS
 	         *************************/
-	        
-	        /*
-	         * Calls the mesh draw functions
-	         */
-	        public void drawMesh() {
-	                GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
-	                //GLES20.glDr
-	        }
 	        
 	        /*
 	         * Sets up the texture
@@ -196,7 +199,7 @@ public class Bs3DObject {
 	         * calulated from scale and rotation
 	         * @return
 	         */
-	        public float[] getModelMatrix() {
+	        private float[] getModelMatrix() {
 	        	float tempMatrix[] = new float[16];
 	        	// scaling
                 Matrix.setIdentityM(mScaleMatrix, 0);
@@ -211,6 +214,35 @@ public class Bs3DObject {
                 Matrix.translateM(mTransMatrix, 0, tempMatrix, 0, this.m_transX, this.m_transY, this.m_transZ);
                 mMMatrix = mTransMatrix;
                 return mMMatrix;
+	        }
+	        
+	        public void drawObject(int nProgram, int muMVPMatrixHandle, float[] mVMatrix, float[] mProjMatrix) {
+	        	GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+	        	
+	        	Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, this.getModelMatrix(), 0);
+	            Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+	            
+	        	// Add program to OpenGL environment
+	            GLES20.glUseProgram(nProgram);
+	            
+	            // the vertex coordinates
+	            FloatBuffer _vb = this.getMesh().get_vb();
+	            _vb.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
+	            GLES20.glVertexAttribPointer(GLES20.glGetAttribLocation(nProgram, "vPosition")/*shader.maPositionHandle*/, 
+	            		3, GLES20.GL_FLOAT, false, TRIANGLE_VERTICES_DATA_STRIDE_BYTES, _vb);
+	            GLES20.glEnableVertexAttribArray(GLES20.glGetAttribLocation(nProgram, "vPosition"));//shader.maPositionHandle);
+
+	            // the normal info
+//	            _vb.position(TRIANGLE_VERTICES_DATA_NOR_OFFSET);
+//	            GLES20.glVertexAttribPointer(GLES20.glGetAttribLocation(this.mProgram, "aNormal")/*shader.maNormalHandle*/, 
+//	            		3, GLES20.GL_FLOAT, false, TRIANGLE_VERTICES_DATA_STRIDE_BYTES, _vb);
+//	            GLES20.glEnableVertexAttribArray(GLES20.glGetAttribLocation(this.mProgram, "aNormal"));//shader.maNormalHandle);
+	            
+	            
+	            // Draw with indices
+	            ShortBuffer _ib = this.getMesh().get_ib();
+	            short[] _indices = this.getMesh().get_indices();
+	            GLES20.glDrawElements(GLES20.GL_TRIANGLES, _indices.length, GLES20.GL_UNSIGNED_SHORT, _ib);
 	        }
 	        
 	        /**
