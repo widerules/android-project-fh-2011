@@ -10,6 +10,7 @@ import de.bubbleshoo.data.Bs3DObject;
 import de.bubbleshoo.data.BsMesh;
 import de.bubbleshoo.main.R;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.view.MotionEvent;

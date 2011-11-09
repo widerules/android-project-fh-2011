@@ -9,6 +9,7 @@ import de.bubbleshoo.settings.GeneralSettings;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ConfigurationInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -57,6 +58,9 @@ public class BsMainActivity extends Activity implements SensorEventListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       
+        //LanDscape
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  
         
         //Sensoren laden
 		mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -77,6 +81,8 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 		mlight=mSensorManager.getSensorList(Sensor.TYPE_LIGHT).get(0);;
 		mSensorManager.registerListener(mlichtListener, mlight,SensorManager.SENSOR_DELAY_NORMAL);
 		}
+		
+	
 		 if (detectOpenGLES20()) 
 	        {
 			   this.m_GLView = new BsSurfaceView(this);
@@ -200,8 +206,9 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	     * 
 	     */
 	    public void onSensorChanged(SensorEvent event) {
-	        BsDataholder.setHandykipplageX(event.values[0]* TOUCH_SCALE_FACTOR);
-            BsDataholder.setHandykipplageY(event.values[1]* TOUCH_SCALE_FACTOR);
+	    	//Vertauscht wegen Lenscape
+	        BsDataholder.setHandykipplageX(event.values[1]* TOUCH_SCALE_FACTOR);
+            BsDataholder.setHandykipplageY(event.values[0]* TOUCH_SCALE_FACTOR);
 	    }
 	    
 	    
