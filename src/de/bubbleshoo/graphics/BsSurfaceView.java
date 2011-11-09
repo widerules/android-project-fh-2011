@@ -118,29 +118,5 @@ public class BsSurfaceView extends GLSurfaceView {
 	    } catch (Exception e) {
 	            //showAlert("" + e.getMessage());
 	    }
-    
-//		// Dreieck
-//		 float triangleCoords[] = {
-//		            // X, Y, Z
-//		            -0.5f, -0.25f, 0,
-//		             0.5f, -0.25f, 0,
-//		             0.0f,  0.559016994f, 0
-//		        };
-//		 emt = new BsMesh(triangleCoords);
-//		 this.m_lstElements.add(emt);
-//		// Array of vertices to a cube.
-//		 float cube3D[] =
-//		 {
-//		     0.50f,-0.50f,-0.50f,   // vertex 1
-//		     0.50f,-0.50f,0.50f,    // vertex 2
-//		     -0.50f,-0.50f,0.50f,   // vertex 3
-//		     -0.50f,-0.50f,-0.50f,  // vertex 4
-//		     0.50f,0.50f,-0.50f,    // vertex 5
-//		     -0.50f,0.50f,-0.50f,   // vertex 6
-//		     0.50f,0.50f,0.50f,     // vertex 7
-//		     -0.50f,0.50f,0.50f     // vertex 8
-//		 };
-//		 emt = new BsMesh(cube3D);
-//		 this.m_lstElements.add(emt);
 	}
 }
