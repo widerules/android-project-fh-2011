@@ -48,7 +48,8 @@ public class BsSurfaceView extends GLSurfaceView {
                   dy = dy * -1 ;
                 }
               
-                m_bsRenderer.setAngle(m_bsRenderer.getAngle() + (dx + dy) * TOUCH_SCALE_FACTOR);
+                m_bsRenderer.setAngleX(m_bsRenderer.getAngleX() + (dx) * TOUCH_SCALE_FACTOR);
+                m_bsRenderer.setAngleY(m_bsRenderer.getAngleY() + (dy) * TOUCH_SCALE_FACTOR);
                 requestRender();
         }
 

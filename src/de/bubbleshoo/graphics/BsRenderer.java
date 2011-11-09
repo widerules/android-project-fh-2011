@@ -59,7 +59,12 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     /**
      * Rotationswinkel
      */
-    private float fAngle;
+    private float fAngle_X;
+    private float fAngle_Y;
+    
+    private float MAXANGLEVIEW	= 15.0f;
+    private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
+    
 	/**
 	 * Elements to draw
 	 */
@@ -112,11 +117,27 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 		boolean iss = false;
         for (Bs3DObject bsEmt : this.m_lstElements) {
         	if (iss == false) {
-        		bsEmt.setAngleY(-fAngle);
+        		fAngle_X *= TOUCH_SCALE_FACTOR;
+        		fAngle_Y *= TOUCH_SCALE_FACTOR;
+        		if (Math.abs(fAngle_X) > MAXANGLEVIEW) {
+        			if (fAngle_X < 0)
+        				fAngle_X = -MAXANGLEVIEW;
+        			else
+        				fAngle_X = MAXANGLEVIEW;
+        		}
+        		
+        		if (Math.abs(fAngle_Y) > MAXANGLEVIEW) {
+        			if (fAngle_Y < 0)
+        				fAngle_Y = -MAXANGLEVIEW;
+        			else
+        				fAngle_Y = MAXANGLEVIEW;
+        		}
+        		Matrix.setLookAtM(mVMatrix, 0, -fAngle_X, -fAngle_Y, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        		//bsEmt.setAngleY(-fAngle);
         		iss = true;
         	}
         	
-        	//Matrix.setLookAtM(mVMatrix, 0, 0, 0, -5, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+        	
         	bsEmt.drawObject(mProgram, muMVPMatrixHandle, mVMatrix, mProjMatrix);
 		}
 	}
@@ -195,15 +216,29 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	/**
 	 * @param fAngle the fAngle to set
 	 */
-	public void setAngle(float fAngle) {
-		this.fAngle = fAngle;
+	public void setAngleX(float fAngle) {
+		this.fAngle_X = fAngle;
 	}
 
 	/**
 	 * @return the fAngle
 	 */
-	public float getAngle() {
-		return fAngle;
+	public float getAngleX() {
+		return fAngle_X;
+	}
+	
+	/**
+	 * @param fAngle the fAngle to set
+	 */
+	public void setAngleY(float fAngle) {
+		this.fAngle_Y = fAngle;
+	}
+
+	/**
+	 * @return the fAngle
+	 */
+	public float getAngleY() {
+		return fAngle_Y;
 	}
 
 }
