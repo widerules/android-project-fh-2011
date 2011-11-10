@@ -43,7 +43,7 @@ public class Bs3DObject {
 	        private float[] mScaleMatrix = new float[16];   // scaling
 	        private float[] mRotXMatrix = new float[16];    // rotation x
 	        private float[] mRotYMatrix = new float[16];    // rotation y
-	        private float[] mRotMatrix = new float[16];		// Rotation
+	        private float[] mRotMatrix = new float[16];	// Rotation
 	        private float[] mTransMatrix = new float[16];	// Translation
 	        private float[] mMMatrix = new float[16];       // rotation
 	        
