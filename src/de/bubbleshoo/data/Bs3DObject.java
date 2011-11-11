@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
+import android.os.SystemClock;
 import android.util.Log;
 
 /**
@@ -43,9 +44,10 @@ public class Bs3DObject {
 	        private float[] mScaleMatrix = new float[16];   // scaling
 	        private float[] mRotXMatrix = new float[16];    // rotation x
 	        private float[] mRotYMatrix = new float[16];    // rotation y
-	        private float[] mRotMatrix = new float[16];	// Rotation
+	        private float[] mRotMatrix = new float[16];		// Rotation
 	        private float[] mTransMatrix = new float[16];	// Translation
 	        private float[] mMMatrix = new float[16];       // rotation
+	        private float[] normalMatrix = new float[16];   // modelview normal
 	        
 	        /**
 	    	 * Modelviewprojectionmatrix (proj * view)
@@ -78,6 +80,25 @@ public class Bs3DObject {
 	        // lighting
 	        
 	        // etc.
+	        	        
+	        // light parameters
+	        private float[] lightPos;
+	        private float[] lightColor;
+	        private float[] lightAmbient;
+	        private float[] lightDiffuse;
+	        // angle rotation for light
+	        float angle = 0.0f;
+	        boolean lightRotate = true; 
+	        
+	        
+	        // material properties
+	        private float[] matAmbient;
+	        private float[] matDiffuse;
+	        private float[] matSpecular;
+	        private float matShininess;
+
+	        // eye pos
+	        private float[] eyePos = {-5.0f, 0.0f, 0.0f};
 	        
 	        /***************************
 	         * CONSTRUCTOR(S)
@@ -87,6 +108,25 @@ public class Bs3DObject {
 	                this.texFiles = texFile;
 	                this.meshID = meshID;
 	                this.hasTexture = hasTexture;
+	                
+	                float[] lightP = {30.0f, 0.0f, 10.0f, 1};
+	                //float[] lightP = {6.0f, 0.0f, 2.0f, 1};
+	                this.lightPos = lightP;
+	                
+	                float[] lightC = {0.5f, 0.5f, 0.5f};
+	                this.lightColor = lightC;
+
+	                // material properties
+	                float[] mA = {1.0f, 0.5f, 0.5f, 1.0f};
+	                matAmbient = mA;
+
+	                float[] mD = {0.5f, 0.5f, 0.5f, 1.0f};
+	                matDiffuse = mD;
+
+	                float[] mS =  {1.0f, 1.0f, 1.0f, 1.0f};
+	                matSpecular = mS;
+
+	                matShininess = 5.0f;
 	                
 	                // the mesh
 	                mesh = new BsMesh(meshID, context);
@@ -222,23 +262,87 @@ public class Bs3DObject {
 	        	// Add program to OpenGL environment
 	            GLES20.glUseProgram(nProgram);
 	            
+	         // MODELVIEW MATRIX
+                long time = SystemClock.uptimeMillis() % 4000L;
+                //float angle = 0.090f * ((int) time);
+
+                // rotate the light?
+                if (lightRotate) {
+                        angle += 0.000005f;
+                        if (angle >= 6.2)
+                                angle = 0.0f;
+                        
+                        // rotate light about y-axis
+                        float newPosX = (float)(Math.cos(angle) * lightPos[0] - Math.sin(angle) * lightPos[2]);
+                        float newPosZ = (float)(Math.sin(angle) * lightPos[0] + Math.cos(angle) * lightPos[2]);
+                        lightPos[0] = newPosX; lightPos[2] = newPosZ;
+                }
+                
+                // Create the normal modelview matrix
+                // Invert + transpose of mvpmatrix
+                Matrix.invertM(normalMatrix, 0, mMVPMatrix, 0);
+                Matrix.transposeM(normalMatrix, 0, normalMatrix, 0);
+
+                // send to the shader
+                GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(nProgram, "normalMatrix"), 1, false, normalMatrix, 0);
+
+                // lighting variables
+                // send to shaders
+                GLES20.glUniform4fv(GLES20.glGetUniformLocation(nProgram, "lightPos"), 1, lightPos, 0);
+                GLES20.glUniform4fv(GLES20.glGetUniformLocation(nProgram, "lightColor"), 1, lightColor, 0);
+
+                // material 
+                GLES20.glUniform4fv(GLES20.glGetUniformLocation(nProgram, "matAmbient"), 1, matAmbient, 0);
+                GLES20.glUniform4fv(GLES20.glGetUniformLocation(nProgram, "matDiffuse"), 1, matDiffuse, 0);
+                GLES20.glUniform4fv(GLES20.glGetUniformLocation(nProgram, "matSpecular"), 1, matSpecular, 0);
+                GLES20.glUniform1f(GLES20.glGetUniformLocation(nProgram, "matShininess"), matShininess);
+
+                // eyepos
+                GLES20.glUniform3fv(GLES20.glGetUniformLocation(nProgram, "eyePos")/*shader.eyeHandle*/, 1, eyePos, 0);
+                
 	            // the vertex coordinates
 	            FloatBuffer _vb = this.getMesh().get_vb();
-	            _vb.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
-	            GLES20.glVertexAttribPointer(GLES20.glGetAttribLocation(nProgram, "vPosition")/*shader.maPositionHandle*/, 
-	            		3, GLES20.GL_FLOAT, false, TRIANGLE_VERTICES_DATA_STRIDE_BYTES, _vb);
-	            GLES20.glEnableVertexAttribArray(GLES20.glGetAttribLocation(nProgram, "vPosition"));//shader.maPositionHandle);
-
-	            // the normal info
-//	            _vb.position(TRIANGLE_VERTICES_DATA_NOR_OFFSET);
-//	            GLES20.glVertexAttribPointer(GLES20.glGetAttribLocation(this.mProgram, "aNormal")/*shader.maNormalHandle*/, 
-//	            		3, GLES20.GL_FLOAT, false, TRIANGLE_VERTICES_DATA_STRIDE_BYTES, _vb);
-//	            GLES20.glEnableVertexAttribArray(GLES20.glGetAttribLocation(this.mProgram, "aNormal"));//shader.maNormalHandle);
-	            
-	            
-	            // Draw with indices
 	            ShortBuffer _ib = this.getMesh().get_ib();
 	            short[] _indices = this.getMesh().get_indices();
+	            
+	            _vb.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
+	            GLES20.glVertexAttribPointer(GLES20.glGetAttribLocation(nProgram, "aPosition")/*shader.maPositionHandle*/, 
+	            		3, GLES20.GL_FLOAT, false, TRIANGLE_VERTICES_DATA_STRIDE_BYTES, _vb);
+	            GLES20.glEnableVertexAttribArray(GLES20.glGetAttribLocation(nProgram, "aPosition"));//shader.maPositionHandle);
+
+	            // the normal info
+	            _vb.position(TRIANGLE_VERTICES_DATA_NOR_OFFSET);
+	            GLES20.glVertexAttribPointer(GLES20.glGetAttribLocation(nProgram, "aNormal")/*shader.maNormalHandle*/, 
+	            		3, GLES20.GL_FLOAT, false, TRIANGLE_VERTICES_DATA_STRIDE_BYTES, _vb);
+	            GLES20.glEnableVertexAttribArray(GLES20.glGetAttribLocation(nProgram, "aNormal"));//shader.maNormalHandle);
+	            
+	            // Texture info
+                // bind textures
+                if (this.hasTexture()) {// && enableTexture) {
+                        // number of textures
+                        int[] texIDs = this.get_texID(); 
+                        
+                        //GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureID);//_texIDs[0]);
+                        for(int i = 0; i < _texIDs.length; i++) {
+                                //if (_currentShader != 2 && i == 1)
+                                //      continue;
+                                GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + i);
+                                Log.d("TEXTURE BIND: ", i + " " + texIDs[i]);
+                                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texIDs[i]);
+                                GLES20.glUniform1i(GLES20.glGetUniformLocation(nProgram, "texture" + (i+1)), i);
+                        }
+                }
+
+                // enable texturing? [fix - sending float is waste]
+                GLES20.glUniform1f(GLES20.glGetUniformLocation(nProgram, "hasTexture")/*shader.hasTextureHandle*/, this.hasTexture() ? 2.0f : 0.0f);
+
+                _vb.position(TRIANGLE_VERTICES_DATA_TEX_OFFSET);
+                GLES20.glVertexAttribPointer(GLES20.glGetAttribLocation(nProgram, "textureCoord")/*shader.maTextureHandle*/, 2, GLES20.GL_FLOAT, false,
+                                TRIANGLE_VERTICES_DATA_STRIDE_BYTES, _vb);
+                GLES20.glEnableVertexAttribArray(GLES20.glGetAttribLocation(nProgram, "textureCoord"));//GLES20.glEnableVertexAttribArray(shader.maTextureHandle);
+
+                
+	            // Draw with indices
 	            GLES20.glDrawElements(GLES20.GL_TRIANGLES, _indices.length, GLES20.GL_UNSIGNED_SHORT, _ib);
 	        }
 	        

@@ -88,7 +88,7 @@ public class BsSurfaceView extends GLSurfaceView {
 		// Init Elements
 		initElementList(context);
 		// Set the renderer for drawing on the GLSurfaceView
-		this.m_bsRenderer = new BsRenderer();
+		this.m_bsRenderer = new BsRenderer(context);
 		this.m_bsRenderer.setLstElements(this.m_lstElements);
 		setRenderer(this.m_bsRenderer);
 		
