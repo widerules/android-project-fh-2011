@@ -48,7 +48,7 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	    float 					newDist;
 	    int 					mode = 0;
 	    private final float 	TOUCH_SCALE_FACTOR = 180.0f / 320;
-	    private boolean 		kompassOn=false;
+	    private boolean 		kompassOn=true;
 	    private boolean 		lichtOn=false;
     
 	    /*
@@ -226,7 +226,7 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 		    		  if(kompassOn)
 		    		  	{
 		    			  	float[] mValues = event.values;
-		    		  		BsDataholder.setKompassrichtung(event.values[0]* TOUCH_SCALE_FACTOR);
+		    		  		BsDataholder.setKompassrichtung(event.values[0]);
 		    		  	}
 	    		  	}
 	    	  
