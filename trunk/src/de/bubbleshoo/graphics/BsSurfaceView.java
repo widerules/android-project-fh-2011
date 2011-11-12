@@ -49,8 +49,8 @@ public class BsSurfaceView extends GLSurfaceView {
                   dy = dy * -1 ;
                 }
               
-                m_bsRenderer.setAngleX(m_bsRenderer.getAngleX() + (dx) * TOUCH_SCALE_FACTOR);
-                m_bsRenderer.setAngleY(m_bsRenderer.getAngleY() + (dy) * TOUCH_SCALE_FACTOR);
+                //m_bsRenderer.setAngleX(m_bsRenderer.getAngleX() + (dx) * TOUCH_SCALE_FACTOR);
+                //m_bsRenderer.setAngleY(m_bsRenderer.getAngleY() + (dy) * TOUCH_SCALE_FACTOR);
                 requestRender();
         }
 
@@ -105,15 +105,16 @@ public class BsSurfaceView extends GLSurfaceView {
 		
 		try {
             //int[] normalMapTextures = {R.raw.diffuse_old, R.raw.diffusenormalmap_deepbig};
-            int[] bumpMapTextures = {R.raw.fieldstone, R.raw.fieldstonebump_dot3};
-            emt = new Bs3DObject(bumpMapTextures, R.raw.texturedcube, true, context);
+            int[] textures1 = {R.raw.fieldstone, R.raw.fieldstonebump_dot3};
+            int[] textures2 = {R.raw.diffuse_old, R.raw.diffusenormalmap_deepbig};
+            emt = new Bs3DObject(textures1, R.raw.texturedcube, true, context);
             emt.setAngleY(0.0f);
-            emt.setScale(0.5f, 0.5f, 0.5f);
+            emt.setScale(1.0f, 1.0f, 1.0f);
             emt.setTranslate(-2.5f, 0.0f, 0.0f);
             this.m_lstElements.add(emt);
-            emt = new Bs3DObject(bumpMapTextures, R.raw.texturedcube, true, context);
+            emt = new Bs3DObject(textures2, R.raw.texturedcube, true, context);
             emt.setAngleY(0.0f);
-            emt.setScale(0.5f, 0.5f, 0.5f);
+            emt.setScale(1.0f, 1.0f, 1.0f);
             emt.setTranslate(2.5f, 0.0f, 0.0f);
             this.m_lstElements.add(emt);
 	    } catch (Exception e) {
