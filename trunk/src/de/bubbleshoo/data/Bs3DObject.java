@@ -187,7 +187,6 @@ public class Bs3DObject {
                         //if (_currentShader != 2 && i == 1)
                         //      continue;
                         GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + i);
-                        Log.d("TEXTURE BIND: ", i + " " + texIDs[i]);
                         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texIDs[i]);
                         GLES20.glUniform1i(GLES20.glGetUniformLocation(nProgram, "texture" + (i+1)), i);
                 }
