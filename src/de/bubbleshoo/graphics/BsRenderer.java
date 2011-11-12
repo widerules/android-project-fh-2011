@@ -217,15 +217,13 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 //                    float newPosX = (float)(Math.cos(angle) * lightPos[0] - Math.sin(angle) * lightPos[2]);
 //                    float newPosZ = (float)(Math.sin(angle) * lightPos[0] + Math.cos(angle) * lightPos[2]);
                 angle = ((360.0f - BsDataholder.getKompassrichtung()) / (360.0f)) * (2.0f * (float)Math.PI);
-                //Log.d("Kompasswinkel", String.valueOf(angle));
-                Log.d("Kompasswinkel", String.valueOf(BsDataholder.getKompassrichtung()));
                 
                 // rotate light about y-axis
-                float newPosX = (float)(Math.cos(angle) * 30.0f - Math.sin(angle) * 10.0f);
-                float newPosZ = (float)(Math.sin(angle) * 30.0f + Math.cos(angle) * 10.0f);
-                    lightPos[0] = newPosX; lightPos[2] = newPosZ;
+                float newPosX = (float)(30.0f * Math.cos(angle));
+                float newPosY = (float)(30.0f * Math.sin(angle));
+                lightPos[0] = newPosX;
+                lightPos[1] = newPosY;
             }
-            
                         
             // Draw Meshs
             for (Bs3DObject bsEmt : this.m_lstElements) {
@@ -280,7 +278,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             GLES20.glCullFace(GLES20.GL_BACK); 
 
             // light variables
-            float[] lightP = {30.0f, 0.0f, 10.0f, 1};
+            float[] lightP = {1.0f, 1.0f, -10.0f, 1};
             this.lightPos = lightP;
 
             float[] lightC = {0.5f, 0.5f, 0.5f};
