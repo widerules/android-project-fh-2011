@@ -121,4 +121,11 @@ public class BsSurfaceView extends GLSurfaceView {
 	            //showAlert("" + e.getMessage());
 	    }
 	}
+	
+	/**
+	 * lädt die Map
+	 */
+	private void loadMap() {
+		
+	}
 }
