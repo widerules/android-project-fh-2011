@@ -257,7 +257,8 @@ public class BsRenderer implements GLSurfaceView.Renderer{
                     Log.d("SHADER 0 SETUP", e.getLocalizedMessage());
             }
 
-            //GLES20.glEnable   ( GLES20.GL_DEPTH_TEST );
+            // activate depthbuffer to hide faces wich are behind others
+            GLES20.glEnable ( GLES20.GL_DEPTH_TEST );
             GLES20.glClearDepthf(1.0f);
             GLES20.glDepthFunc( GLES20.GL_LEQUAL );
             GLES20.glDepthMask( true );
