@@ -95,9 +95,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     private float[] lightAmbient;
     private float[] lightDiffuse;
     // angle rotation for light
-    float angle = 0.0f;
-    boolean lightRotate = true; 
-    
+    float angle = 0.0f;    
     
     // material properties
     private float[] matAmbient;
@@ -119,7 +117,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     private float fAngle_X;
     private float fAngle_Y;
     
-    private float MAXANGLEVIEW	= 15.0f;
+    private float MAXANGLEVIEW	= 5.0f;
     private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
 
     /**
@@ -186,6 +184,8 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             
             fAngle_X = BsDataholder.getHandykipplageX() * TOUCH_SCALE_FACTOR;
     		fAngle_Y = BsDataholder.getHandykipplageY() * TOUCH_SCALE_FACTOR;
+    		fAngle_X = BsDataholder.getHandykipplageX();
+    		fAngle_Y = BsDataholder.getHandykipplageY();
     		if (Math.abs(fAngle_X) > MAXANGLEVIEW) {
     			if (fAngle_X < 0)
     				fAngle_X = -MAXANGLEVIEW;
@@ -205,25 +205,14 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 
             // MODELVIEW MATRIX
             long time = SystemClock.uptimeMillis() % 4000L;
-            //float angle = 0.090f * ((int) time);
 
-            // rotate the light?
-            if (lightRotate) {
-//                    angle += 0.000005f;
-//                    if (angle >= 6.2)
-//                            angle = 0.0f;
-//                    
-//                    // rotate light about y-axis
-//                    float newPosX = (float)(Math.cos(angle) * lightPos[0] - Math.sin(angle) * lightPos[2]);
-//                    float newPosZ = (float)(Math.sin(angle) * lightPos[0] + Math.cos(angle) * lightPos[2]);
-                angle = ((360.0f - BsDataholder.getKompassrichtung()) / (360.0f)) * (2.0f * (float)Math.PI);
-                
-                // rotate light about y-axis
-                float newPosX = (float)(30.0f * Math.cos(angle));
-                float newPosY = (float)(30.0f * Math.sin(angle));
-                lightPos[0] = newPosX;
-                lightPos[1] = newPosY;
-            }
+            angle = ((360.0f - (BsDataholder.getKompassrichtung() - 180.0f)) / (360.0f)) * (2.0f * (float)Math.PI);
+            
+            // rotate light about z-axis
+            float newPosX = (float)(30.0f * Math.cos(angle));
+            float newPosY = (float)(30.0f * Math.sin(angle));
+            lightPos[0] = newPosX;
+            lightPos[1] = newPosY;
                         
             // Draw Meshs
             for (Bs3DObject bsEmt : this.m_lstElements) {
@@ -342,22 +331,6 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 //            }
 //            //this.toggleTexturing();
 //    }
-
-    /**
-     * Rotate light or not?
-     */
-    public void toggleLight() {
-            this.lightRotate = !lightRotate;
-            CharSequence text;
-            if (lightRotate)
-                    text = "Light rotation resumed";
-            else
-                    text = "Light rotation paused";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(mContext, text, duration);
-            toast.show();
-    }
     
     /**
      * Sets up texturing for the object
