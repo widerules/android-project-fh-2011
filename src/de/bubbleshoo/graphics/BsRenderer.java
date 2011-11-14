@@ -271,7 +271,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             float[] lightP = {1.0f, 1.0f, -10.0f, 1};
             this.lightPos = lightP;
 
-            float[] lightC = {0.5f, 0.5f, 0.5f};
+            float[] lightC = {0.8f, 0.5f, 0.5f};
             this.lightColor = lightC;
 
             // material properties
