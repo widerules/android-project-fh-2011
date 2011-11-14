@@ -1,5 +1,5 @@
 package de.bubbleshoo.mapElemente;
 
-public class Mauer {
+public class Mauer extends MapElement{
 
 }

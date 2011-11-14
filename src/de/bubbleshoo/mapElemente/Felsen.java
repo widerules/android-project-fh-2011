@@ -1,5 +1,5 @@
 package de.bubbleshoo.mapElemente;
 
-public class Felsen {
+public class Felsen extends MapElement{
 
 }

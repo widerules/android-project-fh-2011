@@ -1,5 +1,5 @@
 package de.bubbleshoo.mapElemente;
 
-public class Oelteppich {
+public class Oelteppich extends MapElement{
 
 }
