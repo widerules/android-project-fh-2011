@@ -1,5 +1,6 @@
 package de.bubbleshoo.mapElemente;
 
-public class Busch extends MapElement{
+public class Ziel extends MapElement{
 
+	
 }

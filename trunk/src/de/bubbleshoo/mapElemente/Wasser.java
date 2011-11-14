@@ -1,5 +1,5 @@
 package de.bubbleshoo.mapElemente;
 
-public class Wasser {
+public class Wasser extends MapElement{
 
 }

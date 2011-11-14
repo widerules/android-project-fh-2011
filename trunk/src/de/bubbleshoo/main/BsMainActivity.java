@@ -4,6 +4,7 @@
 package de.bubbleshoo.main;
 
 import de.bubbleshoo.graphics.BsSurfaceView;
+import de.bubbleshoo.map.MapLoader;
 import de.bubbleshoo.sensors.BsDataholder;
 import de.bubbleshoo.settings.GeneralSettings;
 import android.app.Activity;
@@ -98,7 +99,16 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	        {
 	        	Log.e(GeneralSettings.LoggerKategorie, "OpenGL ES 2.0 not supported on device.  Exiting...");
 	        	finish();
-	        }     
+	        } 
+		 
+		 //Joerns Test Bereich Start
+		 try {
+			MapLoader.laodMap("1map");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 //Joerns Test Bereich Ende
     }
     
 	/** 

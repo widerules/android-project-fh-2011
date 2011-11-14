@@ -8,7 +8,8 @@ public class Map {
 	/*
 	 * Attribute
 	 */
-	private List<ArrayList<Feld>> gamemap = new ArrayList<ArrayList<Feld>>();
+	private List<ArrayList<Feld>> felderX = new ArrayList<ArrayList<Feld>>();
+
 	
 
 	
@@ -27,12 +28,12 @@ public class Map {
 	 * Getter /Setter
 	 */
 	
-	public List<ArrayList<Feld>> getGamemap() {
-		return gamemap;
+	public List<ArrayList<Feld>> getFelderX() {
+		return felderX;
 	}
 
-	public void setGamemap(List<ArrayList<Feld>> gamemap) {
-		this.gamemap = gamemap;
+	public void setFelderX(List<ArrayList<Feld>> felderX) {
+		this.felderX = felderX;
 	}
 	
 }
