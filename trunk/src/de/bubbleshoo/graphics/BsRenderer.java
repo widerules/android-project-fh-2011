@@ -8,13 +8,17 @@ import java.io.InputStream;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.List;
+import java.util.Stack;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import de.bubbleshoo.camera.BsCamera;
+import de.bubbleshoo.camera.Camera3D;
+import de.bubbleshoo.data.BaseObject3D;
 import de.bubbleshoo.data.Bs3DObject;
 import de.bubbleshoo.data.BsMesh;
+import de.bubbleshoo.data.ObjParser;
 import de.bubbleshoo.main.R;
 import de.bubbleshoo.sensors.BsDataholder;
 
@@ -42,6 +46,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	 * Needed for projectionmatrix
 	 */
 	private int muMVPMatrixHandle;
+	protected TextureManager mTextureManager;
 	
     // rotation 
     public float mAngleX;
@@ -123,8 +128,9 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     /**
 	 * Elements to draw
 	 */
-	private List<Bs3DObject>	m_lstElements;
+    protected Stack<BaseObject3D>	m_lstElements;
     
+	protected Camera3D mCamera;
     private Context mContext;
     private static String TAG = "Renderer";
 
@@ -151,16 +157,11 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             vShaders[NORMALMAP_SHADER] = R.raw.normalmap_vs;
             fShaders[NORMALMAP_SHADER] = R.raw.normalmap_ps;
             
-//            // Create some objects - pass in the textures, the meshes
-//            try {
-//                    //int[] normalMapTextures = {R.raw.diffuse_old, R.raw.diffusenormalmap_deepbig};
-//                    int[] bumpMapTextures = {R.raw.fieldstone, R.raw.fieldstonebump_dot3};
-//                    _objects[0] = new Bs3DObject(R.raw.octahedron, false, context);
-//                    _objects[1] = new Bs3DObject(R.raw.tetrahedron, false, context);
-//                    _objects[2] = new Bs3DObject(bumpMapTextures, R.raw.texturedcube, true, context);
-//            } catch (Exception e) {
-//                    //showAlert("" + e.getMessage());
-//            }
+            /**
+             * Camerasetings
+             */
+            mCamera = new Camera3D();
+    		mCamera.setZ(-0.5f);
 
             // set current object and shader
             _currentObject = this.CUBE;
@@ -199,10 +200,11 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     			else
     				fAngle_Y = MAXANGLEVIEW;
     		}
-    		//mVMatrix = m_camera.setLookAtM(mVMatrix, 0, -fAngle_X, -fAngle_Y, -5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-    		Matrix.setLookAtM(mVMatrix, 0, -fAngle_X, -fAngle_Y, -5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
     		
-
+    		mCamera.setX(-fAngle_X);
+    		mCamera.setY(-fAngle_Y);
+    		mVMatrix = mCamera.getViewMatrix();
+    		
             // MODELVIEW MATRIX
             long time = SystemClock.uptimeMillis() % 4000L;
 
@@ -215,9 +217,10 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             lightPos[1] = newPosY;
                         
             // Draw Meshs
-            for (Bs3DObject bsEmt : this.m_lstElements) {
-            	bsEmt.drawObject(_shaders[this._currentShader].get_program(), mMVPMatrix, mVMatrix, mProjMatrix,
-            			lightPos, lightColor, matAmbient, matDiffuse, matSpecular, matShininess);
+            for (BaseObject3D bsEmt : this.m_lstElements) {
+            	bsEmt.render(mCamera, mProjMatrix, mVMatrix);
+//            	bsEmt.drawObject(_shaders[this._currentShader].get_program(), mMVPMatrix, mVMatrix, mProjMatrix,
+//            			lightPos, lightColor, matAmbient, matDiffuse, matSpecular, matShininess);
     		} 
 
             GLES20.glUseProgram(0);
@@ -234,13 +237,15 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             GLES20.glViewport(0, 0, width, height);
             float ratio = (float) width / height;
             //Matrix.frustumM(mProjMatrix, 0, -5, 5, -1, 1, 0.5f, 6.0f);
-            Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 0.5f, 10);
+            Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 0.5f, 80.0f);
             // reference the uMVPMatrix shader matrix variable
             muMVPMatrixHandle = GLES20.glGetUniformLocation(_shaders[this._currentShader].get_program(), "uMVPMatrix");
             // define a camera view matrix
             // Set Viewpoint 5 back and 1 up in the scene
             
-            Matrix.setLookAtM(mVMatrix, 0, 0.0f, 0.0f, -5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+            mCamera.setZ(-5.0f);
+            mCamera.setLookAt(0.0f, 0.0f, 0.0f);
+    		mVMatrix = mCamera.getViewMatrix();
     }
 
     /**
@@ -265,7 +270,10 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 
             // cull backface
             GLES20.glEnable( GLES20.GL_CULL_FACE );
-            GLES20.glCullFace(GLES20.GL_BACK); 
+            GLES20.glCullFace(GLES20.GL_BACK);
+            
+            // Visible Faces (Clock|Countercloxkwise)
+            GLES20.glFrontFace(GLES20.GL_CCW);
 
             // light variables
             float[] lightP = {1.0f, 1.0f, -10.0f, 1};
@@ -286,13 +294,30 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 
             matShininess = 5.0f;
 
-            // Draw Meshs
-            for (Bs3DObject bsEmt : this.m_lstElements) {
-            	setupTextures(bsEmt);
-    		}
+            if(mTextureManager == null) mTextureManager = new TextureManager();
+            else mTextureManager.reset();
             
+            // Draw Meshs
+            for (BaseObject3D bsEmt : this.m_lstElements) {
+//            	setupTextures(bsEmt);
+    		}
+
+            ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.sphere);
+            parser.parse();
+            BaseObject3D emt = parser.getParsedObject().getChildByName("Sphere");
+            
+                		
+    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), R.raw.fieldstone);
+    		emt.addTexture(mTextureManager.addTexture(texture));
+    		emt.setRotation(45, 0, 45);
+    		emt.setScale(4.1f);
+    		
+    		this.m_lstElements.add(emt);
+    		            
             // set the view matrix
-            Matrix.setLookAtM(mVMatrix, 0, 0, 0, -5.0f, 0.0f, 0f, 0f, 0f, 1.0f, 0.0f);
+            mCamera.setZ(-5.0f);
+            mCamera.setLookAt(0.0f, 0.0f, 0.0f);
+    		mVMatrix = mCamera.getViewMatrix();
     }
 
     /**************************
@@ -314,24 +339,6 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     public void setObject(int object) {
             _currentObject = object;
     }
-
-//    /**
-//     * Show texture or not?
-//     */
-//    public void flipTexturing() {
-//            enableTexture = !enableTexture;
-//            Bs3DObject ob = _objects[this._currentObject];
-//            
-//            if (enableTexture && !ob.hasTexture()) {
-//                    // Create a toast notification signifying that there is no texture associated with this object
-//                    CharSequence text = "Object does not have associated texture";
-//                    int duration = Toast.LENGTH_SHORT;
-//
-//                    Toast toast = Toast.makeText(mContext, text, duration);
-//                    toast.show();
-//            }
-//            //this.toggleTexturing();
-//    }
     
     /**
      * Sets up texturing for the object
@@ -430,14 +437,14 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     /**
 	 * @param m_lstElements the m_lstElements to set
 	 */
-	public void setLstElements(List<Bs3DObject> lstElements) {
+	public void setLstElements(Stack<BaseObject3D> lstElements) {
 		this.m_lstElements = lstElements;
 	}
 
 	/**
 	 * @return the m_lstElements
 	 */
-	public List<Bs3DObject> getLstElements() {
+	public Stack<BaseObject3D> getLstElements() {
 		return m_lstElements;
 	}
     

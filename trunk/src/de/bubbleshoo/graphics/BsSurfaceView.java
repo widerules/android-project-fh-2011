@@ -8,10 +8,12 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
+import de.bubbleshoo.data.BaseObject3D;
 import de.bubbleshoo.data.Bs3DObject;
 import de.bubbleshoo.data.BsMesh;
 import de.bubbleshoo.main.R;
@@ -82,7 +84,7 @@ public class BsSurfaceView extends GLSurfaceView {
 	/**
 	 * Elements to draw
 	 */
-	private List<Bs3DObject>	m_lstElements;
+	private Stack<BaseObject3D>	m_lstElements;
 	
 	/**
 	 * Constructor
@@ -107,7 +109,7 @@ public class BsSurfaceView extends GLSurfaceView {
 	 * Initialize all elements to draw
 	 */
 	private void initElementList(Context context) {
-		this.m_lstElements = new ArrayList<Bs3DObject>();
+		this.m_lstElements = new Stack<BaseObject3D>();
 		Bs3DObject emt = null;
 		
 		try {
@@ -124,11 +126,12 @@ public class BsSurfaceView extends GLSurfaceView {
 //            emt.setScale(1.0f, 1.0f, 1.0f);
 //            emt.setTranslate(2.5f, 0.0f, 0.0f);
 //            this.m_lstElements.add(emt);
-            emt = new Bs3DObject(textures1, R.raw.sphere, true, context);
-            emt.setAngleY(0.0f);
-            emt.setScale(4.0f, 4.0f, 4.0f);
-            emt.setTranslate(0.0f, 0.0f, 0.0f);
-            this.m_lstElements.add(emt);
+            //emt = new Bs3DObject(textures1, R.raw.test2, true, context);
+//            emt = new BaseObject3D(name);
+//            emt.setAngleY(0.0f);
+//            emt.setScale(3.0f, 3.0f, 3.0f);
+//            emt.setTranslate(0.0f, 0.0f, 0.0f);
+//            this.m_lstElements.add(emt);
 	    } catch (Exception e) {
 	    	System.out.println("" + e.getMessage());
 	    }
