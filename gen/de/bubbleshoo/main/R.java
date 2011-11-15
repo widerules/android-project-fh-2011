@@ -40,12 +40,15 @@ public final class R {
         public static final int octahedron=0x7f040012;
         public static final int phong_ps=0x7f040013;
         public static final int phong_vs=0x7f040014;
-        public static final int pshader_basic=0x7f040015;
-        public static final int robot=0x7f040016;
-        public static final int sphere=0x7f040017;
-        public static final int tetrahedron=0x7f040018;
-        public static final int texturedcube=0x7f040019;
-        public static final int vshader_basic=0x7f04001a;
+        public static final int plane=0x7f040015;
+        public static final int pshader_basic=0x7f040016;
+        public static final int robot=0x7f040017;
+        public static final int sphere=0x7f040018;
+        public static final int test=0x7f040019;
+        public static final int test2=0x7f04001a;
+        public static final int tetrahedron=0x7f04001b;
+        public static final int texturedcube=0x7f04001c;
+        public static final int vshader_basic=0x7f04001d;
     }
     public static final class string {
         public static final int app_name=0x7f050001;
