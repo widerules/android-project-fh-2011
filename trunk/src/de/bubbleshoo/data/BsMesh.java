@@ -270,189 +270,207 @@ public class BsMesh {
          * @throws Exception
          */
         private int loadOBJ(BufferedReader in) throws Exception {
-                try {
-                        //Log.d("In OBJ:", "First");
-                        /* read vertices first */
-                        String str = in.readLine();
-                        StringTokenizer t = new StringTokenizer(str);
-                        
-                        String type = t.nextToken();
-                        
-                        // keep reading vertices
-                        int numVertices = 0;
-                        ArrayList<Float> vs = new ArrayList<Float>(100); // vertices
-                        ArrayList<Float> tc = new ArrayList<Float>(100); // texture coords
-                        ArrayList<Float> ns = new ArrayList<Float>(100); // normals
-                        
-                        while(type.equals("v")) {
-                                //Log.d("In OBJ:", "V: " + str);
-                                
-                                vs.add(Float.parseFloat(t.nextToken()));        // x
-                                vs.add(Float.parseFloat(t.nextToken()));        // y
-                                vs.add(Float.parseFloat(t.nextToken()));        // z
-                        
-                                // next vertex
-                                str = in.readLine();
-                                t = new StringTokenizer(str);
-                                
-                                type = t.nextToken();
-                                numVertices++;
-                        }
-                        
-                        // read tex coords
-                        int numTexCoords = 0;
-                        if (type.equals("vt")) {
-                                while(type.equals("vt")) {
-                                        //Log.d("In OBJ:", "VT: " + str);
-                                        tc.add(Float.parseFloat(t.nextToken()));        // u
-                                        tc.add(Float.parseFloat(t.nextToken()));        // v
-                                
-                                        // next texture coord
-                                        str = in.readLine();
-                                        t = new StringTokenizer(str);
-                                        
-                                        type = t.nextToken();
-                                        numTexCoords++;
-                                }
-                        }
-                        
-                        // read vertex normals
-                        if (type.equals("vn")) {
-                                while(type.equals("vn")) {
-                                        //Log.d("In OBJ:", "VN: " + str);
-                                        ns.add(Float.parseFloat(t.nextToken()));        // x
-                                        ns.add(Float.parseFloat(t.nextToken()));        // y
-                                        ns.add(Float.parseFloat(t.nextToken()));        // y
-                                        
-                                        // next texture coord
-                                        str = in.readLine();
-                                        t = new StringTokenizer(str);
-                                        
-                                        type = t.nextToken();
-                                }
-                        }
-                        
-                        
-                        // create the vertex buffer
-                        float[] _v = new float[numVertices * 3];
-                        // create the normal buffer
-                        float[] _n = new float[numVertices * 3];
-                        // texcoord
-                        _texCoords = new float[numTexCoords * 2];
-                        
-                        //Log.d("SETUP ARRAYS:", "DONE");
-                        
-                        // copy over data - INEFFICIENT [SHOULD BE A BETTER WAY]
-                        ////Log.d("SIZES: ", "V SIZE: " + numVertices + "; TC SIZE: " + numTexCoords);
-                        for(int i = 0; i < numVertices; i++) {
-                                ////Log.d("VERTEX TRANSFER i: ", i + "");
-                                _v[i * 3]        = vs.get(i * 3);
-                                _v[i * 3 + 1] = vs.get(i * 3 + 1);
-                                _v[i * 3 + 2] = vs.get(i * 3 + 2);
-                                
-                                ////Log.d("VERTEX TRANSFER: ", "1");
-                                
-                                _n[i * 3 ]      = -ns.get(i * 3);
-                                _n[i * 3 + 1] = -ns.get(i * 3 + 1);
-                                _n[i * 3 + 2] = -ns.get(i * 3 + 2);
-                                
-                                ////Log.d("VERTEX TRANSFER: ", "2");
-                                
-                                // transfer tex coordinates
-                                if (i < numTexCoords) {
-                                        _texCoords[i * 2]         = tc.get(i * 2);
-                                        _texCoords[i * 2 + 1] = tc.get(i * 2 + 1);
-                                }
-                                
-                                ////Log.d("VERTEX TRANSFER: ", "3");
-                        }
-                        
-                        //Log.d("COMPLETED ARRAYS:", "Complete");
-                        
-                        // now read all the faces
-                        String fFace, sFace, tFace;
-                        ArrayList<Float> mainBuffer = new ArrayList<Float>(numVertices * 6);
-                        ArrayList<Short> indicesB = new ArrayList<Short>(numVertices * 3);
-                        StringTokenizer lt, ft; // the face tokenizer
-                        int numFaces = 0;
-                        short index = 0;
-                        if (type.equals("f")) {
-                                while (type.equals("f")) {
-                                        
-                                        //Log.d("F LINE:", str);
-                                        // Each line: f v1/vt1/vn1 v2/vt2/vn2 
-                                        // Figure out all the vertices
-                                        for (int j = 0; j < 3; j++) {
-                                                fFace = t.nextToken();
-                                                //Log.d("FFACE TOKEN:", j + "," + fFace);
-                                                // another tokenizer - based on /
-                                                ft = new StringTokenizer(fFace, "/");
-                                                int vert = Integer.parseInt(ft.nextToken()) - 1;
-                                                int texc = Integer.parseInt(ft.nextToken()) - 1;
-                                                int vertN = Integer.parseInt(ft.nextToken()) - 1;
-                                                
-                                                // Add to the index buffer
-                                                indicesB.add(index++);
-                                                
-                                                //Log.d("FFACE TOKEN:", "1");
-                                                
-                                                // Add all the vertex info
-                                                mainBuffer.add(_v[vert * 3]);    // x
-                                                mainBuffer.add(_v[vert * 3 + 1]);// y
-                                                mainBuffer.add(_v[vert * 3 + 2]);// z
-                                                //Log.d("FFACE TOKEN:", "2");
-                                                // add the normal info
-                                                mainBuffer.add(_n[vertN * 3]);    // x
-                                                mainBuffer.add(_n[vertN * 3 + 1]); // y
-                                                mainBuffer.add(_n[vertN * 3 + 2]); // z
-                                                //Log.d("FFACE TOKEN:", "3");
-                                                // add the tex coord info
-                                                mainBuffer.add(_texCoords[texc * 2]);     // u
-                                                mainBuffer.add(_texCoords[texc * 2 + 1]); // v
-                                                //Log.d("FFACE TOKEN:", "4");
-                                                
-                                        }
-                                        
-                                        // next face
-                                        str = in.readLine();
-                                        if (str != null) {
-                                                t = new StringTokenizer(str);
-                                                numFaces++;
-                                                type = t.nextToken();
-                                        }
-                                        else
-                                                break;
-                                }
-                        }
-                        
-                        mainBuffer.trimToSize();
-                        //Log.d("COMPLETED MAINBUFFER:", "" + mainBuffer.size());
-                        
-                        _vertices = new float[mainBuffer.size()];
-                        
-                        // copy over the mainbuffer to the vertex + normal array
-                        for(int i = 0; i < mainBuffer.size(); i++)
-                                _vertices[i] = mainBuffer.get(i);
-                        
-                        //Log.d("COMPLETED TRANSFER:", "VERTICES: " + _vertices.length);
-                        
-                        // copy over indices buffer
-                        indicesB.trimToSize();
-                        _indices = new short[indicesB.size()];
-                        for(int i = 0; i < indicesB.size(); i++) {
-                                _indices[i] = indicesB.get(i);
-                        }
-                        
-                        // print out all the vertices info
-                        /*Log.d("VERTEX OBJ LENGTH: ", _vertices.length + "");
-                        for(int i = 0; i < _vertices.length; i++) 
-                                Log.d("Vertex INFO OBJ: ", i + "; " + _vertices[i]);*/
-                        
-                        return 1;
-                        
-                } catch(Exception e) {
-                        throw e;
+            try {
+                //Log.d("In OBJ:", "First");
+                /* read vertices first */
+                String str = in.readLine();
+                StringTokenizer t = new StringTokenizer(str);
+                
+                String type = t.nextToken();
+                
+                // keep reading vertices
+                int numVertices = 0;
+                int numVertNormals = 0;
+                ArrayList<Float> vs = new ArrayList<Float>(100); // vertices
+                ArrayList<Float> tc = new ArrayList<Float>(100); // texture coords
+                ArrayList<Float> ns = new ArrayList<Float>(100); // normals
+                
+                while(type.equals("v")) {
+                    //Log.d("In OBJ:", "V: " + str);
+                    
+                    vs.add(Float.parseFloat(t.nextToken()));        // x
+                    vs.add(Float.parseFloat(t.nextToken()));        // y
+                    vs.add(Float.parseFloat(t.nextToken()));        // z
+            
+                    // next vertex
+                    str = in.readLine();
+                    t = new StringTokenizer(str);
+                    
+                    type = t.nextToken();
+                    numVertices++;
                 }
+                
+                // read tex coords
+                int numTexCoords = 0;
+                if (type.equals("vt")) {
+                    while(type.equals("vt")) {
+                        //Log.d("In OBJ:", "VT: " + str);
+                        tc.add(Float.parseFloat(t.nextToken()));        // u
+                        tc.add(Float.parseFloat(t.nextToken()));        // v
+                
+                        // next texture coord
+                        str = in.readLine();
+                        t = new StringTokenizer(str);
+                        
+                        type = t.nextToken();
+                        numTexCoords++;
+                    }
+                }
+                
+                // read vertex normals
+                if (type.equals("vn")) {
+                    while(type.equals("vn")) {
+                        //Log.d("In OBJ:", "VN: " + str);
+                        ns.add(Float.parseFloat(t.nextToken()));        // x
+                        ns.add(Float.parseFloat(t.nextToken()));        // y
+                        ns.add(Float.parseFloat(t.nextToken()));        // y
+                        
+                        // next texture coord
+                        str = in.readLine();
+                        t = new StringTokenizer(str);
+                        
+                        type = t.nextToken();
+                        numVertNormals++;
+                    }
+                }
+                
+                
+                // create the vertex buffer
+                float[] _v = new float[numVertices * 3];
+                // create the normal buffer
+                float[] _n = new float[numVertNormals * 3];
+                // texcoord
+                _texCoords = new float[numTexCoords * 2];
+                
+                //Log.d("SETUP ARRAYS:", "DONE");
+                
+                // copy over data - INEFFICIENT [SHOULD BE A BETTER WAY]
+                ////Log.d("SIZES: ", "V SIZE: " + numVertices + "; TC SIZE: " + numTexCoords);
+                for(int i = 0; i < numVertices; i++) {
+                        ////Log.d("VERTEX TRANSFER i: ", i + "");
+                        _v[i * 3]        = vs.get(i * 3);
+                        _v[i * 3 + 1] = vs.get(i * 3 + 1);
+                        _v[i * 3 + 2] = vs.get(i * 3 + 2);
+                        
+                        ////Log.d("VERTEX TRANSFER: ", "1");
+                        if (!ns.isEmpty()) {
+                        	_n[i * 3 ]      = -ns.get(i * 3);
+                            _n[i * 3 + 1] = -ns.get(i * 3 + 1);
+                            _n[i * 3 + 2] = -ns.get(i * 3 + 2);
+                        }
+                        
+                        ////Log.d("VERTEX TRANSFER: ", "2");
+                        
+                        // transfer tex coordinates
+                        if (i < numTexCoords) {
+                                _texCoords[i * 2]         = tc.get(i * 2);
+                                _texCoords[i * 2 + 1] = tc.get(i * 2 + 1);
+                        }
+                        
+                        ////Log.d("VERTEX TRANSFER: ", "3");
+                }
+                
+                //Log.d("COMPLETED ARRAYS:", "Complete");
+                
+                // now read all the faces
+                String fFace, sFace, tFace;
+                ArrayList<Float> mainBuffer = new ArrayList<Float>(numVertices * 6);
+                ArrayList<Short> indicesB = new ArrayList<Short>(numVertices * 3);
+                StringTokenizer lt, ft; // the face tokenizer
+                int numFaces = 0;
+                short index = 0;
+                if (type.equals("f")) {
+                    while (type.equals("f")) {
+                            
+                        //Log.d("F LINE:", str);
+                        // Each line: f v1/vt1/vn1 v2/vt2/vn2 
+                        // Figure out all the vertices
+                        for (int j = 0; j < 3; j++) {
+                        	int vert = 0;
+                            int texc = 0;
+                            int vertN = 0;
+                            fFace = t.nextToken();
+                            //Log.d("FFACE TOKEN:", j + "," + fFace);
+                            // Vertex/Normal (f v1//vn1 v2//vn2 v3//vn3 ...)
+                            String[] faceTokens = fFace.split("//");
+                            int st = faceTokens.length;
+                            if (faceTokens.length == 2) {
+                            	vert = Integer.parseInt(faceTokens[0]) - 1;
+                            	vertN = Integer.parseInt(faceTokens[1]) - 1;
+                            } else {
+                            	// Vertex/texture (f v1/vt1/vn1 v2/vt2/vn2 v3/vt3/vn3 ...)
+                                faceTokens = fFace.split("/");
+                                if (faceTokens.length == 3) {
+                                	vert = Integer.parseInt(faceTokens[0]) - 1;
+                                    texc = Integer.parseInt(faceTokens[1]) - 1;
+                                    vertN = Integer.parseInt(faceTokens[2]) - 1;
+                                }
+                            }                                                
+                            
+                            // Add to the index buffer
+                            indicesB.add(index++);
+                            
+                            //Log.d("FFACE TOKEN:", "1");
+                            
+                            // Add all the vertex info
+                            mainBuffer.add(_v[vert * 3]);    // x
+                            mainBuffer.add(_v[vert * 3 + 1]);// y
+                            mainBuffer.add(_v[vert * 3 + 2]);// z
+                            //Log.d("FFACE TOKEN:", "2");
+                            // add the normal info
+                            mainBuffer.add(_n[vertN * 3]);    // x
+                            mainBuffer.add(_n[vertN * 3 + 1]); // y
+                            mainBuffer.add(_n[vertN * 3 + 2]); // z
+                            //Log.d("FFACE TOKEN:", "3");
+                            // add the tex coord info
+                            if (_texCoords.length != 0) {
+                            	mainBuffer.add(_texCoords[texc * 2]);     // u
+                                mainBuffer.add(_texCoords[texc * 2 + 1]); // v
+                            }
+                            
+                            Log.d("FFACE", String.valueOf(vert) + "//" +  String.valueOf(vertN));
+                        }
+                        
+                        // next face
+                        str = in.readLine();
+                        if (str != null) {
+                                t = new StringTokenizer(str);
+                                numFaces++;
+                                type = t.nextToken();
+                        }
+                        else
+                                break;
+                    }
+                }
+                
+                mainBuffer.trimToSize();
+                //Log.d("COMPLETED MAINBUFFER:", "" + mainBuffer.size());
+                
+                _vertices = new float[mainBuffer.size()];
+                
+                // copy over the mainbuffer to the vertex + normal array
+                for(int i = 0; i < mainBuffer.size(); i++)
+                        _vertices[i] = mainBuffer.get(i);
+                
+                //Log.d("COMPLETED TRANSFER:", "VERTICES: " + _vertices.length);
+                
+                // copy over indices buffer
+                indicesB.trimToSize();
+                _indices = new short[indicesB.size()];
+                for(int i = 0; i < indicesB.size(); i++) {
+                        _indices[i] = indicesB.get(i);
+                }
+                
+                // print out all the vertices info
+                /*Log.d("VERTEX OBJ LENGTH: ", _vertices.length + "");
+                for(int i = 0; i < _vertices.length; i++) 
+                        Log.d("Vertex INFO OBJ: ", i + "; " + _vertices[i]);*/
+                
+                return 1;
+                    
+            } catch(Exception e) {
+                    throw e;
+            }
         }
         /**
          * Sets the face normal of the i'th face

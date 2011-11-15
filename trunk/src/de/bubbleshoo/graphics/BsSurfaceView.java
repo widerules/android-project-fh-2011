@@ -3,12 +3,19 @@
  */
 package de.bubbleshoo.graphics;
 
+import java.nio.Buffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 import de.bubbleshoo.data.Bs3DObject;
 import de.bubbleshoo.data.BsMesh;
 import de.bubbleshoo.main.R;
+import de.bubbleshoo.main.R.raw;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
@@ -107,18 +114,23 @@ public class BsSurfaceView extends GLSurfaceView {
             //int[] normalMapTextures = {R.raw.diffuse_old, R.raw.diffusenormalmap_deepbig};
             int[] textures1 = {R.raw.fieldstone, R.raw.fieldstonebump_dot3};
             int[] textures2 = {R.raw.diffuse_old, R.raw.diffusenormalmap_deepbig};
-            emt = new Bs3DObject(textures1, R.raw.texturedcube, true, context);
+//            emt = new Bs3DObject(textures1, R.raw.texturedcube, true, context);
+//            emt.setAngleY(0.0f);
+//            emt.setScale(1.0f, 1.0f, 1.0f);
+//            emt.setTranslate(-2.5f, 0.0f, 0.0f);
+//            this.m_lstElements.add(emt);
+//            emt = new Bs3DObject(textures2, R.raw.texturedcube, true, context);
+//            emt.setAngleY(0.0f);
+//            emt.setScale(1.0f, 1.0f, 1.0f);
+//            emt.setTranslate(2.5f, 0.0f, 0.0f);
+//            this.m_lstElements.add(emt);
+            emt = new Bs3DObject(textures1, R.raw.sphere, true, context);
             emt.setAngleY(0.0f);
-            emt.setScale(1.0f, 1.0f, 1.0f);
-            emt.setTranslate(-2.5f, 0.0f, 0.0f);
-            this.m_lstElements.add(emt);
-            emt = new Bs3DObject(textures2, R.raw.texturedcube, true, context);
-            emt.setAngleY(0.0f);
-            emt.setScale(1.0f, 1.0f, 1.0f);
-            emt.setTranslate(2.5f, 0.0f, 0.0f);
+            emt.setScale(4.0f, 4.0f, 4.0f);
+            emt.setTranslate(0.0f, 0.0f, 0.0f);
             this.m_lstElements.add(emt);
 	    } catch (Exception e) {
-	            //showAlert("" + e.getMessage());
+	    	System.out.println("" + e.getMessage());
 	    }
 	}
 	
