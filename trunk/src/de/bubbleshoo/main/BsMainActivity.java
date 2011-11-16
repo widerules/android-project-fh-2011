@@ -4,6 +4,7 @@
 package de.bubbleshoo.main;
 
 import de.bubbleshoo.graphics.BsSurfaceView;
+import de.bubbleshoo.map.Map;
 import de.bubbleshoo.map.MapLoader;
 import de.bubbleshoo.sensors.BsDataholder;
 import de.bubbleshoo.settings.GeneralSettings;
@@ -103,7 +104,7 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 		 
 		 //Joerns Test Bereich Start
 		 try {
-			MapLoader.laodMap("1map");
+			Map map1 = MapLoader.laodMap("1map");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -156,7 +156,7 @@ public class MapLoader {
 				int gruenanteil= Color.green(hoehe);
 				int blauanteil= Color.blue(hoehe);
 				int rotanteil= Color.red(hoehe);
-				neuesFeld.setFeldhoehe(hoehe);
+				neuesFeld.setFeldhoehe(rotanteil);
 				
 				liste.add(neuesFeld);
 			}
