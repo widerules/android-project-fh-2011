@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.bubbleshoo.mapElemente.MapElement;
 import de.bubbleshoo.units.Enemy;
+import de.bubbleshoo.units.Unit;
 
 public class Feld {
 
@@ -15,8 +16,8 @@ public class Feld {
 		
 	private MapElement mapElement;
 	
-	private List<Enemy> enemys=new ArrayList<Enemy>();
-	private List<Enemy> vips=new ArrayList<Enemy>();
+	private List<Unit> units=new ArrayList<Unit>();
+
 
 	private String feldname="";
 	private int 	feldposX;
@@ -42,18 +43,6 @@ public class Feld {
 	}
 	public void setFeldhoehe(int feldhoehe) {
 		this.feldhoehe = feldhoehe;
-	}
-	public List<Enemy> getEnemys() {
-		return enemys;
-	}
-	public void setEnemys(List<Enemy> enemys) {
-		this.enemys = enemys;
-	}
-	public List<Enemy> getVips() {
-		return vips;
-	}
-	public void setVips(List<Enemy> vips) {
-		this.vips = vips;
 	}
 	public MapElement getMapElement() {
 		return mapElement;
@@ -90,6 +79,23 @@ public class Feld {
 	}
 	public void setFeldbreite(int feldbreite) {
 		this.feldbreite = feldbreite;
+	}
+	public void addEnemy(Unit temp) {
+		units.add(temp);
+	}
+	public Unit getFirstUnit() {
+		if(units.size()>0)
+			return units.get(0);
+		return null;
+	}
+
+	public List<Unit> getUnits() {
+		return units;
+	}
+
+
+	public void setUnits(List<Unit> units) {
+		this.units = units;
 	}
 	
 	
