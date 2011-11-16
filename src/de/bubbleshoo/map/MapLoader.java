@@ -168,7 +168,7 @@ public class MapLoader {
 		}
 		printMap(map);
 
-		return null;
+		return map;
 	}
 	
 	private static Unit checkForEnemys(int enemy) {
