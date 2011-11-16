@@ -212,7 +212,7 @@ public class MapLoader {
 		else if(c==STACHEL)
 			return new Stacheln();
 		
-		return null;
+		return new Weg();
 	}
 
 	public static void printMap(Map map) {
