@@ -1,6 +1,8 @@
 package de.bubbleshoo.graphics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 import android.graphics.Bitmap;
@@ -12,6 +14,8 @@ import android.util.Log;
 public class TextureManager {
 	private ArrayList<TextureInfo> mTextureInfoList;
 	private ArrayList<Integer> mTextureSlots;
+	
+	private HashMap<Integer, TextureInfo> 	m_texZuoord;
 	
 	private int mMaxTextures;
 	private final int[] CUBE_FACES = new int[] {
@@ -25,6 +29,8 @@ public class TextureManager {
 	
 	public TextureManager() {
 		int numTexUnits[] = new int[1];
+		m_texZuoord = new HashMap<Integer, TextureManager.TextureInfo>();
+		
 		GLES20.glGetIntegerv(GLES20.GL_MAX_TEXTURE_IMAGE_UNITS, numTexUnits, 0);
 		mMaxTextures = numTexUnits[0];
 		mTextureInfoList = new ArrayList<TextureInfo>(); 
@@ -34,31 +40,39 @@ public class TextureManager {
 		}
 	}
 	
-	public TextureInfo addTexture(Bitmap texture) {
-		if(mTextureInfoList.size() > mMaxTextures)
-			throw new RuntimeException("Max number of textures used");
+	public TextureInfo addTexture(Bitmap texture, Integer ntexID) {
+		TextureInfo textureInfo = null;
 		
-		int textureSlot = mTextureSlots.get(0);
-		mTextureSlots.remove(0);
-		
-		int bitmapFormat = texture.getConfig() == Config.ARGB_8888 ? GLES20.GL_RGBA : GLES20.GL_RGB;
-		
-		int[] textures = new int[1];
-		GLES20.glGenTextures(1, textures, 0);
-		int textureId = textures[0];
-		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
-		
-        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmapFormat, texture, 0);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR_MIPMAP_LINEAR);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_REPEAT);
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_REPEAT);
-        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
-        
-        TextureInfo textureInfo = new TextureInfo(textureId, textureSlot);
-        mTextureInfoList.add(textureInfo);
+		if (!m_texZuoord.containsKey(ntexID)) {
+			if(mTextureInfoList.size() >= mMaxTextures)
+				throw new RuntimeException("Max number of textures used");
+			
+			int textureSlot = mTextureSlots.get(0);
+			mTextureSlots.remove(0);
+			
+			int[] textures = new int[1];
+			GLES20.glGenTextures(1, textures, 0);
+			int textureId = textures[0];
+			GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
+			
+			int bitmapFormat = texture.getConfig() == Config.ARGB_8888 ? GLES20.GL_RGBA : GLES20.GL_RGB;
 
-        texture.recycle();
+	        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmapFormat, texture, 0);
+	        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR_MIPMAP_LINEAR);
+	        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+	        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_REPEAT);
+	        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_REPEAT);
+	        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+	        
+	        textureInfo = new TextureInfo(textureId, textureSlot);
+	        m_texZuoord.put(ntexID, textureInfo);
+	        mTextureInfoList.add(textureInfo);
+
+	        texture.recycle();
+		} else {
+			textureInfo = m_texZuoord.get(ntexID);
+		}
+		
         return textureInfo;
 	}
 	

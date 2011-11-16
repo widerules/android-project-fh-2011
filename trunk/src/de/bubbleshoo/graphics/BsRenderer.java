@@ -325,10 +325,6 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 						if (col_X != null) {
 							nX++;
 							Log.d("Mapinit", "X: " + col_X.getFeldposX() + "; Y: " + col_X.getFeldposY());
-							if (col_X.getFeldposX() == 17) {
-								int i;
-								i = 5;
-							}
 							if ((col_X.getFeldposX() > 0) && (col_X.getFeldposY() > 0)) {
 
 								ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.sphere);
@@ -336,7 +332,13 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 					            BaseObject3D emt = parser.getParsedObject().getChildByName("Sphere");
 					            
 					    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), R.raw.fieldstone);
-					    		emt.addTexture(mTextureManager.addTexture(texture));
+					    		String strt = texture.getConfig().name();
+					    		strt = "";
+								if (col_X.getFeldposX() == 17) {
+									int i;
+									i = 5;
+								}
+					    		emt.addTexture(mTextureManager.addTexture(texture, R.raw.fieldstone));
 					    		emt.setRotation(45, 0, 45);
 					    		emt.setScale(4.1f);
 					    		emt.setPosition(nX, nY, 0.0f);
