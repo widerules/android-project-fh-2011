@@ -110,7 +110,7 @@ public class MapLoader {
 			liste.add(neuesFeld);
 		}
 		//0te Reihe hinzufügen
-		map.getFelderX().add(liste);
+		map.getFelderY().add(liste);
 		
 		//Gesamte Map laden
 		for (int i = 0; i < pic_height; i++) {
@@ -164,7 +164,7 @@ public class MapLoader {
 			
 			
 			
-			map.getFelderX().add(liste);
+			map.getFelderY().add(liste);
 		}
 		printMap(map);
 
@@ -217,7 +217,7 @@ public class MapLoader {
 
 	public static void printMap(Map map) {
 		System.out.println("###################################");
-		for (ArrayList<Feld> felderY : map.getFelderX()) {
+		for (ArrayList<Feld> felderY : map.getFelderY()) {
 			// Log.e(GeneralSettings.LoggerKategorie, felderY.toString());
 
 			System.out.println("");
