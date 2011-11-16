@@ -105,7 +105,7 @@ public class MapLoader {
 			neuesFeld.setMapElement(mapElement);
 			neuesFeld.setFeldposX(i);
 			neuesFeld.setFeldposY(0);
-			neuesFeld.setFeldhoehe(hoehe);
+			neuesFeld.setFeldhoehe(Color.red(hoehe));
 			
 			liste.add(neuesFeld);
 		}
@@ -128,8 +128,9 @@ public class MapLoader {
 				mapElement = new Rand();
 				neuesFeld.setMapElement(mapElement);
 				neuesFeld.setFeldposX(0);
-				neuesFeld.setFeldposY(i);
-				neuesFeld.setFeldhoehe(hoehe);
+				neuesFeld.setFeldposY(i+1);
+				neuesFeld.setFeldhoehe(Color.red(hoehe));
+				
 				Unit enemy = checkForEnemys(enemeColor);
 			
 				liste.add(neuesFeld);
@@ -149,8 +150,8 @@ public class MapLoader {
 				
 				mapElement = getMapElementTypeFromColor(c);
 				neuesFeld.setMapElement(mapElement);
-				neuesFeld.setFeldposX(i+1);
-				neuesFeld.setFeldposY(b+1);
+				neuesFeld.setFeldposX(b+1);
+				neuesFeld.setFeldposY(i+1);
 				
 				//Werte von der hoehe:
 				int gruenanteil= Color.green(hoehe);
@@ -161,8 +162,6 @@ public class MapLoader {
 				liste.add(neuesFeld);
 			}
 			//Rechter Rand:
-			
-			
 			
 			map.getFelderY().add(liste);
 		}
