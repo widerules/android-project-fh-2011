@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -20,6 +21,9 @@ import de.bubbleshoo.data.Bs3DObject;
 import de.bubbleshoo.data.BsMesh;
 import de.bubbleshoo.data.ObjParser;
 import de.bubbleshoo.main.R;
+import de.bubbleshoo.map.Feld;
+import de.bubbleshoo.map.Map;
+import de.bubbleshoo.map.MapLoader;
 import de.bubbleshoo.sensors.BsDataholder;
 
 import android.content.Context;
@@ -133,6 +137,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	protected Camera3D mCamera;
     private Context mContext;
     private static String TAG = "Renderer";
+    protected Map m_map;
 
     /***************************
      * CONSTRUCTOR(S)
@@ -294,25 +299,54 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 
             matShininess = 5.0f;
 
-            if(mTextureManager == null) mTextureManager = new TextureManager();
-            else mTextureManager.reset();
+            if(mTextureManager == null) 
+            	mTextureManager = new TextureManager();
+            else 
+            	mTextureManager.reset();
             
             // Draw Meshs
             for (BaseObject3D bsEmt : this.m_lstElements) {
 //            	setupTextures(bsEmt);
     		}
-
-            ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.sphere);
-            parser.parse();
-            BaseObject3D emt = parser.getParsedObject().getChildByName("Sphere");
             
-                		
-    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), R.raw.fieldstone);
-    		emt.addTexture(mTextureManager.addTexture(texture));
-    		emt.setRotation(45, 0, 45);
-    		emt.setScale(4.1f);
-    		
-    		this.m_lstElements.add(emt);
+            try {
+				this.m_map = MapLoader.laodMap("map1");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			int nY = 0;
+			int nX = 0;
+			for (ArrayList<Feld> row_Y: this.m_map.getFelderY()) {
+				if (row_Y != null) {
+					nY++;
+					for (Feld col_X : row_Y) {
+						if (col_X != null) {
+							nX++;
+							Log.d("Mapinit", "X: " + col_X.getFeldposX() + "; Y: " + col_X.getFeldposY());
+							if (col_X.getFeldposX() == 17) {
+								int i;
+								i = 5;
+							}
+							if ((col_X.getFeldposX() > 0) && (col_X.getFeldposY() > 0)) {
+
+								ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.sphere);
+					            parser.parse();
+					            BaseObject3D emt = parser.getParsedObject().getChildByName("Sphere");
+					            
+					    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), R.raw.fieldstone);
+					    		emt.addTexture(mTextureManager.addTexture(texture));
+					    		emt.setRotation(45, 0, 45);
+					    		emt.setScale(4.1f);
+					    		emt.setPosition(nX, nY, 0.0f);
+					    		
+					    		this.m_lstElements.add(emt);
+							}
+						}
+					}
+				}
+			}
     		            
             // set the view matrix
             mCamera.setZ(-5.0f);
