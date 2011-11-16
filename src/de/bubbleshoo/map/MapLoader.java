@@ -171,6 +171,11 @@ public class MapLoader {
 		return map;
 	}
 	
+	/** Sucht den Enemy bzw. VIp aus der Enemymap
+	 * 
+	 * @param enemy
+	 * @return
+	 */
 	private static Unit checkForEnemys(int enemy) {
 		if(enemy==ENEMY)
 			return new Enemy();
