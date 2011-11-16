@@ -9,5 +9,9 @@ public class Vip extends Unit{
 		super(texFile, meshID, hasTexture, context);
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	public Vip()
+	{
+		
+	}
 }
