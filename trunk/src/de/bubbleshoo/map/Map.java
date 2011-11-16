@@ -8,7 +8,9 @@ public class Map {
 	/*
 	 * Attribute
 	 */
-	private List<ArrayList<Feld>> felderX = new ArrayList<ArrayList<Feld>>();
+	private List<ArrayList<Feld>> felderY = new ArrayList<ArrayList<Feld>>();
+
+	
 
 	
 
@@ -28,12 +30,11 @@ public class Map {
 	 * Getter /Setter
 	 */
 	
-	public List<ArrayList<Feld>> getFelderX() {
-		return felderX;
+	public List<ArrayList<Feld>> getFelderY() {
+		return felderY;
 	}
 
-	public void setFelderX(List<ArrayList<Feld>> felderX) {
-		this.felderX = felderX;
+	public void setFelderY(List<ArrayList<Feld>> felderY) {
+		this.felderY = felderY;
 	}
-	
 }
