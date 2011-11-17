@@ -66,12 +66,15 @@ public class MapLoader {
 		Map map = new Map();
 
 		//Läd die erste Map
+		int mapid=BsMainActivity.getAnwendungsContex().getResources().getIdentifier( urlZumBild, "drawable", BsMainActivity.getAnwendungsContex().getPackageName() );
+		int heightid=BsMainActivity.getAnwendungsContex().getResources().getIdentifier( "height"+urlZumBild, "drawable", BsMainActivity.getAnwendungsContex().getPackageName() );
+		int enemyid=BsMainActivity.getAnwendungsContex().getResources().getIdentifier( "enemy"+urlZumBild, "drawable", BsMainActivity.getAnwendungsContex().getPackageName() );
 		Bitmap mBitmap = BitmapFactory.decodeResource(BsMainActivity
-				.getAnwendungsContex().getResources(), R.drawable.map1);
+				.getAnwendungsContex().getResources(), mapid);
 		Bitmap heightmap = BitmapFactory.decodeResource(BsMainActivity
-				.getAnwendungsContex().getResources(), R.drawable.height1map);
+				.getAnwendungsContex().getResources(), heightid);
 		Bitmap enemymap = BitmapFactory.decodeResource(BsMainActivity
-				.getAnwendungsContex().getResources(), R.drawable.enemymap1);
+				.getAnwendungsContex().getResources(), enemyid);
 
 		//Größe ermitteln
 		int pic_width = mBitmap.getWidth();
