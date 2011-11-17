@@ -20,6 +20,7 @@ import de.bubbleshoo.data.BaseObject3D;
 import de.bubbleshoo.data.Bs3DObject;
 import de.bubbleshoo.data.BsMesh;
 import de.bubbleshoo.data.ObjParser;
+import de.bubbleshoo.main.BsMainActivity;
 import de.bubbleshoo.main.R;
 import de.bubbleshoo.map.Feld;
 import de.bubbleshoo.map.Map;
@@ -316,6 +317,8 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 				e.printStackTrace();
 			}
 
+//			TextMsg.showTxtMsg(mContext, "Initialise Maps...");
+            
 			int nY = 0;
 			int nX = 0;
 			for (ArrayList<Feld> row_Y: this.m_map.getFelderY()) {
@@ -326,11 +329,10 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 							nX++;
 							Log.d("Mapinit", "X: " + col_X.getFeldposX() + "; Y: " + col_X.getFeldposY());
 							if ((col_X.getFeldposX() > 0) && (col_X.getFeldposY() > 0)) {
-
 								ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.plane);
 					            parser.parse();
-					            BaseObject3D emt = parser.getParsedObject().getChildByName("Plane");
-					            
+								BaseObject3D emt = parser.getParsedObject().getChildByName("Plane");
+								
 					    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), R.raw.fieldstone);
 					    		emt.addTexture(mTextureManager.addTexture(texture, R.raw.fieldstone));
 					    		emt.setRotation(0, 0, 0);
@@ -477,5 +479,18 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	public Stack<BaseObject3D> getLstElements() {
 		return m_lstElements;
 	}
-    
+	
+	/**
+	 * Klasse zur Darstellung von Toastinfomsg
+	 * @author Hans
+	 *
+	 */
+	public static class TextMsg extends Thread {
+	   public static void showTxtMsg (Context mContext, CharSequence csText) {
+		   	int nDuration = Toast.LENGTH_SHORT;
+			Toast toast = Toast.makeText(mContext, csText, nDuration);
+			toast.show();
+	   }
+	}
 } // END CLASS
+

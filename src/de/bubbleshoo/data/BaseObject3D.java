@@ -63,6 +63,17 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 		mName = name;
 	}
 	
+	public BaseObject3D(BaseObject3D objSrc) {
+		SerializedObject3D ser = objSrc.toSerializedObject3D();
+		setData(ser.getVertices(), ser.getNormals(), ser.getTextureCoords(), ser.getIndices());
+		this.setPosition(objSrc.getX(), objSrc.getY(), objSrc.getZ());
+		this.setRotation(objSrc.getRotX(), objSrc.getRotY(), objSrc.getRotZ());
+		this.setScale(objSrc.getScaleX(), objSrc.getScaleY(), objSrc.getScaleZ());
+		this.setMaterial(objSrc.getMaterial(), true);
+		this.setLight(objSrc.getLight());
+		this.setName(objSrc.getName());
+	}
+	
 	public BaseObject3D(SerializedObject3D ser) {
 		this();
 		setData(ser.getVertices(), ser.getNormals(), ser.getTextureCoords(), ser.getIndices());
@@ -376,6 +387,14 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 		if(mMaterial != null && copyTextures)
 			mMaterial.copyTexturesTo(material);
 		mMaterial = material;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public AMaterial getMaterial() {
+		return mMaterial;
 	}
 	
 	public void setName(String name) {
