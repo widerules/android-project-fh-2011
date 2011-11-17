@@ -352,13 +352,13 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 								} else if (col_X.getMapElement() instanceof Busch) {
 									nTextureID = R.drawable.bush_tile;
 								} else if (col_X.getMapElement() instanceof Felsen){
-									nTextureID = R.drawable.grass_tile;
+									nTextureID = R.raw.fieldstone;
 								} else if (col_X.getMapElement() instanceof Gras){
 									nTextureID = R.drawable.grass_tile;
 								} else if (col_X.getMapElement() instanceof Mauer){
 									nTextureID = R.drawable.brick_tile;
 								} else if (col_X.getMapElement() instanceof Oelteppich){
-									nTextureID = R.drawable.grass_tile;
+									nTextureID = R.raw.diffuse;
 								} else if (col_X.getMapElement() instanceof Rand){
 									nTextureID = R.drawable.grass_tile;
 								} else if (col_X.getMapElement() instanceof Sand){
