@@ -149,7 +149,7 @@ public class MapLoader {
 			//Hier müsste man eine weitere Map Hinzufügen
 				
 				enemy = checkForEnemys(enemeColor);
-				neuesFeld = new Feld(" !" + (i+1) + " : " + enemeColor + " : " + (b+1)
+				neuesFeld = new Feld(" !!" + (i+1) + " : " + Color.red(c) + " : " + (b+1)
 						+ "! ");
 				if(enemy!=null)
 					neuesFeld.addEnemy(enemy);
