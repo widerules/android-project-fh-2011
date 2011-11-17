@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import de.bubbleshoo.main.BsMainActivity;
 import de.bubbleshoo.main.R;
+import de.bubbleshoo.mapElemente.Busch;
 import de.bubbleshoo.mapElemente.Felsen;
 import de.bubbleshoo.mapElemente.Gras;
 import de.bubbleshoo.mapElemente.MapElement;
@@ -91,6 +92,8 @@ public class MapLoader {
 
 		//Liste mit Feldern erzeugen. (Jede Liste ist eine X-----> Koordinaten Reihe)
 		ArrayList<Feld> liste = new ArrayList<Feld>();
+				
+		
 		
 		//Initieren
 		MapElement mapElement = null;
