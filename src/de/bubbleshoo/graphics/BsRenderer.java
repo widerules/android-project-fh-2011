@@ -25,6 +25,19 @@ import de.bubbleshoo.main.R;
 import de.bubbleshoo.map.Feld;
 import de.bubbleshoo.map.Map;
 import de.bubbleshoo.map.MapLoader;
+import de.bubbleshoo.mapElemente.Baum;
+import de.bubbleshoo.mapElemente.Busch;
+import de.bubbleshoo.mapElemente.Felsen;
+import de.bubbleshoo.mapElemente.Gras;
+import de.bubbleshoo.mapElemente.Mauer;
+import de.bubbleshoo.mapElemente.Oelteppich;
+import de.bubbleshoo.mapElemente.Rand;
+import de.bubbleshoo.mapElemente.Sand;
+import de.bubbleshoo.mapElemente.Stacheln;
+import de.bubbleshoo.mapElemente.Start;
+import de.bubbleshoo.mapElemente.Wasser;
+import de.bubbleshoo.mapElemente.Weg;
+import de.bubbleshoo.mapElemente.Ziel;
 import de.bubbleshoo.sensors.BsDataholder;
 
 import android.content.Context;
@@ -333,8 +346,41 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 					            parser.parse();
 								BaseObject3D emt = parser.getParsedObject().getChildByName("Plane");
 								
-					    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), R.raw.fieldstone);
-					    		emt.addTexture(mTextureManager.addTexture(texture, R.raw.fieldstone));
+								int nTextureID;
+								if (col_X.getMapElement() instanceof Baum){
+									nTextureID = R.drawable.grass_tile;
+								} else if (col_X.getMapElement() instanceof Busch) {
+									nTextureID = R.drawable.bush_tile;
+								} else if (col_X.getMapElement() instanceof Felsen){
+									nTextureID = R.drawable.grass_tile;
+								} else if (col_X.getMapElement() instanceof Gras){
+									nTextureID = R.drawable.grass_tile;
+								} else if (col_X.getMapElement() instanceof Mauer){
+									nTextureID = R.drawable.brick_tile;
+								} else if (col_X.getMapElement() instanceof Oelteppich){
+									nTextureID = R.drawable.grass_tile;
+								} else if (col_X.getMapElement() instanceof Rand){
+									nTextureID = R.drawable.grass_tile;
+								} else if (col_X.getMapElement() instanceof Sand){
+									nTextureID = R.drawable.sand_tile;
+								} else if (col_X.getMapElement() instanceof Stacheln){
+									nTextureID = R.drawable.grass_tile;
+								} else if (col_X.getMapElement() instanceof Start){
+									nTextureID = R.drawable.grass_tile;
+								} else if (col_X.getMapElement() instanceof Wasser){
+									nTextureID = R.drawable.grass_tile;
+								} else if (col_X.getMapElement() instanceof Weg){
+									nTextureID = R.drawable.grass_tile;
+								} else if (col_X.getMapElement() instanceof Ziel){
+									nTextureID = R.drawable.grass_tile;
+								} else {
+									/**
+									 * Default
+									 */
+									nTextureID = R.drawable.grass_tile;
+								}
+					    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), nTextureID);
+					    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
 					    		emt.setRotation(0, 0, 0);
 					    		emt.setScale(0.5f);
 					    		emt.setPosition(col_X.getFeldposX() - (row_Y.size() / 2.0f), col_X.getFeldposY() - (this.m_map.getFelderY().size() / 2.0f), 0.0f);
