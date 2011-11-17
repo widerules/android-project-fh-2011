@@ -370,7 +370,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 								} else if (col_X.getMapElement() instanceof Wasser){
 									nTextureID = R.drawable.grass_tile;
 								} else if (col_X.getMapElement() instanceof Weg){
-									nTextureID = R.drawable.grass_tile;
+									nTextureID = R.drawable.sand_tile;
 								} else if (col_X.getMapElement() instanceof Ziel){
 									nTextureID = R.drawable.grass_tile;
 								} else {
