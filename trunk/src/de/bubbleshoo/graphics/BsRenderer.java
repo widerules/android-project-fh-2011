@@ -357,7 +357,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 						    		emt.setRotation(0, 0, 0);
 						    		emt.setScale(1.0f);
 						    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
-						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -1.0f);
+						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -0.75f);
 						    		this.m_lstElements.add(emt);
 								} else if (col_X.getMapElement() instanceof Felsen){
 									nTextureID = R.raw.fieldstone;
@@ -374,7 +374,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 						    		emt.setRotation(0, 0, 0);
 						    		emt.setScale(1.0f);
 						    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
-						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -1.0f);
+						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -0.75f);
 						    		this.m_lstElements.add(emt);
 								} else if (col_X.getMapElement() instanceof Oelteppich){
 									nTextureID = R.raw.diffuse;
@@ -385,7 +385,18 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 								} else if (col_X.getMapElement() instanceof Stacheln){
 									nTextureID = R.drawable.grass_tile;
 								} else if (col_X.getMapElement() instanceof Start){
-									nTextureID = R.drawable.grass_tile;
+									nTextureID = R.drawable.heightmap1;
+									ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.sphere);
+						            parser.parse();
+									BaseObject3D emt = parser.getParsedObject().getChildByName("Sphere");
+									
+						    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), nTextureID);
+						    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
+						    		emt.setRotation(0, 0, 0);
+						    		emt.setScale(1.0f);
+						    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
+						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -0.75f);
+						    		this.m_lstElements.add(emt);
 								} else if (col_X.getMapElement() instanceof Wasser){
 									nTextureID = R.drawable.grass_tile;
 								} else if (col_X.getMapElement() instanceof Weg){
