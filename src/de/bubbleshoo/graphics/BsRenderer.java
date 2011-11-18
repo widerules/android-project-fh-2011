@@ -342,6 +342,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 							nX++;
 							Log.d("Mapinit", "X: " + col_X.getFeldposX() + "; Y: " + col_X.getFeldposY());
 							if ((col_X.getFeldposX() > 0) && (col_X.getFeldposY() > 0)) {
+									
 								ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.plane);
 					            parser.parse();
 								BaseObject3D emt = parser.getParsedObject().getChildByName("Plane");
@@ -383,7 +384,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 					    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
 					    		emt.setRotation(0, 0, 0);
 					    		emt.setScale(0.5f);
-					    		emt.setPosition(col_X.getFeldposX() - (row_Y.size() / 2.0f), col_X.getFeldposY() - (this.m_map.getFelderY().size() / 2.0f), 0.0f);
+					    		emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
 					    		
 					    		this.m_lstElements.add(emt);
 							}
