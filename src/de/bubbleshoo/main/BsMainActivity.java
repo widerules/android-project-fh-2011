@@ -52,7 +52,15 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	    private final float 	TOUCH_SCALE_FACTOR = 180.0f / 320;
 	    private boolean 		kompassOn=true;
 	    private boolean 		lichtOn=false;
-    
+	    
+	    //Bewegungsensor Zwischenspeicher:
+	    private static float[] alteXWerte;
+	    private static float[] alteYWerte;
+	    
+	    //Schwellwerte
+	    private static float sensorSchwellwert=(float) 0.1;
+	    
+	    
 	    /*
 	     * Android Attribute
 	     */
@@ -74,6 +82,11 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 		mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
 		boolean accelerometerAvailable = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER).size() > 0;
 	
+		//Sensor zwwischenspeicher initialisieren
+		alteXWerte=new float[3];alteXWerte[0]=0;alteXWerte[1]=0;alteXWerte[2]=0;
+		alteYWerte=new float[3];alteYWerte[0]=0;alteYWerte[1]=0;alteYWerte[2]=0;
+		
+		
 		mAccelerometer = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
 		if(!mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME ) )
 		   accelerometerAvailable = false;
@@ -224,12 +237,62 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	     */
 	    public void onSensorChanged(SensorEvent event) {
 	    	//Vertauscht wegen Lenscape
-	        BsDataholder.setHandykipplageX(event.values[1]* TOUCH_SCALE_FACTOR);
-            BsDataholder.setHandykipplageY(event.values[0]* TOUCH_SCALE_FACTOR);
+	    	boolean bigchange=checkForChange(event.values[1],event.values[0]);
+//	    	System.out.println(event.values[1]);
+//	    	System.out.println(event.values[0]);
+	    	if(!bigchange)
+	    	{
+//	    		System.out.println("nix");
+	    	}
+	    	else
+	    	{
+	    		BsDataholder.setHandykipplageX(event.values[1]);
+	    		BsDataholder.setHandykipplageY(event.values[0]);
+	    	}
 	    }
-	    
-	    
-	    //Kompass
+
+	    /** Die funktion guck ob der Sensor sich sehr dolle verändert (Sehr dolle je nach sensorSchwellwert)
+	     * 
+	     * @param x = z.B. die X achsen PositioN
+	     * @param yy = die y Achsen Position
+	     * @return true wenn es eine größere änderung gibt
+	     */
+	    private boolean checkForChange(float x, float yy) {
+			
+//	    	System.out.println("Liste 0="+alteXWerte[0]);
+//	    	System.out.println("Liste 1="+alteXWerte[1]);
+//	    	System.out.println("Liste 2="+alteXWerte[2]);
+//	    	System.out.println("y ABS0="+Math.abs(x-alteXWerte[0]));
+//	    	System.out.println("y ABS1="+Math.abs(x-alteXWerte[0]));
+//	    	System.out.println("y ABS2="+Math.abs(x-alteXWerte[0]));
+	    	
+	    	for(int i=0; i<alteXWerte.length;i++)
+	    	{
+	    		if(Math.abs(x-alteXWerte[i])>sensorSchwellwert)
+		    	{
+	    			addalteXWerte(x);
+	    	    	addalteYWerte(yy);
+	    			return true;
+		    	}
+	    		
+	    	}
+	    	for(int i=0; i<alteYWerte.length;i++)
+	    	{
+	    		if(Math.abs(yy-alteYWerte[i])>sensorSchwellwert)
+		    	{
+	    			addalteXWerte(x);
+	    	    	addalteYWerte(yy);
+	    			return true;
+		    	}
+	    		
+	    	}
+	    	addalteXWerte(x);
+	    	addalteYWerte(yy);
+			return false;
+		}
+
+
+		//Kompass
 	    //Liefer 0-360 ich vermute 0 bedeutet Norden ist vom Handy oben
 	    private final SensorEventListener mCompassListener = new SensorEventListener() {
 	    	   	 
@@ -253,7 +316,7 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 		  		if(lichtOn)
 			  	{
 		  		  	float[] mValues = event.values;
-		  		  	BsDataholder.setRaumhelligkeit(event.values[0]* TOUCH_SCALE_FACTOR) ;
+		  		  	BsDataholder.setRaumhelligkeit(event.values[0]) ;
 			  	}
 		  	}
 	  	  
@@ -291,5 +354,23 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 			BsMainActivity.anwendungsContex = anwendungsContex;
 		}
 	    
-	    
+		
+		private static void addalteXWerte(float x)
+		{
+			for(int i=alteXWerte.length-1;i>0;i--)
+			{
+				alteXWerte[i]=alteXWerte[i-1];
+			}
+		   alteXWerte[0]=x;
+
+		}
+		private static void addalteYWerte(float y)
+		{
+			for(int i=alteYWerte.length-1;i>0;i--)
+			{
+				alteYWerte[i]=alteYWerte[i-1];
+			}
+			
+		    alteYWerte[0]=y;
+		}
 }
