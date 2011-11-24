@@ -334,6 +334,8 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             
 			int nY = 0;
 			int nX = 0;
+		
+            
 			for (ArrayList<Feld> row_Y: this.m_map.getFelderY()) {
 				if (row_Y != null) {
 					nY++;
