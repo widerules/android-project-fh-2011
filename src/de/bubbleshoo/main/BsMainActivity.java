@@ -58,7 +58,7 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	    private static float[] alteYWerte;
 	    
 	    //Schwellwerte
-	    private static float sensorSchwellwert=(float) 0.1;
+	    private static float sensorSchwellwert=(float) 0.2;
 	    
 	    
 	    /*
@@ -259,12 +259,12 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	     */
 	    private boolean checkForChange(float x, float yy) {
 			
-//	    	System.out.println("Liste 0="+alteXWerte[0]);
-//	    	System.out.println("Liste 1="+alteXWerte[1]);
-//	    	System.out.println("Liste 2="+alteXWerte[2]);
-//	    	System.out.println("y ABS0="+Math.abs(x-alteXWerte[0]));
-//	    	System.out.println("y ABS1="+Math.abs(x-alteXWerte[0]));
-//	    	System.out.println("y ABS2="+Math.abs(x-alteXWerte[0]));
+	    	System.out.println("Liste 0="+alteXWerte[0]);
+	    	System.out.println("Liste 1="+alteXWerte[1]);
+	    	System.out.println("Liste 2="+alteXWerte[2]);
+	    	System.out.println("y ABS0="+Math.abs(x-alteXWerte[0]));
+	    	System.out.println("y ABS1="+Math.abs(x-alteXWerte[0]));
+	    	System.out.println("y ABS2="+Math.abs(x-alteXWerte[0]));
 	    	
 	    	for(int i=0; i<alteXWerte.length;i++)
 	    	{
