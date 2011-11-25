@@ -58,7 +58,7 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	    private static float[] alteYWerte;
 	    
 	    //Schwellwerte
-	    private static float sensorSchwellwert=(float) 0.2;
+	    private static float sensorSchwellwert=(float) 0.1;
 	    
 	    
 	    /*
