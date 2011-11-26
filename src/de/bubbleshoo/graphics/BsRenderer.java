@@ -20,6 +20,7 @@ import de.bubbleshoo.data.BaseObject3D;
 import de.bubbleshoo.data.Bs3DObject;
 import de.bubbleshoo.data.BsMesh;
 import de.bubbleshoo.data.ObjParser;
+import de.bubbleshoo.logic.LogicThread;
 import de.bubbleshoo.main.BsMainActivity;
 import de.bubbleshoo.main.R;
 import de.bubbleshoo.map.Feld;
@@ -29,6 +30,7 @@ import de.bubbleshoo.mapElemente.Baum;
 import de.bubbleshoo.mapElemente.Busch;
 import de.bubbleshoo.mapElemente.Felsen;
 import de.bubbleshoo.mapElemente.Gras;
+import de.bubbleshoo.mapElemente.MapElement;
 import de.bubbleshoo.mapElemente.Mauer;
 import de.bubbleshoo.mapElemente.Oelteppich;
 import de.bubbleshoo.mapElemente.Rand;
@@ -154,6 +156,9 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     private static String TAG = "Renderer";
     protected Map m_map;
 
+    //Logic 
+    private LogicThread m_logic;
+    
     /***************************
      * CONSTRUCTOR(S)
      **************************/
@@ -237,21 +242,21 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             lightPos[1] = newPosY;
                         
             // Draw Meshs
-            for (BaseObject3D bsEmt : this.m_lstElements) {
+            for (MapElement bsEmt : m_logic.getM_lstMapEmt()) {
             	
             	
-            	//NormaleKugelraussuchen
-            	if(bsEmt.getIsUnit() instanceof NormaleKugel)
-            	{
-            		
-            	}
-            	else
-            	{
-            	bsEmt.render(mCamera, mProjMatrix, mVMatrix);
+//            	//NormaleKugelraussuchen
+//            	if(bsEmt.getIsUnit() instanceof NormaleKugel)
+//            	{
+//            		
+//            	}
+//            	else
+//            	{
+            	bsEmt.getM_3dobject().render(mCamera, mProjMatrix, mVMatrix);
 //            	bsEmt.drawObject(_shaders[this._currentShader].get_program(), mMVPMatrix, mVMatrix, mProjMatrix,
 //            			lightPos, lightColor, matAmbient, matDiffuse, matSpecular, matShininess);
     		
-            	}
+//            	}
             } 
 
             GLES20.glUseProgram(0);
@@ -335,116 +340,122 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 //            	setupTextures(bsEmt);
     		}
             
+            //Logic starten
+            this.m_logic = new LogicThread(this.mContext,mTextureManager);
+           
             try {
-				this.m_map = MapLoader.laodMap("map1");
+				this.m_map = m_logic.getM_map();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+            this.m_logic.start();
+            
+            
+            
 //			TextMsg.showTxtMsg(mContext, "Initialise Maps...");
             
-			int nY = 0;
-			int nX = 0;
+//			int nY = 0;
+//			int nX = 0;
 		
-            
-			for (ArrayList<Feld> row_Y: this.m_map.getFelderY()) {
-				if (row_Y != null) {
-					nY++;
-					for (Feld col_X : row_Y) {
-						if (col_X != null) {
-							nX++;
-							Log.d("Mapinit", "X: " + col_X.getFeldposX() + "; Y: " + col_X.getFeldposY());
-							if ((col_X.getFeldposX() > 0) && (col_X.getFeldposY() > 0)) {
-								
-								int nTextureID;
-								if (col_X.getMapElement() instanceof Baum){
-									nTextureID = R.drawable.grass_tile;
-								} else if (col_X.getMapElement() instanceof Busch) {
-									nTextureID = R.drawable.bush_tile;
-									ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.plane);
-						            parser.parse();
-									BaseObject3D emt = parser.getParsedObject().getChildByName("Plane");
-									
-						    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), nTextureID);
-						    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
-						    		emt.setRotation(0, 0, 0);
-						    		emt.setScale(1.0f);
-						    		emt.setIsMapElement(col_X.getMapElement());
-						    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
-						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -0.75f);
-						    		this.m_lstElements.add(emt);
-								} else if (col_X.getMapElement() instanceof Felsen){
-									nTextureID = R.raw.fieldstone;
-								} else if (col_X.getMapElement() instanceof Gras){
-									nTextureID = R.drawable.grass_tile;
-								} else if (col_X.getMapElement() instanceof Mauer){
-									nTextureID = R.drawable.brick_tile;
-									ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.plane);
-						            parser.parse();
-									BaseObject3D emt = parser.getParsedObject().getChildByName("Plane");
-									
-						    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), nTextureID);
-						    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
-						    		emt.setRotation(0, 0, 0);
-						    		emt.setScale(1.0f);
-						    		emt.setIsMapElement(col_X.getMapElement());
-						    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
-						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -0.75f);
-						    		this.m_lstElements.add(emt);
-								} else if (col_X.getMapElement() instanceof Oelteppich){
-									nTextureID = R.raw.diffuse;
-								} else if (col_X.getMapElement() instanceof Rand){
-									nTextureID = R.drawable.grass_tile;
-								} else if (col_X.getMapElement() instanceof Sand){
-									nTextureID = R.drawable.sand_tile;
-								} else if (col_X.getMapElement() instanceof Stacheln){
-									nTextureID = R.drawable.grass_tile;
-								} else if (col_X.getMapElement() instanceof Start){
-									nTextureID = R.drawable.heightmap1;
-									ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.sphere);
-						            parser.parse();
-									BaseObject3D emt = parser.getParsedObject().getChildByName("Sphere");
-									
-						    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), nTextureID);
-						    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
-						    		emt.setRotation(0, 0, 0);
-						    		emt.setScale(1.0f);
-						    		emt.setIsUnit(new NormaleKugel());
-						    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
-						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -0.75f);
-						    		this.m_lstElements.add(emt);
-								} else if (col_X.getMapElement() instanceof Wasser){
-									nTextureID = R.drawable.grass_tile;
-								} else if (col_X.getMapElement() instanceof Weg){
-									nTextureID = R.drawable.sand_tile;
-								} else if (col_X.getMapElement() instanceof Ziel){
-									nTextureID = R.drawable.grass_tile;
-								} else {
-									/**
-									 * Default
-									 */
-									nTextureID = R.drawable.grass_tile;
-								}
-								ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.plane);
-					            parser.parse();
-								BaseObject3D emt = parser.getParsedObject().getChildByName("Plane");
-								
-					    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), nTextureID);
-					    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
-					    		emt.setRotation(0, 0, 0);
-					    		emt.setScale(1.0f);
-					    		emt.setIsMapElement(col_X.getMapElement());
-					    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
-					    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), 0.0f);
-					    		
-					    		this.m_lstElements.add(emt);
-							}
-						}
-					}
-				}
-			}
-    		            
+//            
+//			for (ArrayList<Feld> row_Y: this.m_map.getFelderY()) {
+//				if (row_Y != null) {
+//					nY++;
+//					for (Feld col_X : row_Y) {
+//						if (col_X != null) {
+//							nX++;
+//							Log.d("Mapinit", "X: " + col_X.getFeldposX() + "; Y: " + col_X.getFeldposY());
+//							if ((col_X.getFeldposX() > 0) && (col_X.getFeldposY() > 0)) {
+//								
+//								int nTextureID;
+//								if (col_X.getMapElement() instanceof Baum){
+//									nTextureID = R.drawable.grass_tile;
+//								} else if (col_X.getMapElement() instanceof Busch) {
+//									nTextureID = R.drawable.bush_tile;
+//									ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.plane);
+//						            parser.parse();
+//									BaseObject3D emt = parser.getParsedObject().getChildByName("Plane");
+//									
+//						    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), nTextureID);
+//						    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
+//						    		emt.setRotation(0, 0, 0);
+//						    		emt.setScale(1.0f);
+//						    		emt.setIsMapElement(col_X.getMapElement());
+//						    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
+//						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -0.75f);
+//						    		this.m_lstElements.add(emt);
+//								} else if (col_X.getMapElement() instanceof Felsen){
+//									nTextureID = R.raw.fieldstone;
+//								} else if (col_X.getMapElement() instanceof Gras){
+//									nTextureID = R.drawable.grass_tile;
+//								} else if (col_X.getMapElement() instanceof Mauer){
+//									nTextureID = R.drawable.brick_tile;
+//									ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.plane);
+//						            parser.parse();
+//									BaseObject3D emt = parser.getParsedObject().getChildByName("Plane");
+//									
+//						    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), nTextureID);
+//						    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
+//						    		emt.setRotation(0, 0, 0);
+//						    		emt.setScale(1.0f);
+//						    		emt.setIsMapElement(col_X.getMapElement());
+//						    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
+//						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -0.75f);
+//						    		this.m_lstElements.add(emt);
+//								} else if (col_X.getMapElement() instanceof Oelteppich){
+//									nTextureID = R.raw.diffuse;
+//								} else if (col_X.getMapElement() instanceof Rand){
+//									nTextureID = R.drawable.grass_tile;
+//								} else if (col_X.getMapElement() instanceof Sand){
+//									nTextureID = R.drawable.sand_tile;
+//								} else if (col_X.getMapElement() instanceof Stacheln){
+//									nTextureID = R.drawable.grass_tile;
+//								} else if (col_X.getMapElement() instanceof Start){
+//									nTextureID = R.drawable.heightmap1;
+//									ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.sphere);
+//						            parser.parse();
+//									BaseObject3D emt = parser.getParsedObject().getChildByName("Sphere");
+//									
+//						    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), nTextureID);
+//						    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
+//						    		emt.setRotation(0, 0, 0);
+//						    		emt.setScale(1.0f);
+//						    		emt.setIsUnit(new NormaleKugel());
+//						    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
+//						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -0.75f);
+//						    		this.m_lstElements.add(emt);
+//								} else if (col_X.getMapElement() instanceof Wasser){
+//									nTextureID = R.drawable.grass_tile;
+//								} else if (col_X.getMapElement() instanceof Weg){
+//									nTextureID = R.drawable.sand_tile;
+//								} else if (col_X.getMapElement() instanceof Ziel){
+//									nTextureID = R.drawable.grass_tile;
+//								} else {
+//									/**
+//									 * Default
+//									 */
+//									nTextureID = R.drawable.grass_tile;
+//								}
+//								ObjParser parser = new ObjParser(mContext.getResources(), mTextureManager, R.raw.plane);
+//					            parser.parse();
+//								BaseObject3D emt = parser.getParsedObject().getChildByName("Plane");
+//								
+//					    		Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), nTextureID);
+//					    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
+//					    		emt.setRotation(0, 0, 0);
+//					    		emt.setScale(1.0f);
+//					    		emt.setIsMapElement(col_X.getMapElement());
+//					    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
+//					    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), 0.0f);
+//					    		
+//					    		this.m_lstElements.add(emt);
+//							}
+//						}
+//					}
+//				}
+//			}
+//    		            
             // set the view matrix
             mCamera.setZ(-5.0f);
             mCamera.setLookAt(0.0f, 0.0f, 0.0f);
