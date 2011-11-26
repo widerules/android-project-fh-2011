@@ -39,6 +39,7 @@ import de.bubbleshoo.mapElemente.Wasser;
 import de.bubbleshoo.mapElemente.Weg;
 import de.bubbleshoo.mapElemente.Ziel;
 import de.bubbleshoo.sensors.BsDataholder;
+import de.bubbleshoo.units.NormaleKugel;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -237,10 +238,21 @@ public class BsRenderer implements GLSurfaceView.Renderer{
                         
             // Draw Meshs
             for (BaseObject3D bsEmt : this.m_lstElements) {
+            	
+            	
+            	//NormaleKugelraussuchen
+            	if(bsEmt.getIsUnit() instanceof NormaleKugel)
+            	{
+            		
+            	}
+            	else
+            	{
             	bsEmt.render(mCamera, mProjMatrix, mVMatrix);
 //            	bsEmt.drawObject(_shaders[this._currentShader].get_program(), mMVPMatrix, mVMatrix, mProjMatrix,
 //            			lightPos, lightColor, matAmbient, matDiffuse, matSpecular, matShininess);
-    		} 
+    		
+            	}
+            } 
 
             GLES20.glUseProgram(0);
             /** END DRAWING OBJECT ***/
@@ -358,6 +370,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 						    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
 						    		emt.setRotation(0, 0, 0);
 						    		emt.setScale(1.0f);
+						    		emt.setIsMapElement(col_X.getMapElement());
 						    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
 						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -0.75f);
 						    		this.m_lstElements.add(emt);
@@ -375,6 +388,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 						    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
 						    		emt.setRotation(0, 0, 0);
 						    		emt.setScale(1.0f);
+						    		emt.setIsMapElement(col_X.getMapElement());
 						    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
 						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -0.75f);
 						    		this.m_lstElements.add(emt);
@@ -396,6 +410,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 						    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
 						    		emt.setRotation(0, 0, 0);
 						    		emt.setScale(1.0f);
+						    		emt.setIsUnit(new NormaleKugel());
 						    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
 						    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), -0.75f);
 						    		this.m_lstElements.add(emt);
@@ -419,6 +434,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 					    		emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
 					    		emt.setRotation(0, 0, 0);
 					    		emt.setScale(1.0f);
+					    		emt.setIsMapElement(col_X.getMapElement());
 					    		//emt.setPosition(-col_X.getFeldposX() + (row_Y.size() / 2.0f), -col_X.getFeldposY() + (this.m_map.getFelderY().size() / 2.0f), 0.0f);
 					    		emt.setPosition(2.0f * -col_X.getFeldposX() + (row_Y.size()), 2.0f * -col_X.getFeldposY() + (this.m_map.getFelderY().size()), 0.0f);
 					    		
