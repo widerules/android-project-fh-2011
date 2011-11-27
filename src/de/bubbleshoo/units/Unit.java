@@ -7,47 +7,58 @@ import de.bubbleshoo.main.BsMainActivity;
 
 public class Unit {
 
-	private double speedX;
-	private double speedY;
+	private float[] speed 	= new float[2];
+
 	private BaseObject3D m_3dobject;
 	
 	
 	public Unit(int[] texFile, int meshID, boolean hasTexture, Context context) 
 	{
-		speedX=0;
-		speedY=0;
+		
+		speed[0]=0;
+		speed[1]=0;
 	}
 	
 	public Unit()
 	{
-		speedX=0;
-		speedY=0;
+		speed[0]=0;
+		speed[1]=0;
 	}
 
 
 	public Unit(BaseObject3D emt) 
 	{
 		m_3dobject= emt;
-		speedX=0;
-		speedY=0;
+		speed[0]=0;
+		speed[1]=0;
 	}
+
 
 	/*
 	 * Getter Setter
 	 */
-	public double getSpeedX() {
-		return speedX;
+	/** Liefert die Geschwindigkeit des Objektes in X und Y Richtung.
+	 * 	speed[0] ist die Geschwindikeit in X Richtung;
+		speed[1] ist die Geschwindikeit in Y Richtung;
+		Wertebereich: 10 bis -10, wobei 0 keine Bewegung bedeutet. 
+		X -10 bis 10. -10 steht für maximale Bewegung zur Negativen x Richtung (Nach links ^^). +10 Max nach rechts.
+		Y (das selbe wie bei X)  -10 bis 10. -10 steht für maximale Bewegung zur Negativen y Richtung (Nach unten ^^) +10 max geschwindigkeit nach oben
+	 * @return  die Geschwindigkeit in x und y Richtung
+	 */
+	public float[] getSpeed() {
+		return speed;
 	}
 
-	public void setSpeedX(double speedX) {
-		this.speedX = speedX;
+	public void setSpeed(float[] speed) {
+		this.speed = speed;
 	}
 
-	public double getSpeedY() {
-		return speedY;
+	public BaseObject3D getM_3dobject() {
+		return m_3dobject;
 	}
 
-	public void setSpeedY(double speedY) {
-		this.speedY = speedY;
+	public void setM_3dobject(BaseObject3D m_3dobject) {
+		this.m_3dobject = m_3dobject;
 	}
+
 }
