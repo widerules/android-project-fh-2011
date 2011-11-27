@@ -29,11 +29,11 @@ public class Bs3DObject {
      * PROPERTIES
      ************************/
 	// Constants
-	private static final int FLOAT_SIZE_BYTES = 4;
-    private static final int TRIANGLE_VERTICES_DATA_STRIDE_BYTES = 8 * FLOAT_SIZE_BYTES;
-    private static final int TRIANGLE_VERTICES_DATA_POS_OFFSET = 0;
-    private static final int TRIANGLE_VERTICES_DATA_NOR_OFFSET = 3;
-    private static final int TRIANGLE_VERTICES_DATA_TEX_OFFSET = 6;
+	private static final int FLOAT_SIZE_BYTES 						= 4;
+    private static final int TRIANGLE_VERTICES_DATA_STRIDE_BYTES 	= 8 * FLOAT_SIZE_BYTES;
+    private static final int TRIANGLE_VERTICES_DATA_POS_OFFSET 		= 0;
+    private static final int TRIANGLE_VERTICES_DATA_NOR_OFFSET 		= 3;
+    private static final int TRIANGLE_VERTICES_DATA_TEX_OFFSET 		= 6;
     
 	// light parameters
 //    private float[] lightPos;
@@ -250,8 +250,16 @@ public class Bs3DObject {
     Log.d("SETUP IMAGE", _texID + "");*/
     }
 
-    
-    
+    /** Bewegt die Aktuelle Postion um die Parameter 
+     * 
+     * @param WieVielUmX Wieviel soll er um x sich bewegen
+     * @param WieVielUmY wieviel soll er sich um y bewegen
+     */
+    public void move(float WieVielUmX,  float WieVielUmY)
+    {
+    	this.m_transX+=WieVielUmX;
+    	this.m_transY+=WieVielUmY;
+    }
     
     /***************************
      * GET/SET

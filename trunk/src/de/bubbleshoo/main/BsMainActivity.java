@@ -66,6 +66,14 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	     */
 	    private static Context anwendungsContex;
 	    
+	    //Handy Zustand (resum Create...)
+	    public static int m_appzustand = 0;
+	    public final static int 	ONCREATE=	1;
+	    public final static int 	ONRESUME=	2;
+	    public final static int 	ONPAUSE=	3;
+	    public final static int 	ONEXIT=		4;
+	    
+	    
     /** 
      * Construktor
      * Called when the activity is first created. 
@@ -115,14 +123,7 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	        	finish();
 	        } 
 		 
-		 //Joerns Test Bereich Start
-		 try {
-			Map map1 = MapLoader.laodMap("1map");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 //Joerns Test Bereich Ende
+		 m_appzustand=ONCREATE;
     }
     
 	/** 
@@ -140,6 +141,8 @@ public class BsMainActivity extends Activity implements SensorEventListener{
         mSensorManager.unregisterListener(mCompassListener);
         if(lichtOn)
         mSensorManager.unregisterListener(mlichtListener);
+        
+        m_appzustand=ONPAUSE;
 	}
 
 	/** 
@@ -156,6 +159,8 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 		mSensorManager.registerListener(mCompassListener, mkompass,SensorManager.SENSOR_DELAY_NORMAL);
 		if(lichtOn)
 		mSensorManager.registerListener(mlichtListener,mlight, SensorManager.SENSOR_DELAY_NORMAL);
+		
+		 m_appzustand=ONRESUME;
 	}
 	
 	
@@ -238,8 +243,9 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	    public void onSensorChanged(SensorEvent event) {
 	    	//Vertauscht wegen Lenscape
 	    	boolean bigchange=checkForChange(event.values[1],event.values[0]);
-//	    	System.out.println(event.values[1]);
-//	    	System.out.println(event.values[0]);
+	    	System.out.println("2te Wert y"+event.values[1]);
+	    	System.out.println("1te Wert x"+event.values[0]);
+	    	
 	    	if(!bigchange)
 	    	{
 //	    		System.out.println("nix");
@@ -259,12 +265,12 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	     */
 	    private boolean checkForChange(float x, float yy) {
 			
-	    	System.out.println("Liste 0="+alteXWerte[0]);
-	    	System.out.println("Liste 1="+alteXWerte[1]);
-	    	System.out.println("Liste 2="+alteXWerte[2]);
-	    	System.out.println("y ABS0="+Math.abs(x-alteXWerte[0]));
-	    	System.out.println("y ABS1="+Math.abs(x-alteXWerte[0]));
-	    	System.out.println("y ABS2="+Math.abs(x-alteXWerte[0]));
+//	    	System.out.println("Liste 0="+alteXWerte[0]);
+//	    	System.out.println("Liste 1="+alteXWerte[1]);
+//	    	System.out.println("Liste 2="+alteXWerte[2]);
+//	    	System.out.println("y ABS0="+Math.abs(x-alteXWerte[0]));
+//	    	System.out.println("y ABS1="+Math.abs(x-alteXWerte[0]));
+//	    	System.out.println("y ABS2="+Math.abs(x-alteXWerte[0]));
 	    	
 	    	for(int i=0; i<alteXWerte.length;i++)
 	    	{

@@ -22,8 +22,6 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	
 	public static String TAG = "BubbleShooTag";
 
-	private Unit 			isUnit 			= null;
-	private MapElement 		isMapElement 	= null;
 
 	protected final int FLOAT_SIZE_BYTES = 4;
 	protected final int SHORT_SIZE_BYTES = 2;
@@ -259,7 +257,19 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 
 		return ser;
 	}
-
+	
+	  /** Bewegt die Aktuelle Postion um die Parameter 
+     * 
+     * @param WieVielUmX Wieviel soll er um x sich bewegen
+     * @param WieVielUmY wieviel soll er sich um y bewegen
+     */
+    public void move(float WieVielUmX,  float WieVielUmY)
+    {
+    	System.out.println("Move");
+    	this.x+=WieVielUmX;
+    	this.y+=WieVielUmY;
+    }
+    
 	/*
 	 * Getter /Setter
 	 */
@@ -317,22 +327,6 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 			ti.addAll(mChildren.get(i).getTextureInfoList());
 		}
 		return ti;
-	}
-
-	public Unit getIsUnit() {
-		return isUnit;
-	}
-
-	public void setIsUnit(Unit isUnit) {
-		this.isUnit = isUnit;
-	}
-
-	public MapElement getIsMapElement() {
-		return isMapElement;
-	}
-
-	public void setIsMapElement(MapElement isMapElement) {
-		this.isMapElement = isMapElement;
 	}
 
 	public float[] getModelMatrix() {

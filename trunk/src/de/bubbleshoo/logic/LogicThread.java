@@ -12,6 +12,7 @@ import android.util.Log;
 import de.bubbleshoo.data.BaseObject3D;
 import de.bubbleshoo.data.ObjParser;
 import de.bubbleshoo.graphics.TextureManager;
+import de.bubbleshoo.main.BsMainActivity;
 import de.bubbleshoo.main.R;
 import de.bubbleshoo.map.Feld;
 import de.bubbleshoo.map.Map;
@@ -30,6 +31,8 @@ import de.bubbleshoo.mapElemente.Start;
 import de.bubbleshoo.mapElemente.Wasser;
 import de.bubbleshoo.mapElemente.Weg;
 import de.bubbleshoo.mapElemente.Ziel;
+import de.bubbleshoo.sensors.BsDataholder;
+import de.bubbleshoo.units.Kugel;
 import de.bubbleshoo.units.NormaleKugel;
 import de.bubbleshoo.units.Unit;
 
@@ -66,9 +69,84 @@ public class LogicThread extends Thread {
 	 * @see java.lang.Thread#run()
 	 */
 	public void run() {
-
+		
+		//Solange die app
+		while(BsMainActivity.m_appzustand!=BsMainActivity.ONEXIT)
+		{
+			while(BsMainActivity.m_appzustand==BsMainActivity.ONCREATE||BsMainActivity.m_appzustand==BsMainActivity.ONRESUME)
+			{
+//				System.out.println("Hier!");
+				//Geschwindigkeit aus Sensoren laden
+				setSpeedOfUnits();
+				moveKugel();
+				
+				
+				try {
+					Thread.sleep(20);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		
+			// Wenn Pause soll er nix machen:
+			while(BsMainActivity.m_appzustand==BsMainActivity.ONPAUSE)
+			{
+				try {
+					Thread.sleep(20);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			System.out.println("Thread läuft och.");
+		}
+		
+		//Sensor auswerten
+		
+		
 	}
 
+	
+	/** Setzt die aktuelle Geschwindigkeit der Kugel
+	 * 
+	 */
+	private void setSpeedOfUnits()
+	{
+		for(Unit unit: m_lstUnit ){
+			System.out.println("m_lstUnit");
+			if(unit instanceof NormaleKugel)
+			{
+				System.out.println("Set");
+				unit.getSpeed()[0]=BsDataholder.getHandykipplageX();
+				unit.getSpeed()[1]=BsDataholder.getHandykipplageY();
+			}
+		}
+		
+	}
+	
+	/** Bewegt die Kugel je nach Sensorlage
+	 * 
+	 */
+	private void moveKugel() {
+		for(Unit unit: m_lstUnit ){
+			if(unit instanceof Kugel)
+			{
+				unit.getM_3dobject().move(unit.getSpeed()[0]/10, unit.getSpeed()[0]/10);
+			}
+		}
+		
+	}
+	/** Läd die schon geladene Map (Aus der Bitdatei) in die Logic und erzeugt die Objekte.
+	 * 
+	 */
 	private void loadmap() {
 
 		int nY = 0;
@@ -104,7 +182,7 @@ public class LogicThread extends Thread {
 										texture, nTextureID));
 								emt.setRotation(0, 0, 0);
 								emt.setScale(1.0f);
-								emt.setIsMapElement(col_X.getMapElement());
+								
 								// emt.setPosition(-col_X.getFeldposX() +
 								// (row_Y.size() / 2.0f), -col_X.getFeldposY() +
 								// (this.m_map.getFelderY().size() / 2.0f),
@@ -137,7 +215,6 @@ public class LogicThread extends Thread {
 										texture, nTextureID));
 								emt.setRotation(0, 0, 0);
 								emt.setScale(1.0f);
-								emt.setIsMapElement(col_X.getMapElement());
 								// emt.setPosition(-col_X.getFeldposX() +
 								// (row_Y.size() / 2.0f), -col_X.getFeldposY() +
 								// (this.m_map.getFelderY().size() / 2.0f),
@@ -173,7 +250,6 @@ public class LogicThread extends Thread {
 										texture, nTextureID));
 								emt.setRotation(0, 0, 0);
 								emt.setScale(1.0f);
-								emt.setIsUnit(new NormaleKugel());
 								// emt.setPosition(-col_X.getFeldposX() +
 								// (row_Y.size() / 2.0f), -col_X.getFeldposY() +
 								// (this.m_map.getFelderY().size() / 2.0f),
@@ -185,7 +261,7 @@ public class LogicThread extends Thread {
 												* -col_X.getFeldposY()
 												+ (this.m_map.getFelderY()
 														.size()), -0.75f);
-								this.m_lstUnit.add(new Unit(emt));
+								this.m_lstUnit.add(new NormaleKugel(emt));
 							} else if (col_X.getMapElement() instanceof Wasser) {
 								nTextureID = R.drawable.grass_tile;
 							} else if (col_X.getMapElement() instanceof Weg) {
@@ -211,7 +287,6 @@ public class LogicThread extends Thread {
 									nTextureID));
 							emt.setRotation(0, 0, 0);
 							emt.setScale(1.0f);
-							emt.setIsMapElement(col_X.getMapElement());
 							// emt.setPosition(-col_X.getFeldposX() +
 							// (row_Y.size() / 2.0f), -col_X.getFeldposY() +
 							// (this.m_map.getFelderY().size() / 2.0f), 0.0f);

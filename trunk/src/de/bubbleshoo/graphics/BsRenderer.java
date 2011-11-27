@@ -42,6 +42,7 @@ import de.bubbleshoo.mapElemente.Weg;
 import de.bubbleshoo.mapElemente.Ziel;
 import de.bubbleshoo.sensors.BsDataholder;
 import de.bubbleshoo.units.NormaleKugel;
+import de.bubbleshoo.units.Unit;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -258,7 +259,13 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     		
 //            	}
             } 
-
+            
+            for (Unit bsUnit : m_logic.getM_lstUnit()) {
+            	
+            	bsUnit.getM_3dobject().render(mCamera, mProjMatrix, mVMatrix);
+      	
+            }
+            
             GLES20.glUseProgram(0);
             /** END DRAWING OBJECT ***/
     }
@@ -279,7 +286,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             // define a camera view matrix
             // Set Viewpoint 5 back and 1 up in the scene
             
-            mCamera.setZ(-5.0f);
+            mCamera.setZ(-10.0f);
             mCamera.setLookAt(0.0f, 0.0f, 0.0f);
     		mVMatrix = mCamera.getViewMatrix();
     }
@@ -457,7 +464,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 //			}
 //    		            
             // set the view matrix
-            mCamera.setZ(-5.0f);
+            mCamera.setZ(-10.0f);
             mCamera.setLookAt(0.0f, 0.0f, 0.0f);
     		mVMatrix = mCamera.getViewMatrix();
     }
