@@ -265,7 +265,7 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
      */
     public void move(float WieVielUmX,  float WieVielUmY)
     {
-    	System.out.println("Move");
+ 
     	this.x+=WieVielUmX;
     	this.y+=WieVielUmY;
     }

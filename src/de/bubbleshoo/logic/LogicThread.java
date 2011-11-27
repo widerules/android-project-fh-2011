@@ -121,10 +121,10 @@ public class LogicThread extends Thread {
 	private void setSpeedOfUnits()
 	{
 		for(Unit unit: m_lstUnit ){
-			System.out.println("m_lstUnit");
+//			System.out.println("m_lstUnit");
 			if(unit instanceof NormaleKugel)
 			{
-				System.out.println("Set");
+//				System.out.println("Set");
 				unit.getSpeed()[0]=BsDataholder.getHandykipplageX();
 				unit.getSpeed()[1]=BsDataholder.getHandykipplageY();
 			}
