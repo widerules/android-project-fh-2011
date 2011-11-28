@@ -103,14 +103,14 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     private int _currentObject;
 
     // Modelview/Projection matrices
-    private float[] mMVPMatrix = new float[16];
-    private float[] mProjMatrix = new float[16];
-    private float[] mScaleMatrix = new float[16];   // scaling
-    private float[] mRotXMatrix = new float[16];    // rotation x
-    private float[] mRotYMatrix = new float[16];    // rotation x
-    private float[] mMMatrix = new float[16];               // rotation
-    private float[] mVMatrix = new float[16];               // modelview
-    private float[] normalMatrix = new float[16];   // modelview normal
+    private float[] mMVPMatrix 		= new float[16];
+    private float[] mProjMatrix 	= new float[16];
+    private float[] mScaleMatrix 	= new float[16];   // scaling
+    private float[] mRotXMatrix 	= new float[16];    // rotation x
+    private float[] mRotYMatrix 	= new float[16];    // rotation x
+    private float[] mMMatrix 		= new float[16];               // rotation
+    private float[] mVMatrix 		= new float[16];               // modelview
+    private float[] normalMatrix 	= new float[16];   // modelview normal
 
     // textures enabled?
     private boolean enableTexture = true;
