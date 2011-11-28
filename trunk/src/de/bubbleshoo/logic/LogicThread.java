@@ -110,8 +110,6 @@ public class LogicThread extends Thread {
 		}
 		
 		//Sensor auswerten
-		
-		
 	}
 
 	
@@ -125,8 +123,8 @@ public class LogicThread extends Thread {
 			if(unit instanceof NormaleKugel)
 			{
 //				System.out.println("Set");
-				unit.getSpeed()[0]=BsDataholder.getHandykipplageX();
-				unit.getSpeed()[1]=BsDataholder.getHandykipplageY();
+					unit.getSpeed()[0]=-1*BsDataholder.getHandykipplageX();
+					unit.getSpeed()[1]=-1*BsDataholder.getHandykipplageY();
 			}
 		}
 		
@@ -139,11 +137,26 @@ public class LogicThread extends Thread {
 		for(Unit unit: m_lstUnit ){
 			if(unit instanceof Kugel)
 			{
-				unit.getM_3dobject().move(unit.getSpeed()[0]/10, unit.getSpeed()[0]/10);
+				//Kollisionsabfrage Wand
+				if(checkForWallKollisions(unit))
+				{
+					
+				}
+				else //Ansonsten normal bewegen
+				{
+					unit.getM_3dobject().move(unit.getSpeed()[0]/10, unit.getSpeed()[1]/10);
+				}
 			}
 		}
 		
 	}
+	
+	private boolean checkForWallKollisions(Unit unit)
+	{
+		return false;
+		
+	}
+	
 	/** Läd die schon geladene Map (Aus der Bitdatei) in die Logic und erzeugt die Objekte.
 	 * 
 	 */
