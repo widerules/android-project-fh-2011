@@ -32,6 +32,7 @@ import de.bubbleshoo.mapElemente.Wasser;
 import de.bubbleshoo.mapElemente.Weg;
 import de.bubbleshoo.mapElemente.Ziel;
 import de.bubbleshoo.sensors.BsDataholder;
+import de.bubbleshoo.settings.GeneralSettings;
 import de.bubbleshoo.units.Kugel;
 import de.bubbleshoo.units.NormaleKugel;
 import de.bubbleshoo.units.Unit;
@@ -107,7 +108,7 @@ public class LogicThread extends Thread {
 				e.printStackTrace();
 			}
 			
-			System.out.println("Thread läuft och.");
+			Log.d(GeneralSettings.LoggerKategorie,"Thread läuft och.");
 		}
 		
 		//Sensor auswerten
@@ -131,7 +132,7 @@ public class LogicThread extends Thread {
 								{		
 									if(((unit.getM_3dobject().getY())<=(mapelement.getM_3dobject().getY()+1.0f)))
 									{
-										System.out.println("Kugelbefindet sich im feld: "+mapelement.getClass()+" Pos:"+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY());
+										Log.d(GeneralSettings.LoggerKategorie,"Kugelbefindet sich im feld: "+mapelement.getClass()+" Pos:"+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY());
 									}
 								}
 							}
@@ -221,7 +222,7 @@ public class LogicThread extends Thread {
 						{
 							if(y<=c&&y>=d) //Y richtung beachten
 							{
-								System.out.println("Kollision mit Nach Rechts : "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach Rechts : "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
 								unit.getM_3dobject().move(0, unit.getSpeed()[1]/10);
 //								unit.getM_3dobject().setX(b+(3*durchmesserKugel));alt
 								unit.getM_3dobject().setX(a+(durchmesserKugel)); 
@@ -237,7 +238,7 @@ public class LogicThread extends Thread {
 						{
 							if(y<=c&&y>=d) //Y Richtung beachten
 							{
-								System.out.println("Kollision mit Nach Links: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach Links: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
 								unit.getM_3dobject().move(0, unit.getSpeed()[1]/10);
 								unit.getM_3dobject().setX(b-(durchmesserKugel));
 								wasgefunden=true;
@@ -252,7 +253,7 @@ public class LogicThread extends Thread {
 						{
 							if((y-durchmesserKugel)<=c&&(y-durchmesserKugel)>=d) //Y Richtung beachten
 							{
-								System.out.println("Kollision mit Nach Links: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach unten: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
 								unit.getM_3dobject().move( unit.getSpeed()[0]/10, 0);
 								unit.getM_3dobject().setY(c+(durchmesserKugel));
 								wasgefunden=true;
@@ -266,7 +267,7 @@ public class LogicThread extends Thread {
 						{
 							if((y+durchmesserKugel)<=c&&(y+durchmesserKugel)>=d) //Y Richtung beachten
 							{
-								System.out.println("Kollision mit Nach Links: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach oben: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
 								unit.getM_3dobject().move(unit.getSpeed()[0]/10, 0);
 								unit.getM_3dobject().setY(d-(durchmesserKugel));
 								wasgefunden=true;
@@ -485,7 +486,7 @@ public class LogicThread extends Thread {
 		System.out.println("#######################");
 		for(MapElement mapelement: m_lstMapEmt )
 		{
-			System.out.println("Map Element:"+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+" "+mapelement.getClass());
+			Log.d(GeneralSettings.LoggerKategorie,"Map Element:"+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+" "+mapelement.getClass());
 		}
 		System.out.println("#######################");
 	}
