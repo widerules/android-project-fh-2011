@@ -185,6 +185,7 @@ public class LogicThread extends Thread {
 	 */
 	private boolean checkForWallKollisions(Unit unit)
 	{
+		boolean wasgefunden=false;
 		float [] positionDerKugel=unit.getM_3dobject().getPosition();
 		//ALle Elemente in der Gegend durchgehen und gucken ob eine Mauer in der nähe ist.
 //		System.out.println("Position:");
@@ -215,35 +216,62 @@ public class LogicThread extends Thread {
 					}
 					counter++;
 				
-					if(((x-durchmesserKugel)>=b))
-						if((x-durchmesserKugel)<=a) //Vor und RückSeite
+					if(((x-durchmesserKugel)>=b))//Vor 
+						if((x-durchmesserKugel)<=a) //und RückSeite
 						{
 							if(y<=c&&y>=d) //Y richtung beachten
 							{
-								System.out.println("Kollision mit: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								System.out.println("Kollision mit Nach Rechts : "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
 								unit.getM_3dobject().move(0, unit.getSpeed()[1]/10);
-								unit.getM_3dobject().setX(b+(3*durchmesserKugel));
-								return true;
+//								unit.getM_3dobject().setX(b+(3*durchmesserKugel));alt
+								unit.getM_3dobject().setX(a+(durchmesserKugel)); 
+								wasgefunden=true;
+								
 							}
-						}
-						else
-						{
-							
 						}
 				}
 				else if(unit.getSpeed()[0]>0) //Bewegung nach links
 				{
-					
-					
+					if(((x+durchmesserKugel)>=b))//Vor 
+						if((x+(2*durchmesserKugel))<=a) //und RückSeite
+						{
+							if(y<=c&&y>=d) //Y Richtung beachten
+							{
+								System.out.println("Kollision mit Nach Links: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								unit.getM_3dobject().move(0, unit.getSpeed()[1]/10);
+								unit.getM_3dobject().setX(b-(durchmesserKugel));
+								wasgefunden=true;
+							}
+						}
 				}
 				
-				if(unit.getSpeed()[1]<0) //Bewegung nach oben
+				if(unit.getSpeed()[1]<0) //Bewegung nach von oben nach unten
 				{
-					
+					if(((x)>=b))//Vor 
+						if((x)<=a) //und RückSeite
+						{
+							if((y-durchmesserKugel)<=c&&(y-durchmesserKugel)>=d) //Y Richtung beachten
+							{
+								System.out.println("Kollision mit Nach Links: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								unit.getM_3dobject().move( unit.getSpeed()[0]/10, 0);
+								unit.getM_3dobject().setY(c+(durchmesserKugel));
+								wasgefunden=true;
+							}
+						}
 				}
-				else if(unit.getSpeed()[1]>0)//Bewegung nach unten
+				else if(unit.getSpeed()[1]>=0)//Bewegung nach oben von unten
 				{
-					
+					if(((x)>=b))//Vor 
+						if((x)<=a) //und RückSeite
+						{
+							if((y+durchmesserKugel)<=c&&(y+durchmesserKugel)>=d) //Y Richtung beachten
+							{
+								System.out.println("Kollision mit Nach Links: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								unit.getM_3dobject().move(unit.getSpeed()[0]/10, 0);
+								unit.getM_3dobject().setY(d-(durchmesserKugel));
+								wasgefunden=true;
+							}
+						}
 				}
 //				else
 //				{
@@ -262,7 +290,9 @@ public class LogicThread extends Thread {
 				
 //			}
 		}
-		
+		if(wasgefunden)
+			return true;
+		else
 		return false;
 	}
 	
@@ -277,10 +307,12 @@ public class LogicThread extends Thread {
 		int nY = 0;
 		int nX = 0;
 
-		for (ArrayList<Feld> row_Y : this.m_map.getFelderY()) {
+		for (ArrayList<Feld> row_Y : this.m_map.getFelderY()) 
+		{
 			if (row_Y != null) {
 				nY++;
-				for (Feld col_X : row_Y) {
+				for (Feld col_X : row_Y) 
+				{
 					if (col_X != null) {
 						nX++;
 						Log.d("Mapinit", "X: " + col_X.getFeldposX() + "; Y: "
@@ -356,6 +388,28 @@ public class LogicThread extends Thread {
 								nTextureID = R.raw.diffuse;
 							} else if (col_X.getMapElement() instanceof Rand) {
 								nTextureID = R.drawable.grass_tile;
+								ObjParser parser = new ObjParser(
+								mContext.getResources(),
+								mTextureManager, R.raw.plane);
+								parser.parse();
+								BaseObject3D emt = parser.getParsedObject()
+								.getChildByName("Plane");
+
+								Bitmap texture = BitmapFactory.decodeResource(mContext.getResources(), nTextureID);
+								emt.addTexture(mTextureManager.addTexture(texture, nTextureID));
+							    emt.setRotation(0, 0, 0);
+								emt.setScale(1.0f);
+								        
+								// emt.setPosition(-col_X.getFeldposX() +
+								// (row_Y.size() / 2.0f), -col_X.getFeldposY() +
+								// (this.m_map.getFelderY().size() / 2.0f),
+								// 0.0f);
+								emt.setPosition(
+								2.0f * -col_X.getFeldposX()
+								+ (row_Y.size()),
+								2.0f* -col_X.getFeldposY()
+								+ (this.m_map.getFelderY().size()), -0.75f);
+								   this.m_lstMapEmt.add(new Rand(emt));
 							} else if (col_X.getMapElement() instanceof Sand) {
 								nTextureID = R.drawable.sand_tile;
 							} else if (col_X.getMapElement() instanceof Stacheln) {
