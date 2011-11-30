@@ -128,7 +128,8 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     private float[] matAmbient;
     private float[] matDiffuse;
     private float[] matSpecular;
-    private float matShininess;
+    private float 	
+    matShininess;
 
     // eye pos
     private float[] eyePos = {-5.0f, 0.0f, 0.0f};

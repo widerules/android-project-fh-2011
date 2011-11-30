@@ -1,5 +1,14 @@
 package de.bubbleshoo.mapElemente;
 
-public class Felsen extends MapElement{
+import de.bubbleshoo.data.BaseObject3D;
 
+public class Felsen extends MapElement{
+	public Felsen()
+	{
+		
+	}
+	
+	public Felsen(BaseObject3D emt) {
+		super(emt);
+	}
 }

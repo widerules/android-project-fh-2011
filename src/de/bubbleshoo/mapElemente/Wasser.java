@@ -1,5 +1,14 @@
 package de.bubbleshoo.mapElemente;
 
-public class Wasser extends MapElement{
+import de.bubbleshoo.data.BaseObject3D;
 
+public class Wasser extends MapElement{
+	public Wasser()
+	{
+		
+	}
+	
+	public Wasser(BaseObject3D emt) {
+		super(emt);
+	}
 }

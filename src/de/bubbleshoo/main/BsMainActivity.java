@@ -22,6 +22,8 @@ import android.os.Bundle;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.Window;
+import android.view.WindowManager;
 
 /**
  * @author oliverl
@@ -85,7 +87,11 @@ public class BsMainActivity extends Activity implements SensorEventListener{
         
         //LanDscape
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  
-        
+        //Fullscreen
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(	WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         //Sensoren laden
 		mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
 		boolean accelerometerAvailable = mSensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER).size() > 0;
@@ -243,8 +249,8 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	    public void onSensorChanged(SensorEvent event) {
 	    	//Vertauscht wegen Lenscape
 	    	boolean bigchange=checkForChange(event.values[1],event.values[0]);
-	    	System.out.println("2te Wert y"+event.values[1]);
-	    	System.out.println("1te Wert x"+event.values[0]);
+//	    	System.out.println("2te Wert y"+event.values[1]);
+//	    	System.out.println("1te Wert x"+event.values[0]);
 	    	
 	    	if(!bigchange)
 	    	{

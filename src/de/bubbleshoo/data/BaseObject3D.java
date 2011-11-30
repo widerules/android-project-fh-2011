@@ -270,6 +270,20 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
     	this.y+=WieVielUmY;
     }
     
+    /** liefert die x y und z Koordinaten.
+     * 
+     */
+    public float[] getPosition()
+    {
+    	float[] returnfloat = {
+    			this.x,
+    			this.y,
+    			this.z
+    	};
+    	return returnfloat;
+    	
+    }
+    
 	/*
 	 * Getter /Setter
 	 */

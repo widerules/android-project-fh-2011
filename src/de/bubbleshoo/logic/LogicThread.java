@@ -79,6 +79,7 @@ public class LogicThread extends Thread {
 				//Geschwindigkeit aus Sensoren laden
 				setSpeedOfUnits();
 				moveKugel();
+				woIstKugel();
 				
 				
 				try {
@@ -112,7 +113,33 @@ public class LogicThread extends Thread {
 		//Sensor auswerten
 	}
 
-	
+	/** Methode sagt auf welchen Feld sie gerade ist
+	 * 
+	 */
+	private void woIstKugel() {
+		for(Unit unit: m_lstUnit ){
+//			System.out.println("Unit1"+unit.getClass());
+			if(unit instanceof NormaleKugel)
+			{
+				for(MapElement mapelement: m_lstMapEmt )
+				{
+							if((unit.getM_3dobject().getX()>=(mapelement.getM_3dobject().getX()-1.0f))
+							 &&(unit.getM_3dobject().getX()<=(mapelement.getM_3dobject().getX()+1.0f)))
+							{
+//								System.out.println("1Kugelbefindet sich im feld: "+mapelement.getM_3dobject().getClass()+" Pos:"+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY());
+								if(((unit.getM_3dobject().getY())>=(mapelement.getM_3dobject().getY()-1.0f)))
+								{		
+									if(((unit.getM_3dobject().getY())<=(mapelement.getM_3dobject().getY()+1.0f)))
+									{
+										System.out.println("Kugelbefindet sich im feld: "+mapelement.getClass()+" Pos:"+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY());
+									}
+								}
+							}
+				}
+			}
+		}
+	}
+
 	/** Setzt die aktuelle Geschwindigkeit der Kugel
 	 * 
 	 */
@@ -135,7 +162,7 @@ public class LogicThread extends Thread {
 	 */
 	private void moveKugel() {
 		for(Unit unit: m_lstUnit ){
-			if(unit instanceof Kugel)
+			if(unit instanceof NormaleKugel)
 			{
 				//Kollisionsabfrage Wand
 				if(checkForWallKollisions(unit))
@@ -151,11 +178,96 @@ public class LogicThread extends Thread {
 		
 	}
 	
+	/** Guckt ob eine Kugel an eine Mauer kollidiert
+	 * 
+	 * @param unit
+	 * @return
+	 */
 	private boolean checkForWallKollisions(Unit unit)
 	{
-		return false;
+		float [] positionDerKugel=unit.getM_3dobject().getPosition();
+		//ALle Elemente in der Gegend durchgehen und gucken ob eine Mauer in der nähe ist.
+//		System.out.println("Position:");
+//		System.out.println("mit: "+unit.getM_3dobject().getX()+":"+unit.getM_3dobject().getY()+unit.getClass());
+		int counter = 0;
 		
+		for(MapElement mapelement: m_lstMapEmt )
+		{
+			if(mapelement instanceof Mauer)
+			{
+				float x= unit.getM_3dobject().getPosition()[0];
+				float y= unit.getM_3dobject().getPosition()[1];
+				float durchmesserKugel		 = (float) 1.0;
+				float durchmesserWuerfel  	 = (float) 1.0;
+				float a=mapelement.getM_3dobject().getPosition()[0]+durchmesserWuerfel;
+				float b=mapelement.getM_3dobject().getPosition()[0]-durchmesserWuerfel;
+				float c=mapelement.getM_3dobject().getPosition()[1]+durchmesserWuerfel;
+				float d=mapelement.getM_3dobject().getPosition()[1]-durchmesserWuerfel;
+				
+				//unit.getSpeed()[0]
+				if(unit.getSpeed()[0]<0) //Bewegung nach Rechts
+				{	// Wenn die bewegung nach rechts geht
+					if(counter%100000==0)
+					{
+//						System.out.println("x:"+x+":"+y);
+//						System.out.println("x:"+a+":"+b+":"+c+":"+d);
+//						System.out.println("x:"+a+":"+b+":"+c+":"+d);
+					}
+					counter++;
+				
+					if(((x-durchmesserKugel)>=b))
+						if((x-durchmesserKugel)<=a) //Vor und RückSeite
+						{
+							if(y<=c&&y>=d) //Y richtung beachten
+							{
+								System.out.println("Kollision mit: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								unit.getM_3dobject().move(0, unit.getSpeed()[1]/10);
+								unit.getM_3dobject().setX(b+(3*durchmesserKugel));
+								return true;
+							}
+						}
+						else
+						{
+							
+						}
+				}
+				else if(unit.getSpeed()[0]>0) //Bewegung nach links
+				{
+					
+					
+				}
+				
+				if(unit.getSpeed()[1]<0) //Bewegung nach oben
+				{
+					
+				}
+				else if(unit.getSpeed()[1]>0)//Bewegung nach unten
+				{
+					
+				}
+//				else
+//				{
+//					return false;
+//				}
+			}
+			
+			
+			
+//			if(Kollision.vergleichObereRechteEcke(positionDerKugel,mapelement.getM_3dobject().getPosition()))
+//			{
+//Speed reduzieren und und...
+				//Obere Rechte Ecke gucken
+				
+				
+				
+//			}
+		}
+		
+		return false;
 	}
+	
+
+	
 	
 	/** Läd die schon geladene Map (Aus der Bitdatei) in die Logic und erzeugt die Objekte.
 	 * 
@@ -207,7 +319,7 @@ public class LogicThread extends Thread {
 												* -col_X.getFeldposY()
 												+ (this.m_map.getFelderY()
 														.size()), -0.75f);
-								this.m_lstMapEmt.add(new MapElement(emt));
+								this.m_lstMapEmt.add(new Busch(emt));
 									
 							} else if (col_X.getMapElement() instanceof Felsen) {
 								nTextureID = R.raw.fieldstone;
@@ -239,7 +351,7 @@ public class LogicThread extends Thread {
 												* -col_X.getFeldposY()
 												+ (this.m_map.getFelderY()
 														.size()), -0.75f);
-								this.m_lstMapEmt.add(new MapElement(emt));
+								this.m_lstMapEmt.add(new Mauer(emt));
 							} else if (col_X.getMapElement() instanceof Oelteppich) {
 								nTextureID = R.raw.diffuse;
 							} else if (col_X.getMapElement() instanceof Rand) {
@@ -310,12 +422,18 @@ public class LogicThread extends Thread {
 											+ (this.m_map.getFelderY().size()),
 									0.0f);
 
-							this.m_lstMapEmt.add(new MapElement(emt));
+							this.m_lstMapEmt.add(new Sand(emt));
 						}
 					}
 				}
 			}
 		}
+		System.out.println("#######################");
+		for(MapElement mapelement: m_lstMapEmt )
+		{
+			System.out.println("Map Element:"+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+" "+mapelement.getClass());
+		}
+		System.out.println("#######################");
 	}
 
 	/*
