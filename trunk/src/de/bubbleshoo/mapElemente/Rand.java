@@ -1,5 +1,14 @@
 package de.bubbleshoo.mapElemente;
 
-public class Rand extends MapElement {
+import de.bubbleshoo.data.BaseObject3D;
 
+public class Rand extends MapElement {
+	public Rand()
+	{
+		
+	}
+	
+	public Rand(BaseObject3D emt) {
+		super(emt);
+	}
 }
