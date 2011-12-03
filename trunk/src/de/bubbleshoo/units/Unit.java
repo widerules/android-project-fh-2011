@@ -8,13 +8,18 @@ import de.bubbleshoo.main.BsMainActivity;
 public class Unit {
 
 	private float[] speed 	= new float[2];
-
+	
+	/** Alles was größer ist als 1 ist schneller und kleiner wird langsamer... 
+	 * 
+	 */
+	private float geschwindigkeitsverhalten=1;
+	
+	
 	private BaseObject3D m_3dobject;
 	
 	
 	public Unit(int[] texFile, int meshID, boolean hasTexture, Context context) 
 	{
-		
 		speed[0]=0;
 		speed[1]=0;
 	}
@@ -59,6 +64,14 @@ public class Unit {
 
 	public void setM_3dobject(BaseObject3D m_3dobject) {
 		this.m_3dobject = m_3dobject;
+	}
+
+	public float getGeschwindigkeitsverhalten() {
+		return geschwindigkeitsverhalten;
+	}
+
+	public void setGeschwindigkeitsverhalten(float geschwindigkeitsverhalten) {
+		this.geschwindigkeitsverhalten = geschwindigkeitsverhalten;
 	}
 
 }
