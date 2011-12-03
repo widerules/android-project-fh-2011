@@ -1,21 +1,22 @@
-package de.bubbleshoo.logic;
+package de.bubbleshoo.logic.kugel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.util.Log;
+import de.bubbleshoo.data.BaseObject3D;
+import de.bubbleshoo.graphics.BsRenderer;
 import de.bubbleshoo.mapElemente.MapElement;
 import de.bubbleshoo.mapElemente.Mauer;
 import de.bubbleshoo.settings.GeneralSettings;
 import de.bubbleshoo.units.Unit;
 
-public class Kollision {
-	/** Guckt ob eine Kugel an eine Mauer kollidiert
+public class LogikExplosionsKugel {
+	/** Guckt ob eine Kugel an eine Mauer kollidiert und sprengt sie dann
 	 * 
 	 * @param unit
 	 * @return
 	 */
-	static boolean checkForWallKollisions(Unit unit, List<MapElement> m_lstMapEmt)
+	public static boolean checkForWallKollisions(Unit unit, List<MapElement> m_lstMapEmt)
 	{
 		boolean wasgefunden=false;
 		float [] positionDerKugel=unit.getM_3dobject().getPosition();
@@ -53,10 +54,15 @@ public class Kollision {
 						{
 							if(y<=c&&y>=d) //Y richtung beachten
 							{
-								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach Rechts : "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								Log.d(GeneralSettings.LoggerKategorie,"ExplosionsKollision mit Nach Rechts : "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								
 								unit.getM_3dobject().move(0, unit.getSpeed()[1]/10);
 //								unit.getM_3dobject().setX(b+(3*durchmesserKugel));alt
 								unit.getM_3dobject().setX(a+(durchmesserKugel)); 
+								
+								kugelexplodiert(unit);
+								wandexplodiert(m_lstMapEmt,mapelement);
+																
 								wasgefunden=true;
 								
 							}
@@ -69,9 +75,14 @@ public class Kollision {
 						{
 							if(y<=c&&y>=d) //Y Richtung beachten
 							{
-								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach Links: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								Log.d(GeneralSettings.LoggerKategorie,"ExplosionsKollision mit Nach Links: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+						
 								unit.getM_3dobject().move(0, unit.getSpeed()[1]/10);
 								unit.getM_3dobject().setX(b-(durchmesserKugel));
+								
+								kugelexplodiert(unit);
+								wandexplodiert(m_lstMapEmt,mapelement);
+								
 								wasgefunden=true;
 							}
 						}
@@ -84,9 +95,14 @@ public class Kollision {
 						{
 							if((y-durchmesserKugel)<=c&&(y-durchmesserKugel)>=d) //Y Richtung beachten
 							{
-								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach unten: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								Log.d(GeneralSettings.LoggerKategorie,"ExplosionsKollision mit Nach unten: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+															
 								unit.getM_3dobject().move( unit.getSpeed()[0]/10, 0);
 								unit.getM_3dobject().setY(c+(durchmesserKugel));
+								
+								kugelexplodiert(unit);
+								wandexplodiert(m_lstMapEmt,mapelement);
+								
 								wasgefunden=true;
 							}
 						}
@@ -98,9 +114,14 @@ public class Kollision {
 						{
 							if((y+durchmesserKugel)<=c&&(y+durchmesserKugel)>=d) //Y Richtung beachten
 							{
-								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach oben: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								Log.d(GeneralSettings.LoggerKategorie,"ExplosionsKollision mit Nach oben: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+								
 								unit.getM_3dobject().move(unit.getSpeed()[0]/10, 0);
 								unit.getM_3dobject().setY(d-(durchmesserKugel));
+								
+								kugelexplodiert(unit);
+								wandexplodiert(m_lstMapEmt,mapelement);	
+								
 								wasgefunden=true;
 							}
 						}
@@ -127,6 +148,18 @@ public class Kollision {
 		else
 		return false;
 	}
-	
-	
+
+	private static void wandexplodiert(List<MapElement> m_lstMapEmt,
+			MapElement mapelement) {
+		
+		System.out.println("Wand Expliedert.");
+//		mapelement.setM_3dobject(new BaseObject3D());
+		
+		
+	}
+
+	private static void kugelexplodiert(Unit unit) {
+		
+		
+	}
 }
