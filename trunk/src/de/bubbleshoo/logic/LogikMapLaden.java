@@ -169,8 +169,8 @@ public class LogikMapLaden {
 												* -col_X.getFeldposY()
 												+ (LogicThread.m_map.getFelderY()
 														.size()), -0.75f);
-								LogicThread.m_lstUnit.add(new NormaleKugel(emt));
-//								LogicThread.m_lstUnit.add(new ExplosionsKugel(emt));
+//								LogicThread.m_lstUnit.add(new NormaleKugel(emt));
+								LogicThread.m_lstUnit.add(new ExplosionsKugel(emt));
 							} else if (col_X.getMapElement() instanceof Wasser) {
 								nTextureID = R.drawable.grass_tile;
 							} else if (col_X.getMapElement() instanceof Weg) {

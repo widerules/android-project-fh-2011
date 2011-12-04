@@ -191,6 +191,10 @@ public class LogikExplosionsKugel {
 							unit.getM_3dobject().move(0, unit.getSpeed()[1]/10);
 //							unit.getM_3dobject().setX(b+(3*durchmesserKugel));alt
 							unit.getM_3dobject().setX(a+(durchmesserKugel)); 
+							
+							wandexplodiert(m_lstMapEmt,mapelement);
+							kugelexplodiert(unit);
+							
 							wasgefunden=true;
 							
 						}
@@ -206,6 +210,10 @@ public class LogikExplosionsKugel {
 							Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach Links: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
 							unit.getM_3dobject().move(0, unit.getSpeed()[1]/10);
 							unit.getM_3dobject().setX(b-(durchmesserKugel));
+							
+							wandexplodiert(m_lstMapEmt,mapelement);
+							kugelexplodiert(unit);
+							
 							wasgefunden=true;
 						}
 					}
@@ -221,6 +229,10 @@ public class LogikExplosionsKugel {
 							Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach unten: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
 							unit.getM_3dobject().move( unit.getSpeed()[0]/10, 0);
 							unit.getM_3dobject().setY(c+(durchmesserKugel));
+							
+							wandexplodiert(m_lstMapEmt,mapelement);
+							kugelexplodiert(unit);
+							
 							wasgefunden=true;
 						}
 					}
@@ -235,6 +247,10 @@ public class LogikExplosionsKugel {
 							Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach oben: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
 							unit.getM_3dobject().move(unit.getSpeed()[0]/10, 0);
 							unit.getM_3dobject().setY(d-(durchmesserKugel));
+							
+							wandexplodiert(m_lstMapEmt,mapelement);
+							kugelexplodiert(unit);
+							
 							wasgefunden=true;
 						}
 					}
@@ -268,7 +284,7 @@ public class LogikExplosionsKugel {
 			MapElement mapelement) {
 		
 		System.out.println("Wand Expliedert.");
-//		mapelement.setM_3dobject(new BaseObject3D());
+		mapelement.setM_3dobject(new BaseObject3D());
 		
 		
 	}

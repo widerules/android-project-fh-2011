@@ -84,7 +84,7 @@ public class LogicThread extends Thread {
 				allekugelnbewegen();
 				
 				
-				checkKugelposition();
+//				checkKugelposition();
 				
 				
 				try {
