@@ -1,6 +1,6 @@
 package de.bubbleshoo.logic;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import android.util.Log;
@@ -18,7 +18,7 @@ public class Kollision {
 	static boolean checkForWallKollisions(Unit unit, List<MapElement> m_lstMapEmt)
 	{
 		boolean wasgefunden=false;
-		float [] positionDerKugel=unit.getM_3dobject().getPosition();
+		
 		//ALle Elemente in der Gegend durchgehen und gucken ob eine Mauer in der nähe ist.
 //		System.out.println("Position:");
 //		System.out.println("mit: "+unit.getM_3dobject().getX()+":"+unit.getM_3dobject().getY()+unit.getClass());
