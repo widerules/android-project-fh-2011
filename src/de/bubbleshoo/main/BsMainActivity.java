@@ -19,6 +19,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -62,6 +63,8 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	    //Schwellwerte
 	    private static float sensorSchwellwert=(float) 0.1;
 	    
+	    private Vibrator v;
+	    private static BsMainActivity bsMainActivity;
 	    
 	    /*
 	     * Android Attribute
@@ -84,6 +87,9 @@ public class BsMainActivity extends Activity implements SensorEventListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         anwendungsContex=this.getApplicationContext();
+        bsMainActivity=this;
+        BsMainActivity.getAnwendungsContex();
+		v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         
         //LanDscape
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  
@@ -385,4 +391,23 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 			
 		    alteYWerte[0]=y;
 		}
+
+		public Vibrator getV() {
+			return v;
+		}
+
+		public void setV(Vibrator v) {
+			this.v = v;
+		}
+
+		public static BsMainActivity getBsMainActivity() {
+			return bsMainActivity;
+		}
+
+		public static void setBsMainActivity(BsMainActivity bsMainActivity) {
+			BsMainActivity.bsMainActivity = bsMainActivity;
+		}
+		
+		
+		
 }
