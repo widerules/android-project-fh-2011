@@ -2,9 +2,12 @@ package de.bubbleshoo.logic.kugel;
 
 import java.util.List;
 
+import android.content.Context;
+import android.os.Vibrator;
 import android.util.Log;
 import de.bubbleshoo.data.BaseObject3D;
 import de.bubbleshoo.graphics.BsRenderer;
+import de.bubbleshoo.main.BsMainActivity;
 import de.bubbleshoo.mapElemente.MapElement;
 import de.bubbleshoo.mapElemente.Mauer;
 import de.bubbleshoo.settings.GeneralSettings;
@@ -286,6 +289,9 @@ public class LogikExplosionsKugel {
 		System.out.println("Wand Expliedert.");
 		mapelement.setM_3dobject(new BaseObject3D());
 		
+		 
+		// Vibrate for 300 milliseconds
+		BsMainActivity.getBsMainActivity().getV().vibrate(300);
 		
 	}
 
