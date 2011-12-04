@@ -99,9 +99,6 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     private final int TETRAHEDRON = 1;
     private final int CUBE = 2;
 
-    
-    // Arraylist Syncen
-    public static boolean listeistrdy;
     // current object
     private int _currentObject;
 
@@ -245,8 +242,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             float newPosY = (float)(30.0f * Math.sin(angle));
             lightPos[0] = newPosX;
             lightPos[1] = newPosY;
-            
-            listeistrdy=false;      
+                        
             // Draw Meshs
             for (MapElement bsEmt : m_logic.getM_lstMapEmt()) {
             	
@@ -258,16 +254,13 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 //            	}
 //            	else
 //            	{
-            	synchronized(  m_logic.getM_lstMapEmt() ) {
-            		bsEmt.getM_3dobject().render(mCamera, mProjMatrix, mVMatrix);
-            	}
-            	
+            	bsEmt.getM_3dobject().render(mCamera, mProjMatrix, mVMatrix);
 //            	bsEmt.drawObject(_shaders[this._currentShader].get_program(), mMVPMatrix, mVMatrix, mProjMatrix,
 //            			lightPos, lightColor, matAmbient, matDiffuse, matSpecular, matShininess);
     		
 //            	}
             } 
-            listeistrdy=true;
+            
             for (Unit bsUnit : m_logic.getM_lstUnit()) {
             	
             	bsUnit.getM_3dobject().render(mCamera, mProjMatrix, mVMatrix);
