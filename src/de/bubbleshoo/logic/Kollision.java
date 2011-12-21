@@ -31,7 +31,8 @@ public class Kollision {
 				float x= unit.getM_3dobject().getPosition()[0];
 				float y= unit.getM_3dobject().getPosition()[1];
 				float durchmesserKugel		 = (float) 1.0;
-				float durchmesserWuerfel  	 = (float) 1.0;
+//				float durchmesserWuerfel  	 = (float) Math.sqrt(2.0f); //Wurzel 2... dank Torben
+				float durchmesserWuerfel  	 = 1; //Wurzel 2... dank Torben Noch nen fehler irgendwo..
 				float a=mapelement.getM_3dobject().getPosition()[0]+durchmesserWuerfel;
 				float b=mapelement.getM_3dobject().getPosition()[0]-durchmesserWuerfel;
 				float c=mapelement.getM_3dobject().getPosition()[1]+durchmesserWuerfel;
@@ -51,7 +52,7 @@ public class Kollision {
 					if(((x-durchmesserKugel)>=b))//Vor 
 						if((x-durchmesserKugel)<=a) //und RückSeite
 						{
-							if(y<=c&&y>=d) //Y richtung beachten
+							if(y<=c	&&y>=d) //Y richtung beachten
 							{
 								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach Rechts : "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
 								unit.getM_3dobject().move(0, unit.getSpeed()[1]/10);
@@ -76,6 +77,7 @@ public class Kollision {
 							}
 						}
 				}
+	
 				
 				if(unit.getSpeed()[1]<0) //Bewegung nach von oben nach unten
 				{
@@ -122,6 +124,7 @@ public class Kollision {
 				
 //			}
 		}
+
 		if(wasgefunden)
 			return true;
 		else

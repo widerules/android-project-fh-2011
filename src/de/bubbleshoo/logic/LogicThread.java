@@ -63,7 +63,7 @@ public class LogicThread extends Thread {
 			e.printStackTrace();
 		}
 		LogikMapLaden.loadmap() ;
-		
+		LogicThread.m_lstUnit.add(LogicThread.m_map.getKugeln().poll());
 	}
 
 	/*
@@ -84,7 +84,7 @@ public class LogicThread extends Thread {
 				allekugelnbewegen();
 				
 				
-//				checkKugelposition();
+				checkKugelposition();
 				
 				
 				try {
@@ -124,10 +124,10 @@ public class LogicThread extends Thread {
 	private void checkKugelposition() {
 		for(Unit unit: m_lstUnit ){
 //			System.out.println("Unit1"+unit.getClass());
-			if(unit instanceof NormaleKugel)
-			{
+			//Alle KugelN
 				for(MapElement mapelement: m_lstMapEmt )
 				{
+						if(unit!=null)
 							if((unit.getM_3dobject().getX()>=(mapelement.getM_3dobject().getX()-1.0f))
 							 &&(unit.getM_3dobject().getX()<=(mapelement.getM_3dobject().getX()+1.0f)))
 							{
@@ -137,11 +137,29 @@ public class LogicThread extends Thread {
 									if(((unit.getM_3dobject().getY())<=(mapelement.getM_3dobject().getY()+1.0f)))
 									{
 										Log.d(GeneralSettings.LoggerKategorie,"Kugelbefindet sich im feld: "+mapelement.getClass()+" Pos:"+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY());
+										if(mapelement instanceof Ziel)
+										{
+											System.out.println(LogicThread.m_lstUnit.get(0));
+											LogicThread.m_lstUnit.remove(0);
+//											System.out.println(LogicThread.m_lstUnit.get(0));
+											Unit kugelvomstart = LogicThread.m_map.getKugeln().poll();
+											
+											if(kugelvomstart!=null)
+													LogicThread.m_lstUnit.add(kugelvomstart);
+											
+										}
 									}
 								}
 							}
 				}
-			}			
+				
+				//Was kann die Normale Kugel:
+				if(unit instanceof NormaleKugel)
+				{
+					
+			}
+			
+			
 		}
 	}
 
@@ -213,6 +231,10 @@ public class LogicThread extends Thread {
 	 * Getter / Setter
 	 */
 
+	/**
+	 * Mit dierser Getter kann man die Units erhalten.
+	 * @return returned die unit
+	 */
 	public List<Unit> getM_lstUnit() {
 		return m_lstUnit;
 	}
