@@ -1,6 +1,9 @@
 package de.bubbleshoo.logic;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import org.xml.sax.Parser;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -149,34 +152,60 @@ public class LogikMapLaden {
 										LogicThread.mContext.getResources(),
 										LogicThread.mTextureManager, R.raw.sphere);
 								parser.parse();
-								BaseObject3D emt = parser.getParsedObject()
-										.getChildByName("Sphere");
-
-								Bitmap texture = BitmapFactory.decodeResource(
-										LogicThread.mContext.getResources(), nTextureID);
-								emt.addTexture(LogicThread.mTextureManager.addTexture(
-										texture, nTextureID));
-								emt.setRotation(0, 0, 0);
-								emt.setScale(1.0f);
-								// emt.setPosition(-col_X.getFeldposX() +
-								// (row_Y.size() / 2.0f), -col_X.getFeldposY() +
-								// (this.m_map.getFelderY().size() / 2.0f),
-								// 0.0f);
-								emt.setPosition(
-										2.0f * -col_X.getFeldposX()
-												+ (row_Y.size()),
-										2.0f
-												* -col_X.getFeldposY()
-												+ (LogicThread.m_map.getFelderY()
-														.size()), -0.75f);
+//								BaseObject3D emt = parser.getParsedObject()
+//										.getChildByName("Sphere");
+//
+//								Bitmap texture = BitmapFactory.decodeResource(
+//										LogicThread.mContext.getResources(), nTextureID);
+//								emt.addTexture(LogicThread.mTextureManager.addTexture(
+//										texture, nTextureID));
+//								emt.setRotation(0, 0, 0);
+//								emt.setScale(1.0f);
+//								// emt.setPosition(-col_X.getFeldposX() +
+//								// (row_Y.size() / 2.0f), -col_X.getFeldposY() +
+//								// (this.m_map.getFelderY().size() / 2.0f),
+//								// 0.0f);
+//								emt.setPosition(
+//										2.0f * -col_X.getFeldposX()
+//												+ (row_Y.size()),
+//										2.0f
+//												* -col_X.getFeldposY()
+//												+ (LogicThread.m_map.getFelderY()
+//														.size()), -0.75f);
 //								LogicThread.m_lstUnit.add(new NormaleKugel(emt));
-								LogicThread.m_lstUnit.add(new ExplosionsKugel(emt));
+								addKugelnToMap(parser,nTextureID,col_X,row_Y);
+								
+//								LogicThread.m_lstUnit.add(new ExplosionsKugel(emt));
 							} else if (col_X.getMapElement() instanceof Wasser) {
 								nTextureID = R.drawable.grass_tile;
 							} else if (col_X.getMapElement() instanceof Weg) {
 								nTextureID = R.drawable.sand_tile;
 							} else if (col_X.getMapElement() instanceof Ziel) {
 								nTextureID = R.drawable.grass_tile;
+								
+								ObjParser parser = new ObjParser(
+										LogicThread.mContext.getResources(),
+										LogicThread.mTextureManager, R.raw.plane);
+										parser.parse();
+										BaseObject3D emt = parser.getParsedObject()
+										.getChildByName("Plane");
+
+										Bitmap texture = BitmapFactory.decodeResource(LogicThread.mContext.getResources(), nTextureID);
+										emt.addTexture(LogicThread.mTextureManager.addTexture(texture, nTextureID));
+									    emt.setRotation(0, 0, 0);
+										emt.setScale(1.0f);
+										        
+										// emt.setPosition(-col_X.getFeldposX() +
+										// (row_Y.size() / 2.0f), -col_X.getFeldposY() +
+										// (this.m_map.getFelderY().size() / 2.0f),
+										// 0.0f);
+										emt.setPosition(
+										2.0f * -col_X.getFeldposX()
+										+ (row_Y.size()),
+										2.0f* -col_X.getFeldposY()
+										+ (LogicThread.m_map.getFelderY().size()), -0.75f);
+								
+								LogicThread.m_lstMapEmt.add(new Ziel(emt));
 							} else {
 								/**
 								 * Default
@@ -218,6 +247,45 @@ public class LogikMapLaden {
 			Log.d(GeneralSettings.LoggerKategorie,"Map Element:"+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+" "+mapelement.getClass());
 		}
 		System.out.println("#######################");
+	}
+	
+	public static void addKugelnToMap(ObjParser parser, int nTextureID, Feld col_X, ArrayList<Feld> row_Y)
+	{
+		Random zufallszahl= new Random();
+		
+		for (int i=0; i<1;i++)
+		{
+			BaseObject3D emt = parser.getParsedObject()
+					.getChildByName("Sphere");
+	
+			Bitmap texture = BitmapFactory.decodeResource(
+					LogicThread.mContext.getResources(), nTextureID);
+			emt.addTexture(LogicThread.mTextureManager.addTexture(
+					texture, nTextureID));
+			emt.setRotation(0, 0, 0);
+			emt.setScale(1.0f);
+			// emt.setPosition(-col_X.getFeldposX() +
+			// (row_Y.size() / 2.0f), -col_X.getFeldposY() +
+			// (this.m_map.getFelderY().size() / 2.0f),
+			// 0.0f);
+			emt.setPosition(
+					2.0f * -col_X.getFeldposX()
+							+ (row_Y.size()),
+					2.0f
+							* -col_X.getFeldposY()
+							+ (LogicThread.m_map.getFelderY()
+									.size()), -0.75f);
+			int zahl =zufallszahl.nextInt(3);
+			if(zahl==3)
+				LogicThread.m_map.getKugeln().add(new ExplosionsKugel(emt));
+			else if(zahl==2)
+				LogicThread.m_map.getKugeln().add(new ExplosionsKugel(emt));
+			else if(zahl==1)
+				LogicThread.m_map.getKugeln().add(new NormaleKugel(emt));
+			else 
+				LogicThread.m_map.getKugeln().add(new NormaleKugel(emt));
+				
+		}
 	}
 
 }
