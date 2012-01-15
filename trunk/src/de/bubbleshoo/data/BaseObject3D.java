@@ -33,6 +33,7 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	protected float[] mMVPMatrix = new float[16];
 	protected float[] mMMatrix = new float[16];
 	protected float[] mProjMatrix;
+	float[] tmpMatrix = new float[16];
 
 	protected float[] mScalematrix = new float[16];
 	protected float[] mTranslateMatrix = new float[16];
@@ -78,7 +79,8 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 		this.setMaterial(objSrc.getMaterial(), true);
 		this.setLight(objSrc.getLight());
 		this.setName(objSrc.getName());
-
+		
+		doTransformations(null);
 	}
 
 	public BaseObject3D(SerializedObject3D ser) {
@@ -141,26 +143,10 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 			setShaderParams();
 		}
 
-		doTransformations();
-
-		Matrix.setIdentityM(mMMatrix, 0);
-		Matrix.setIdentityM(mScalematrix, 0);
-		Matrix.scaleM(mScalematrix, 0, scaleX, scaleY, scaleZ);
-
-		Matrix.setIdentityM(mRotateMatrix, 0);
-
-		Matrix.rotateM(mRotateMatrix, 0, (float) rotX, 1.0f, 0.0f, 0.0f);
-		Matrix.rotateM(mRotateMatrix, 0, (float) rotY, 0.0f, 1.0f, 0.0f);
-		Matrix.rotateM(mRotateMatrix, 0, (float) rotZ, 0.0f, 0.0f, 1.0f);
-
-		Matrix.translateM(mMMatrix, 0, x, y, z);
-		float[] tmpMatrix = new float[16];
-		Matrix.multiplyMM(tmpMatrix, 0, mMMatrix, 0, mScalematrix, 0);
-		Matrix.multiplyMM(mMMatrix, 0, tmpMatrix, 0, mRotateMatrix, 0);
-		if (parentMatrix != null) {
-			Matrix.multiplyMM(tmpMatrix, 0, parentMatrix, 0, mMMatrix, 0);
-			mMMatrix = tmpMatrix;
-		}
+		// Standard-Transformations
+		mMMatrix = tmpMatrix;
+		doTransformations(parentMatrix);
+		
 		Matrix.multiplyMM(mMVPMatrix, 0, vMatrix, 0, mMMatrix, 0);
 		Matrix.multiplyMM(mMVPMatrix, 0, projMatrix, 0, mMVPMatrix, 0);
 
@@ -177,7 +163,7 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 			GLES20.glDisable(GLES20.GL_BLEND);
 			GLES20.glDisable(GLES20.GL_DEPTH_TEST);
 		}
-
+		
 		int i;
 		for (i = 0; i < mNumChildren; ++i) {
 			mChildren.get(i).render(camera, projMatrix, vMatrix, mMMatrix);
@@ -188,7 +174,26 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 		mMaterial.setLight(mLight);
 	};
 
-	protected void doTransformations() {
+	protected void doTransformations(final float[] parentMatrix) {
+		Matrix.setIdentityM(mMMatrix, 0);
+		Matrix.setIdentityM(mScalematrix, 0);
+		Matrix.scaleM(mScalematrix, 0, scaleX, scaleY, scaleZ);
+
+		Matrix.setIdentityM(mRotateMatrix, 0);
+
+		Matrix.rotateM(mRotateMatrix, 0, (float) rotX, 1.0f, 0.0f, 0.0f);
+		Matrix.rotateM(mRotateMatrix, 0, (float) rotY, 0.0f, 1.0f, 0.0f);
+		Matrix.rotateM(mRotateMatrix, 0, (float) rotZ, 0.0f, 0.0f, 1.0f);
+
+		Matrix.translateM(mMMatrix, 0, x, y, z);
+		
+		Matrix.multiplyMM(tmpMatrix, 0, mMMatrix, 0, mScalematrix, 0);
+		Matrix.multiplyMM(mMMatrix, 0, tmpMatrix, 0, mRotateMatrix, 0);
+		
+		if (parentMatrix != null) {
+			Matrix.multiplyMM(tmpMatrix, 0, parentMatrix, 0, mMMatrix, 0);
+			mMMatrix = tmpMatrix;
+		}
 	}
 
 	public void addTexture(TextureInfo textureInfo) {

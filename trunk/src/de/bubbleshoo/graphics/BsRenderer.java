@@ -41,6 +41,7 @@ import de.bubbleshoo.mapElemente.Wasser;
 import de.bubbleshoo.mapElemente.Weg;
 import de.bubbleshoo.mapElemente.Ziel;
 import de.bubbleshoo.sensors.BsDataholder;
+import de.bubbleshoo.units.Kugel;
 import de.bubbleshoo.units.NormaleKugel;
 import de.bubbleshoo.units.Unit;
 
@@ -157,6 +158,10 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     private Context mContext;
     private static String TAG = "Renderer";
     protected Map m_map;
+    
+    // fps
+    long start = System.nanoTime();
+    int frames = 0;	
 
     //Logic 
     private LogicThread m_logic;
@@ -230,6 +235,11 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     		
     		mCamera.setX(-fAngle_X);
     		mCamera.setY(-fAngle_Y);
+    		for (Kugel emt : m_logic.getM_map().getKugeln()) {
+    			Log.d("Kugel", "Kugel X: " + String.valueOf(emt.getM_3dobject().getX()) + "; Y: " + String.valueOf(emt.getM_3dobject().getY()));
+			}
+    		// TODO Kameraposition an Kugel anpassen
+    		//mCamera.setLookAt(lookAtX, lookAtY, lookAtZ);
     		mVMatrix = mCamera.getViewMatrix();
     		
             // MODELVIEW MATRIX
@@ -269,6 +279,15 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             
             GLES20.glUseProgram(0);
             /** END DRAWING OBJECT ***/
+            
+            // FPS auswerten
+            frames++;
+            if( System.nanoTime() - start > 1000000000 )
+            {
+               Log.d( "fps", "fps: " + frames );
+               frames = 0;
+               start = System.nanoTime();
+            }
     }
 
     /*
