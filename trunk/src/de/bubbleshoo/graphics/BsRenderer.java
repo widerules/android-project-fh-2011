@@ -146,7 +146,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     private float fAngle_X;
     private float fAngle_Y;
     
-    private float MAXANGLEVIEW	= 5.0f;
+    private float MAXANGLEVIEW	= 1.0f;
     private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
 
     /**
@@ -233,13 +233,18 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     				fAngle_Y = MAXANGLEVIEW;
     		}
     		
-    		mCamera.setX(-fAngle_X);
-    		mCamera.setY(-fAngle_Y);
-    		for (Kugel emt : m_logic.getM_map().getKugeln()) {
-    			Log.d("Kugel", "Kugel X: " + String.valueOf(emt.getM_3dobject().getX()) + "; Y: " + String.valueOf(emt.getM_3dobject().getY()));
+//    		mCamera.setX(-fAngle_X);
+//    		mCamera.setY(-fAngle_Y);
+    		for (Unit emt : m_logic.getM_lstUnit()) {
+    			if (emt instanceof Kugel) {
+					// Wenn Kugel gefunden, dann Koordinaten auslesen
+    				Log.d("Kugel", "Kugel X: " + String.valueOf(emt.getM_3dobject().getX()) + "; Y: " + String.valueOf(emt.getM_3dobject().getY()));
+    				// TODO Kameraposition an Kugel anpassen
+    	    		mCamera.setLookAt(emt.getM_3dobject().getX(), emt.getM_3dobject().getY(), 0.0f);
+    	    		mCamera.setPosition(emt.getM_3dobject().getX() - fAngle_X, emt.getM_3dobject().getY() - fAngle_Y, -10.0f);
+				}
 			}
-    		// TODO Kameraposition an Kugel anpassen
-    		//mCamera.setLookAt(lookAtX, lookAtY, lookAtZ);
+    		
     		mVMatrix = mCamera.getViewMatrix();
     		
             // MODELVIEW MATRIX
