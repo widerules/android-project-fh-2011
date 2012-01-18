@@ -58,6 +58,8 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	protected int mDrawingMode = GLES20.GL_TRIANGLES;
 
 	protected boolean mIsContainerOnly = true;
+	
+	protected boolean mMatricesChanged = true;
 
 	public BaseObject3D() {
 		mChildren = new ArrayList<BaseObject3D>();
@@ -144,8 +146,8 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 		}
 
 		// Standard-Transformations
-		mMMatrix = tmpMatrix;
-		doTransformations(parentMatrix);
+		if (mMatricesChanged)
+			doTransformations(parentMatrix);
 		
 		Matrix.multiplyMM(mMVPMatrix, 0, vMatrix, 0, mMMatrix, 0);
 		Matrix.multiplyMM(mMVPMatrix, 0, projMatrix, 0, mMVPMatrix, 0);
@@ -194,6 +196,8 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 			Matrix.multiplyMM(tmpMatrix, 0, parentMatrix, 0, mMMatrix, 0);
 			mMMatrix = tmpMatrix;
 		}
+		
+		mMatricesChanged = false;
 	}
 
 	public void addTexture(TextureInfo textureInfo) {
@@ -270,7 +274,7 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
      */
     public void move(float WieVielUmX,  float WieVielUmY)
     {
- 
+		mMatricesChanged = true;
     	this.x+=WieVielUmX;
     	this.y+=WieVielUmY;
     }
@@ -353,6 +357,7 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	}
 
 	public void setX(float x) {
+		mMatricesChanged = true;
 		this.x = x;
 	}
 
@@ -361,6 +366,7 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	}
 
 	public void setY(float y) {
+		mMatricesChanged = true;
 		this.y = y;
 	}
 
@@ -369,6 +375,7 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	}
 
 	public void setZ(float z) {
+		mMatricesChanged = true;
 		this.z = z;
 	}
 
@@ -377,12 +384,14 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	}
 
 	public void setRotation(float rotX, float rotY, float rotZ) {
+		mMatricesChanged = true;
 		this.rotX = rotX;
 		this.rotY = rotY;
 		this.rotZ = rotZ;
 	}
 
 	public void setRotX(float rotX) {
+		mMatricesChanged = true;
 		this.rotX = rotX;
 	}
 
@@ -391,6 +400,7 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	}
 
 	public void setRotY(float rotY) {
+		mMatricesChanged = true;
 		this.rotY = rotY;
 	}
 
@@ -399,6 +409,7 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	}
 
 	public void setRotZ(float rotZ) {
+		mMatricesChanged = true;
 		this.rotZ = rotZ;
 	}
 
@@ -407,18 +418,21 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	}
 
 	public void setScale(float scale) {
+		mMatricesChanged = true;
 		this.scaleX = scale;
 		this.scaleY = scale;
 		this.scaleZ = scale;
 	}
 
 	public void setScale(float scaleX, float scaleY, float scaleZ) {
+		mMatricesChanged = true;
 		this.scaleX = scaleX;
 		this.scaleY = scaleY;
 		this.scaleZ = scaleZ;
 	}
 
 	public void setScaleX(float scaleX) {
+		mMatricesChanged = true;
 		this.scaleX = scaleX;
 	}
 
@@ -427,6 +441,7 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	}
 
 	public void setScaleY(float scaleY) {
+		mMatricesChanged = true;
 		this.scaleY = scaleY;
 	}
 
@@ -435,6 +450,7 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	}
 
 	public void setScaleZ(float scaleZ) {
+		mMatricesChanged = true;
 		this.scaleZ = scaleZ;
 	}
 
