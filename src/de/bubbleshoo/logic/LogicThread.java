@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import de.bubbleshoo.data.BaseObject3D;
+import de.bubbleshoo.data.BsParser;
 import de.bubbleshoo.data.ObjParser;
 import de.bubbleshoo.graphics.TextureManager;
 import de.bubbleshoo.logic.kugel.LogikExplosionsKugel;
@@ -40,7 +41,10 @@ import de.bubbleshoo.units.NormaleKugel;
 import de.bubbleshoo.units.Unit;
 
 public class LogicThread extends Thread {
-
+	/**
+	 * Holderklasse für die Objekte
+	 */
+	protected BsParser		m_parser;
 	
 	public static Context mContext;
 	public static List<Unit> m_lstUnit;
@@ -54,11 +58,10 @@ public class LogicThread extends Thread {
 	private static double decreaseWasser=-2.0f;
 	
 	public LogicThread(Context context, TextureManager textureManager) {
-		m_lstMapEmt = Collections.synchronizedList(new ArrayList<MapElement>());
-		m_lstUnit = Collections.synchronizedList(new ArrayList<Unit>());
-		this.mContext=context;
-		this.mTextureManager=textureManager;
-		
+		m_lstMapEmt 			= Collections.synchronizedList(new ArrayList<MapElement>());
+		m_lstUnit 				= Collections.synchronizedList(new ArrayList<Unit>());
+		this.mContext 			= context;
+		this.mTextureManager 	= textureManager;
 		
 		// Map laden
 		try {
@@ -67,7 +70,11 @@ public class LogicThread extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		LogikMapLaden.loadmap() ;
+		
+		// Objectparser laden
+		m_parser				= new BsParser(this.mContext, this.mTextureManager);
+				
+		LogikMapLaden.loadmap(m_parser) ;
 		LogicThread.m_lstUnit.add(LogicThread.m_map.getKugeln().poll());
 	}
 

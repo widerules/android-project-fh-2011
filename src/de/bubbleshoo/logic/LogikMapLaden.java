@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import de.bubbleshoo.data.BaseObject3D;
+import de.bubbleshoo.data.BsParser;
 import de.bubbleshoo.data.ObjParser;
 import de.bubbleshoo.main.R;
 import de.bubbleshoo.map.Feld;
@@ -31,14 +32,16 @@ import de.bubbleshoo.units.ExplosionsKugel;
 import de.bubbleshoo.units.NormaleKugel;
 
 public class LogikMapLaden {
+	
 	/** Läd die schon geladene Map (Aus der Bitdatei) in die Logic und erzeugt die Objekte.
 	 * 
 	 */
-	public static void loadmap() {
+	public static void loadmap(BsParser	m_parser) {
 
 		int nY = 0;
 		int nX = 0;
-
+		BaseObject3D emt = null;
+		
 		for (ArrayList<Feld> row_Y : LogicThread.m_map.getFelderY()) 
 		{
 			if (row_Y != null) {
@@ -58,12 +61,13 @@ public class LogikMapLaden {
 							} else if (col_X.getMapElement() instanceof Busch) {
 								nTextureID = R.drawable.bush_tile;
 								
-								ObjParser parser = new ObjParser(
-										LogicThread.mContext.getResources(),
-										LogicThread.mTextureManager, R.raw.plane);
-								parser.parse();
-								BaseObject3D emt = parser.getParsedObject()
-										.getChildByName("Plane");
+//								ObjParser parser = new ObjParser(
+//										LogicThread.mContext.getResources(),
+//										LogicThread.mTextureManager, R.raw.plane);
+//								parser.parse();
+//								BaseObject3D emt = parser.getParsedObject()
+//										.getChildByName("Plane");
+								emt = m_parser.getObjectByName("Plane");
 
 								Bitmap texture = BitmapFactory.decodeResource(
 										LogicThread.mContext.getResources(), nTextureID);
@@ -91,12 +95,14 @@ public class LogikMapLaden {
 								nTextureID = R.drawable.grass_tile;
 							} else if (col_X.getMapElement() instanceof Mauer) {
 								nTextureID = R.drawable.brick_tile;
-								ObjParser parser = new ObjParser(
-										LogicThread.mContext.getResources(),
-										LogicThread.mTextureManager, R.raw.plane);
-								parser.parse();
-								BaseObject3D emt = parser.getParsedObject()
-										.getChildByName("Plane");
+								
+//								ObjParser parser = new ObjParser(
+//										LogicThread.mContext.getResources(),
+//										LogicThread.mTextureManager, R.raw.plane);
+//								parser.parse();
+//								BaseObject3D emt = parser.getParsedObject()
+//										.getChildByName("Plane");
+								emt = m_parser.getObjectByName("Plane");
 
 								Bitmap texture = BitmapFactory.decodeResource(
 										LogicThread.mContext.getResources(), nTextureID);
@@ -120,12 +126,14 @@ public class LogikMapLaden {
 								nTextureID = R.raw.diffuse;
 							} else if (col_X.getMapElement() instanceof Rand) {
 								nTextureID = R.drawable.grass_tile;
-								ObjParser parser = new ObjParser(
-								LogicThread.mContext.getResources(),
-								LogicThread.mTextureManager, R.raw.plane);
-								parser.parse();
-								BaseObject3D emt = parser.getParsedObject()
-								.getChildByName("Plane");
+								
+//								ObjParser parser = new ObjParser(
+//								LogicThread.mContext.getResources(),
+//								LogicThread.mTextureManager, R.raw.plane);
+//								parser.parse();
+//								BaseObject3D emt = parser.getParsedObject()
+//								.getChildByName("Plane");
+								emt = m_parser.getObjectByName("Plane");
 
 								Bitmap texture = BitmapFactory.decodeResource(LogicThread.mContext.getResources(), nTextureID);
 								emt.addTexture(LogicThread.mTextureManager.addTexture(texture, nTextureID));
@@ -148,10 +156,14 @@ public class LogikMapLaden {
 								nTextureID = R.drawable.grass_tile;
 							} else if (col_X.getMapElement() instanceof Start) {
 								nTextureID = R.drawable.heightmap1;
-								ObjParser parser = new ObjParser(
-										LogicThread.mContext.getResources(),
-										LogicThread.mTextureManager, R.raw.sphere);
-								parser.parse();
+								
+//								ObjParser parser = new ObjParser(
+//										LogicThread.mContext.getResources(),
+//										LogicThread.mTextureManager, R.raw.sphere);
+//								parser.parse();
+								//BaseObject3D emt = m_parser.getObjectByName("Sphere");
+								
+								
 //								BaseObject3D emt = parser.getParsedObject()
 //										.getChildByName("Sphere");
 //
@@ -173,7 +185,7 @@ public class LogikMapLaden {
 //												+ (LogicThread.m_map.getFelderY()
 //														.size()), -0.75f);
 //								LogicThread.m_lstUnit.add(new NormaleKugel(emt));
-								addKugelnToMap(parser,nTextureID,col_X,row_Y);
+								addKugelnToMap(m_parser, nTextureID, col_X,row_Y);
 								
 //								LogicThread.m_lstUnit.add(new ExplosionsKugel(emt));
 							} else if (col_X.getMapElement() instanceof Wasser) {
@@ -183,27 +195,28 @@ public class LogikMapLaden {
 							} else if (col_X.getMapElement() instanceof Ziel) {
 								nTextureID = R.drawable.grass_tile;
 								
-								ObjParser parser = new ObjParser(
-										LogicThread.mContext.getResources(),
-										LogicThread.mTextureManager, R.raw.plane);
-										parser.parse();
-										BaseObject3D emt = parser.getParsedObject()
-										.getChildByName("Plane");
+//								ObjParser parser = new ObjParser(
+//										LogicThread.mContext.getResources(),
+//										LogicThread.mTextureManager, R.raw.plane);
+//										parser.parse();
+//										BaseObject3D emt = parser.getParsedObject()
+//										.getChildByName("Plane");
+								emt = m_parser.getObjectByName("Plane");
 
-										Bitmap texture = BitmapFactory.decodeResource(LogicThread.mContext.getResources(), nTextureID);
-										emt.addTexture(LogicThread.mTextureManager.addTexture(texture, nTextureID));
-									    emt.setRotation(0, 0, 0);
-										emt.setScale(1.0f);
-										        
-										// emt.setPosition(-col_X.getFeldposX() +
-										// (row_Y.size() / 2.0f), -col_X.getFeldposY() +
-										// (this.m_map.getFelderY().size() / 2.0f),
-										// 0.0f);
-										emt.setPosition(
-										2.0f * -col_X.getFeldposX()
-										+ (row_Y.size()),
-										2.0f* -col_X.getFeldposY()
-										+ (LogicThread.m_map.getFelderY().size()), -0.75f);
+								Bitmap texture = BitmapFactory.decodeResource(LogicThread.mContext.getResources(), nTextureID);
+								emt.addTexture(LogicThread.mTextureManager.addTexture(texture, nTextureID));
+							    emt.setRotation(0, 0, 0);
+								emt.setScale(1.0f);
+								        
+								// emt.setPosition(-col_X.getFeldposX() +
+								// (row_Y.size() / 2.0f), -col_X.getFeldposY() +
+								// (this.m_map.getFelderY().size() / 2.0f),
+								// 0.0f);
+								emt.setPosition(
+								2.0f * -col_X.getFeldposX()
+								+ (row_Y.size()),
+								2.0f* -col_X.getFeldposY()
+								+ (LogicThread.m_map.getFelderY().size()), -0.75f);
 								
 								LogicThread.m_lstMapEmt.add(new Ziel(emt));
 							} else {
@@ -212,12 +225,13 @@ public class LogikMapLaden {
 								 */
 								nTextureID = R.drawable.grass_tile;
 							}
-							ObjParser parser = new ObjParser(
-									LogicThread.mContext.getResources(), LogicThread.mTextureManager,
-									R.raw.plane);
-							parser.parse();
-							BaseObject3D emt = parser.getParsedObject()
-									.getChildByName("Plane");
+//							ObjParser parser = new ObjParser(
+//									LogicThread.mContext.getResources(), LogicThread.mTextureManager,
+//									R.raw.plane);
+//							parser.parse();
+//							BaseObject3D emt = parser.getParsedObject()
+//									.getChildByName("Plane");					
+							emt = m_parser.getObjectByName("Plane");
 
 							Bitmap texture = BitmapFactory.decodeResource(
 									LogicThread.mContext.getResources(), nTextureID);
@@ -249,14 +263,15 @@ public class LogikMapLaden {
 		System.out.println("#######################");
 	}
 	
-	public static void addKugelnToMap(ObjParser parser, int nTextureID, Feld col_X, ArrayList<Feld> row_Y)
+	public static void addKugelnToMap(BsParser parser, int nTextureID, Feld col_X, ArrayList<Feld> row_Y)
 	{
 		Random zufallszahl= new Random();
 		
 		for (int i=0; i<1;i++)
 		{
-			BaseObject3D emt = parser.getParsedObject()
-					.getChildByName("Sphere");
+//			BaseObject3D emt = parser.getParsedObject()
+//					.getChildByName("Sphere");
+			BaseObject3D emt = parser.getObjectByName("Sphere");
 	
 			Bitmap texture = BitmapFactory.decodeResource(
 					LogicThread.mContext.getResources(), nTextureID);
