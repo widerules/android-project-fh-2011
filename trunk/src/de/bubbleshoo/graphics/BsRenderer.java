@@ -378,7 +378,6 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     		for (Unit emt : m_logic.getM_lstUnit()) {
     			if (emt instanceof Kugel) {
 					// Wenn Kugel gefunden, dann Koordinaten auslesen
-    				Log.d("Kugel", "Kugel X: " + String.valueOf(emt.getM_3dobject().getX()) + "; Y: " + String.valueOf(emt.getM_3dobject().getY()));
     				// TODO Kameraposition an Kugel anpassen
     	    		mCamera.setLookAt(emt.getM_3dobject().getX(), emt.getM_3dobject().getY(), 0.0f);
     	    		mCamera.setPosition(emt.getM_3dobject().getX() - fAngle_X, emt.getM_3dobject().getY() - fAngle_Y, -10.0f);
