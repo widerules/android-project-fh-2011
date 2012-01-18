@@ -23,18 +23,19 @@ public class BsMainMenu extends Activity {
         Timer t = new Timer();
         TimerTask runTask;
         handler = new Handler();
+        
         runTask = new TimerTask() {
             public void run() {
                     handler.post(new Runnable() {
                             public void run() {
-                            	setContentView(R.layout.home);
+                            	setContentView(R.layout.loadingscreen);
                             	init();
                             }
                    });
             }};
 
 
-        t.schedule(runTask, 3000);
+        t.schedule(runTask, 4000);
         
         
     }
