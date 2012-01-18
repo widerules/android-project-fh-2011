@@ -16,30 +16,106 @@ import android.util.Log;
  *
  */
 public class BsShader {
-    /************************
-     * PROPERTIES
-     **********************/
+    /**
+	 * PROPERTIES
+	 * @uml.property  name="_program"
+	 */
     
     // program/vertex/fragment handles
-    private int _program, _vertexShader, _pixelShader;
+    private int _program;
+
+	/**
+	 * PROPERTIES
+	 * @uml.property  name="_vertexShader"
+	 */
+	private int _vertexShader;
+
+	/**
+	 * PROPERTIES
+	 * @uml.property  name="_pixelShader"
+	 */
+	private int _pixelShader;
     
     // other handles - position/texture/mvpmatrix/normal
-    public int muMVPMatrixHandle, normalMatrixHandle;
+    /**
+	 * @uml.property  name="muMVPMatrixHandle"
+	 */
+    public int muMVPMatrixHandle;
+
+	/**
+	 * @uml.property  name="normalMatrixHandle"
+	 */
+	public int normalMatrixHandle;
+    /**
+	 * @uml.property  name="maPositionHandle"
+	 */
     public int maPositionHandle;
+    /**
+	 * @uml.property  name="maNormalHandle"
+	 */
     public int maNormalHandle;
+    /**
+	 * @uml.property  name="hasTextureHandle"
+	 */
     public int hasTextureHandle;   
+    /**
+	 * @uml.property  name="maTextureHandle"
+	 */
     public int maTextureHandle;
+    /**
+	 * @uml.property  name="eyeHandle"
+	 */
     public int eyeHandle;
     // light
-    public int lightPosHandle, lightColorHandle;
+    /**
+	 * @uml.property  name="lightPosHandle"
+	 */
+    public int lightPosHandle;
+
+	/**
+	 * @uml.property  name="lightColorHandle"
+	 */
+	public int lightColorHandle;
     // material
-    public int matAmbientHandle, matDiffuseHandle, matSpecularHandle, matShininessHandle;
+    /**
+	 * @uml.property  name="matAmbientHandle"
+	 */
+    public int matAmbientHandle;
+
+	/**
+	 * @uml.property  name="matDiffuseHandle"
+	 */
+	public int matDiffuseHandle;
+
+	/**
+	 * @uml.property  name="matSpecularHandle"
+	 */
+	public int matSpecularHandle;
+
+	/**
+	 * @uml.property  name="matShininessHandle"
+	 */
+	public int matShininessHandle;
 
     // The shaders
-    private String _vertexS, _fragmentS;
+    /**
+	 * @uml.property  name="_vertexS"
+	 */
+    private String _vertexS;
+
+	/**
+	 * @uml.property  name="_fragmentS"
+	 */
+	private String _fragmentS;
     
     // does it have textures?
+    /**
+	 * @uml.property  name="hasTextures"
+	 */
     private boolean hasTextures;
+    /**
+	 * @uml.property  name="numTextures"
+	 */
     private int numTextures;
     
 /************************
@@ -318,45 +394,82 @@ public class BsShader {
     }
 }
 
-    /***************************
-     * GET/SET
-     *************************/
+    /**
+	 * GET/SET
+	 * @uml.property  name="_program"
+	 */
     public int get_program() {
             return _program;
     }
 
+    /**
+	 * @param _program
+	 * @uml.property  name="_program"
+	 */
     public void set_program(int _program) {
             this._program = _program;
     }
 
+    /**
+	 * @return
+	 * @uml.property  name="_vertexShader"
+	 */
     public int get_vertexShader() {
             return _vertexShader;
     }
 
+    /**
+	 * @param shader
+	 * @uml.property  name="_vertexShader"
+	 */
     public void set_vertexShader(int shader) {
             _vertexShader = shader;
     }
 
+    /**
+	 * @return
+	 * @uml.property  name="_pixelShader"
+	 */
     public int get_pixelShader() {
             return _pixelShader;
     }
 
+    /**
+	 * @param shader
+	 * @uml.property  name="_pixelShader"
+	 */
     public void set_pixelShader(int shader) {
             _pixelShader = shader;
     }
 
+    /**
+	 * @return
+	 * @uml.property  name="_vertexS"
+	 */
     public String get_vertexS() {
             return _vertexS;
     }
 
+    /**
+	 * @param _vertexs
+	 * @uml.property  name="_vertexS"
+	 */
     public void set_vertexS(String _vertexs) {
             _vertexS = _vertexs;
     }
 
+    /**
+	 * @return
+	 * @uml.property  name="_fragmentS"
+	 */
     public String get_fragmentS() {
             return _fragmentS;
     }
 
+    /**
+	 * @param _fragments
+	 * @uml.property  name="_fragmentS"
+	 */
     public void set_fragmentS(String _fragments) {
             _fragmentS = _fragments;
     }

@@ -23,40 +23,165 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	public static String TAG = "BubbleShooTag";
 
 
+	/**
+	 * @uml.property  name="fLOAT_SIZE_BYTES"
+	 */
 	protected final int FLOAT_SIZE_BYTES = 4;
+	/**
+	 * @uml.property  name="sHORT_SIZE_BYTES"
+	 */
 	protected final int SHORT_SIZE_BYTES = 2;
 
-	protected float x, y, z, rotX, rotY, rotZ, scaleX = 1.0f, scaleY = 1.0f,
-			scaleZ = 1.0f;
+	/**
+	 * @uml.property  name="x"
+	 */
+	protected float x;
+
+
+	/**
+	 * @uml.property  name="y"
+	 */
+	protected float y;
+
+
+	/**
+	 * @uml.property  name="z"
+	 */
+	protected float z;
+
+
+	/**
+	 * @uml.property  name="rotX"
+	 */
+	protected float rotX;
+
+
+	/**
+	 * @uml.property  name="rotY"
+	 */
+	protected float rotY;
+
+
+	/**
+	 * @uml.property  name="rotZ"
+	 */
+	protected float rotZ;
+
+
+	/**
+	 * @uml.property  name="scaleX"
+	 */
+	protected float scaleX = 1.0f;
+
+
+	/**
+	 * @uml.property  name="scaleY"
+	 */
+	protected float scaleY = 1.0f;
+
+
+	/**
+	 * @uml.property  name="scaleZ"
+	 */
+	protected float scaleZ = 1.0f;
+	/**
+	 * @uml.property  name="numVertices"
+	 */
 	protected int numVertices;
 
+	/**
+	 * @uml.property  name="mMVPMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
 	protected float[] mMVPMatrix = new float[16];
+	/**
+	 * @uml.property  name="mMMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
 	protected float[] mMMatrix = new float[16];
+	/**
+	 * @uml.property  name="mProjMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
 	protected float[] mProjMatrix;
 	float[] tmpMatrix = new float[16];
 
+	/**
+	 * @uml.property  name="mScalematrix" multiplicity="(0 -1)" dimension="1"
+	 */
 	protected float[] mScalematrix = new float[16];
+	/**
+	 * @uml.property  name="mTranslateMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
 	protected float[] mTranslateMatrix = new float[16];
+	/**
+	 * @uml.property  name="mRotateMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
 	protected float[] mRotateMatrix = new float[16];
 
+	/**
+	 * @uml.property  name="mVertices"
+	 */
 	protected FloatBuffer mVertices;
+	/**
+	 * @uml.property  name="mNormals"
+	 */
 	protected FloatBuffer mNormals;
+	/**
+	 * @uml.property  name="mTextureCoords"
+	 */
 	protected FloatBuffer mTextureCoords;
+	/**
+	 * @uml.property  name="mIndices"
+	 */
 	protected ShortBuffer mIndices;
+	/**
+	 * @uml.property  name="mNumIndices"
+	 */
 	protected int mNumIndices;
 
+	/**
+	 * @uml.property  name="mMaterial"
+	 * @uml.associationEnd  
+	 */
 	protected AMaterial mMaterial;
+	/**
+	 * @uml.property  name="mLight"
+	 * @uml.associationEnd  
+	 */
 	protected ALight mLight;
 
+	/**
+	 * @uml.property  name="mChildren"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="de.bubbleshoo.data.BaseObject3D"
+	 */
 	protected ArrayList<BaseObject3D> mChildren;
+	/**
+	 * @uml.property  name="mNumChildren"
+	 */
 	protected int mNumChildren;
+	/**
+	 * @uml.property  name="mName"
+	 */
 	protected String mName;
 
+	/**
+	 * @uml.property  name="mDoubleSided"
+	 */
 	protected boolean mDoubleSided = false;
+	/**
+	 * @uml.property  name="mTransparent"
+	 */
 	protected boolean mTransparent = false;
+	/**
+	 * @uml.property  name="mForcedDepth"
+	 */
 	protected boolean mForcedDepth = false;
+	/**
+	 * @uml.property  name="mDrawingMode"
+	 */
 	protected int mDrawingMode = GLES20.GL_TRIANGLES;
 
+	/**
+	 * @uml.property  name="mIsContainerOnly"
+	 */
 	protected boolean mIsContainerOnly = true;
 	
 	protected boolean mMatricesChanged = true;
@@ -356,29 +481,53 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 		return mMMatrix;
 	}
 
+	/**
+	 * @param x
+	 * @uml.property  name="x"
+	 */
 	public void setX(float x) {
 		mMatricesChanged = true;
 		this.x = x;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="x"
+	 */
 	public float getX() {
 		return x;
 	}
 
+	/**
+	 * @param y
+	 * @uml.property  name="y"
+	 */
 	public void setY(float y) {
 		mMatricesChanged = true;
 		this.y = y;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="y"
+	 */
 	public float getY() {
 		return y;
 	}
 
+	/**
+	 * @param z
+	 * @uml.property  name="z"
+	 */
 	public void setZ(float z) {
 		mMatricesChanged = true;
 		this.z = z;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="z"
+	 */
 	public float getZ() {
 		return z;
 	}
@@ -390,29 +539,53 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 		this.rotZ = rotZ;
 	}
 
+	/**
+	 * @param rotX
+	 * @uml.property  name="rotX"
+	 */
 	public void setRotX(float rotX) {
 		mMatricesChanged = true;
 		this.rotX = rotX;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="rotX"
+	 */
 	public float getRotX() {
 		return rotX;
 	}
 
+	/**
+	 * @param rotY
+	 * @uml.property  name="rotY"
+	 */
 	public void setRotY(float rotY) {
 		mMatricesChanged = true;
 		this.rotY = rotY;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="rotY"
+	 */
 	public float getRotY() {
 		return rotY;
 	}
 
+	/**
+	 * @param rotZ
+	 * @uml.property  name="rotZ"
+	 */
 	public void setRotZ(float rotZ) {
 		mMatricesChanged = true;
 		this.rotZ = rotZ;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="rotZ"
+	 */
 	public float getRotZ() {
 		return rotZ;
 	}
@@ -431,29 +604,53 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 		this.scaleZ = scaleZ;
 	}
 
+	/**
+	 * @param scaleX
+	 * @uml.property  name="scaleX"
+	 */
 	public void setScaleX(float scaleX) {
 		mMatricesChanged = true;
 		this.scaleX = scaleX;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="scaleX"
+	 */
 	public float getScaleX() {
 		return scaleX;
 	}
 
+	/**
+	 * @param scaleY
+	 * @uml.property  name="scaleY"
+	 */
 	public void setScaleY(float scaleY) {
 		mMatricesChanged = true;
 		this.scaleY = scaleY;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="scaleY"
+	 */
 	public float getScaleY() {
 		return scaleY;
 	}
 
+	/**
+	 * @param scaleZ
+	 * @uml.property  name="scaleZ"
+	 */
 	public void setScaleZ(float scaleZ) {
 		mMatricesChanged = true;
 		this.scaleZ = scaleZ;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="scaleZ"
+	 */
 	public float getScaleZ() {
 		return scaleZ;
 	}

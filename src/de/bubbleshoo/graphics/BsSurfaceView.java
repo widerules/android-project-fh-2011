@@ -71,18 +71,27 @@ public class BsSurfaceView extends GLSurfaceView {
 
 	/**
 	 * Renderer
+	 * @uml.property  name="m_bsRenderer"
+	 * @uml.associationEnd  multiplicity="(1 1)"
 	 */
 	private BsRenderer		m_bsRenderer;
 	
 	/**
-	 * 
+	 * @uml.property  name="tOUCH_SCALE_FACTOR"
 	 */
 	private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
+	/**
+	 * @uml.property  name="mPreviousX"
+	 */
 	private float mPreviousX;
+    /**
+	 * @uml.property  name="mPreviousY"
+	 */
     private float mPreviousY;
 	
 	/**
 	 * Elements to draw
+	 * @uml.property  name="m_lstElements"
 	 */
 	private Stack<BaseObject3D>	m_lstElements;
 	

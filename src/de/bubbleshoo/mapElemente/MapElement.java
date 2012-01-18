@@ -4,6 +4,10 @@ import de.bubbleshoo.data.BaseObject3D;
 
 public class MapElement {
 	
+	/**
+	 * @uml.property  name="m_3dobject"
+	 * @uml.associationEnd  
+	 */
 	private BaseObject3D m_3dobject;
 
 	/**
@@ -27,9 +31,17 @@ public class MapElement {
 	 * Getter / Setter
 	 */
 	
+	/**
+	 * @return
+	 * @uml.property  name="m_3dobject"
+	 */
 	public BaseObject3D getM_3dobject() {
 		return m_3dobject;
 	}
+	/**
+	 * @param m_3dobject
+	 * @uml.property  name="m_3dobject"
+	 */
 	public void setM_3dobject(BaseObject3D m_3dobject) {
 		this.m_3dobject = m_3dobject;
 	}
