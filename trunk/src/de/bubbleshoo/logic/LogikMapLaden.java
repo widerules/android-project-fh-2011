@@ -253,7 +253,7 @@ public class LogikMapLaden {
 	{
 		Random zufallszahl= new Random();
 		
-		for (int i=0; i<5;i++)
+		for (int i=0; i<1;i++)
 		{
 			BaseObject3D emt = parser.getParsedObject()
 					.getChildByName("Sphere");
