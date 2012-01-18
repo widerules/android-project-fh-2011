@@ -54,7 +54,7 @@ public class Kollision {
 						{
 							if(y<=c	&&y>=d) //Y richtung beachten
 							{
-								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach Rechts : "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+//								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach Rechts : "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
 								unit.getM_3dobject().move(0, unit.getSpeed()[1]/10);
 //								unit.getM_3dobject().setX(b+(3*durchmesserKugel));alt
 								unit.getM_3dobject().setX(a+(durchmesserKugel)); 
@@ -70,7 +70,7 @@ public class Kollision {
 						{
 							if(y<=c&&y>=d) //Y Richtung beachten
 							{
-								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach Links: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+//								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach Links: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
 								unit.getM_3dobject().move(0, unit.getSpeed()[1]/10);
 								unit.getM_3dobject().setX(b-(durchmesserKugel));
 								wasgefunden=true;
@@ -86,7 +86,7 @@ public class Kollision {
 						{
 							if((y-durchmesserKugel)<=c&&(y-durchmesserKugel)>=d) //Y Richtung beachten
 							{
-								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach unten: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+//								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach unten: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
 								unit.getM_3dobject().move( unit.getSpeed()[0]/10, 0);
 								unit.getM_3dobject().setY(c+(durchmesserKugel));
 								wasgefunden=true;
@@ -100,7 +100,7 @@ public class Kollision {
 						{
 							if((y+durchmesserKugel)<=c&&(y+durchmesserKugel)>=d) //Y Richtung beachten
 							{
-								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach oben: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
+//								Log.d(GeneralSettings.LoggerKategorie,"Kollision mit Nach oben: "+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY()+mapelement.getClass());
 								unit.getM_3dobject().move(unit.getSpeed()[0]/10, 0);
 								unit.getM_3dobject().setY(d-(durchmesserKugel));
 								wasgefunden=true;
