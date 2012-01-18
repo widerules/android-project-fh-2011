@@ -7,36 +7,98 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.MediaController;
+import android.widget.Toast;
+import android.widget.VideoView;
 
 
 public class BsMainMenu extends Activity {
 	Handler handler;
 	ImageButton play, credits;
+	
+	private static final int INSERT_ID = Menu.FIRST;
+	private MediaController mc;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        //LanDscape
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  
+        //Fullscreen
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(	WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
         setContentView(R.layout.main);
-        Timer t = new Timer();
-        TimerTask runTask;
-        handler = new Handler();
         
-        runTask = new TimerTask() {
-            public void run() {
-                    handler.post(new Runnable() {
-                            public void run() {
-                            	setContentView(R.layout.loadingscreen);
-                            	init();
-                            }
-                   });
-            }};
+        VideoView vd = (VideoView) findViewById(R.id.myvideoview);
 
+        Uri uri = Uri.parse("android.resource://" + getPackageName() +"/"+R.raw.loading);
 
-        t.schedule(runTask, 4000);
+        vd.setVideoURI(uri);
+        vd.start();
         
+        vd.setOnCompletionListener(new OnCompletionListener() {
+			
+			public void onCompletion(MediaPlayer mp) {
+            	setContentView(R.layout.loadingscreen);
+            	init();
+				
+			}
+		});
+        
+//        mVideoView = (VideoView) findViewById(R.id.myvideoview);
+//
+//        if (path == "") {
+//            // Tell the user to provide a media file URL/path.
+//            Toast.makeText(
+//            		BsMainMenu.this,
+//                    "Please edit VideoViewDemo Activity, and set path"
+//                            + " variable to your media file URL/path",
+//                    Toast.LENGTH_LONG).show();
+//
+//        } else {
+//
+//            /*
+//             * Alternatively,for streaming media you can use
+//             * mVideoView.setVideoURI(Uri.parse(URLstring));
+//             */
+//            mVideoView.setVideoPath(path);
+//            mVideoView.setMediaController(new MediaController(this));
+//            mVideoView.requestFocus();
+//        }
+        
+        
+        
+//        Timer t = new Timer();
+//        TimerTask runTask;
+//        handler = new Handler();
+//        
+//        runTask = new TimerTask() {
+//            public void run() {
+//                    handler.post(new Runnable() {
+//                            public void run() {
+//                            	setContentView(R.layout.loadingscreen);
+//                            	init();
+//                            }
+//                   });
+//            }};
+//        t.schedule(runTask, 3000);
+//        
+//        
         
     }
 	
@@ -71,4 +133,20 @@ public class BsMainMenu extends Activity {
 		});
 	}
 
+	
+	  @Override
+	  public boolean onCreateOptionsMenu(Menu menu) {
+	      super.onCreateOptionsMenu(menu);
+	      menu.add(0, INSERT_ID, 0,"FullScreen");
+
+	      return true;
+	  }
+	  @Override
+	  public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	      switch(item.getItemId()) {
+	      case INSERT_ID:
+	        
+	      }
+	          return true;
+}
 }

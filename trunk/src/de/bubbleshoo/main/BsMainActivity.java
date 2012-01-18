@@ -140,10 +140,10 @@ public class BsMainActivity extends Activity implements SensorEventListener{
         
         //LanDscape
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  
-        //Fullscreen
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(	WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-                				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        //Fullscreen
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(	WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+//                				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //Sensoren laden
 		mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
