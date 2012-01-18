@@ -33,27 +33,70 @@ import android.view.WindowManager;
 public class BsMainActivity extends Activity implements SensorEventListener{
 	/**
 	 * View to show OpenGL-Contents
+	 * @uml.property  name="m_GLView"
+	 * @uml.associationEnd  
 	 */
 	private GLSurfaceView		m_GLView;
 	
 	/**
 	 * Sensoren
+	 * @uml.property  name="mSensorManager"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="android.hardware.Sensor"
 	 */
 		private SensorManager 	mSensorManager;
+	    /**
+		 * @uml.property  name="mAccelerometer"
+		 * @uml.associationEnd  
+		 */
 	    private Sensor 			mAccelerometer;
+	    /**
+		 * @uml.property  name="mkompass"
+		 * @uml.associationEnd  
+		 */
 	    private Sensor 			mkompass;
+	    /**
+		 * @uml.property  name="mlight"
+		 * @uml.associationEnd  
+		 */
 	    private Sensor 			mlight;
 	    //Attribute für Sensoren:
 	    // touch events
+	    /**
+		 * @uml.property  name="nONE"
+		 */
 	    private final int 		NONE = 0;
+	    /**
+		 * @uml.property  name="dRAG"
+		 */
 	    private final int 		DRAG = 1;
+	    /**
+		 * @uml.property  name="zOOM"
+		 */
 	    private final int 		ZOOM = 2;
 	    // pinch to zoom
+	    /**
+		 * @uml.property  name="oldDist"
+		 */
 	    float 					oldDist = 100.0f;
+	    /**
+		 * @uml.property  name="newDist"
+		 */
 	    float 					newDist;
+	    /**
+		 * @uml.property  name="mode"
+		 */
 	    int 					mode = 0;
+	    /**
+		 * @uml.property  name="tOUCH_SCALE_FACTOR"
+		 */
 	    private final float 	TOUCH_SCALE_FACTOR = 180.0f / 320;
+	    /**
+		 * @uml.property  name="kompassOn"
+		 */
 	    private boolean 		kompassOn=true;
+	    /**
+		 * @uml.property  name="lichtOn"
+		 */
 	    private boolean 		lichtOn=false;
 	    
 	    //Bewegungsensor Zwischenspeicher:
@@ -63,6 +106,10 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	    //Schwellwerte
 	    private static float sensorSchwellwert=(float) 0.1;
 	    
+	    /**
+		 * @uml.property  name="v"
+		 * @uml.associationEnd  
+		 */
 	    private Vibrator v;
 	    private static BsMainActivity bsMainActivity;
 	    
@@ -312,6 +359,10 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 
 		//Kompass
 	    //Liefer 0-360 ich vermute 0 bedeutet Norden ist vom Handy oben
+	    /**
+		 * @uml.property  name="mCompassListener"
+		 * @uml.associationEnd  
+		 */
 	    private final SensorEventListener mCompassListener = new SensorEventListener() {
 	    	   	 
 	    	  public void onSensorChanged(SensorEvent event) {
@@ -328,6 +379,10 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	    
 	    //Licht
 	    //Wert zwischen 10 und 360... Normales licht ist ca 140. Wenn man Telefon an Ohr hält 10. 
+	    /**
+		 * @uml.property  name="mlichtListener"
+		 * @uml.associationEnd  
+		 */
 	    private final SensorEventListener mlichtListener = new SensorEventListener() {
 		   	 
 	  	  public void onSensorChanged(SensorEvent event) {
@@ -392,10 +447,18 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 		    alteYWerte[0]=y;
 		}
 
+		/**
+		 * @return
+		 * @uml.property  name="v"
+		 */
 		public Vibrator getV() {
 			return v;
 		}
 
+		/**
+		 * @param v
+		 * @uml.property  name="v"
+		 */
 		public void setV(Vibrator v) {
 			this.v = v;
 		}

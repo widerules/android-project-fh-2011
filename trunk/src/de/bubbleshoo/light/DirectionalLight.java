@@ -1,6 +1,9 @@
 package de.bubbleshoo.light;
 
 public class DirectionalLight extends ALight {
+	/**
+	 * @uml.property  name="mDirection" multiplicity="(0 -1)" dimension="1"
+	 */
 	protected float[] mDirection = new float[3];
 	
 	public DirectionalLight() {

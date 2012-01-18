@@ -48,6 +48,11 @@ public class LogicThread extends Thread {
 	public static Map m_map;
 	public static TextureManager mTextureManager;
 
+	//Logische Konstanten:
+	private static double decreaseGras=-1.0f;
+	private static double decreaseOel=1.0f;
+	private static double decreaseWasser=-2.0f;
+	
 	public LogicThread(Context context, TextureManager textureManager) {
 		m_lstMapEmt = Collections.synchronizedList(new ArrayList<MapElement>());
 		m_lstUnit = Collections.synchronizedList(new ArrayList<Unit>());
@@ -80,6 +85,7 @@ public class LogicThread extends Thread {
 			{
 //				System.out.println("Hier!");
 				//Geschwindigkeit aus Sensoren laden
+				
 				setSpeedOfUnits();
 				allekugelnbewegen();
 				
@@ -137,6 +143,8 @@ public class LogicThread extends Thread {
 									if(((unit.getM_3dobject().getY())<=(mapelement.getM_3dobject().getY()+1.0f)))
 									{
 										Log.d(GeneralSettings.LoggerKategorie,"Kugelbefindet sich im feld: "+mapelement.getClass()+" Pos:"+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY());
+										
+										//Was passiert im Ziel
 										if(mapelement instanceof Ziel)
 										{
 											System.out.println(LogicThread.m_lstUnit.get(0));
@@ -148,6 +156,56 @@ public class LogicThread extends Thread {
 													LogicThread.m_lstUnit.add(kugelvomstart);
 											
 										}
+										//Was passiert auf Öl
+										if(mapelement instanceof Oelteppich)
+										{
+											veraendereUnitSpeed(unit,decreaseOel);
+										}
+										//Was passiert auf Felsen
+										if(mapelement instanceof Felsen)
+										{
+												
+										}
+										//Was passiert auf Baum
+										if(mapelement instanceof Baum)
+										{
+													
+										}
+										//Was passiert auf Busch
+										if(mapelement instanceof Busch)
+										{
+														
+										}
+										//Was passiert auf Gras
+										if(mapelement instanceof Gras)
+										{
+											veraendereUnitSpeed(unit,decreaseGras);	
+										}
+										//Was passiert auf Mauer (Muss kaputte Mauer sein)
+										if(mapelement instanceof Mauer)
+										{
+														
+										}
+										//Was passiert auf Sand
+										if(mapelement instanceof Sand)
+										{
+														
+										}
+										//Was passiert auf Stacheln
+										if(mapelement instanceof Stacheln)
+										{
+														
+										}
+										//Was passiert auf Wasser
+										if(mapelement instanceof Wasser)
+										{
+											veraendereUnitSpeed(unit,decreaseWasser);			
+										}
+										//Was passiert auf Weg
+										if(mapelement instanceof Weg)
+										{
+														
+										}
 									}
 								}
 							}
@@ -157,7 +215,7 @@ public class LogicThread extends Thread {
 				if(unit instanceof NormaleKugel)
 				{
 					
-			}
+				}
 			
 			
 		}
@@ -172,18 +230,47 @@ public class LogicThread extends Thread {
 //			System.out.println("m_lstUnit");
 			if(unit instanceof NormaleKugel)
 			{
-//				System.out.println("Set");
-					unit.getSpeed()[0]=-1*BsDataholder.getHandykipplageX()/unit.getGeschwindigkeitsverhalten();
-					unit.getSpeed()[1]=-1*BsDataholder.getHandykipplageY()/unit.getGeschwindigkeitsverhalten();
+				setSpeedNormaleKugel(unit);
 			}
 			if(unit instanceof ExplosionsKugel)
 			{
-//				System.out.println("Set");
-					unit.getSpeed()[0]=-1*BsDataholder.getHandykipplageX()/unit.getGeschwindigkeitsverhalten();
-					unit.getSpeed()[1]=-1*BsDataholder.getHandykipplageY()/unit.getGeschwindigkeitsverhalten();
+				setSpeedExplosionsKugel(unit);
+								
 			}
 		}
 		
+	}
+	
+	/**
+	 *  Setzt den Speed von der Normale Kugel
+	 *  
+	 */
+	private void setSpeedNormaleKugel(Unit unit)
+	{
+		unit.getSpeed()[0]=-1*BsDataholder.getHandykipplageX()/unit.getGeschwindigkeitsverhalten();
+		unit.getSpeed()[1]=-1*BsDataholder.getHandykipplageY()/unit.getGeschwindigkeitsverhalten();
+	}
+	
+	/**
+	 *  Setzt den Speed von der Explosions Kugel
+	 *  
+	 */
+	private void setSpeedExplosionsKugel(Unit unit)
+	{
+		unit.getSpeed()[0]=-1*BsDataholder.getHandykipplageX()/unit.getGeschwindigkeitsverhalten();
+		unit.getSpeed()[1]=-1*BsDataholder.getHandykipplageY()/unit.getGeschwindigkeitsverhalten();
+	}
+	
+	/**
+	 * Verändert den Speed einer Unit um einen gewissen Wert
+	 * @param unit
+	 * @param decreasevalue: Der Wert um den die Unit erhoeht verniedrigt werden soll.
+	 */
+	private void veraendereUnitSpeed(Unit unit, double decreasevalue)
+	{
+		unit.getSpeed()[0]+=decreasevalue;
+		unit.getSpeed()[1]+=decreasevalue;
+
 	}
 	
 	/** Bewegt die Kugel je nach Sensorlage

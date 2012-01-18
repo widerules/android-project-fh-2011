@@ -38,10 +38,22 @@ public class Bs3DObject {
 	// light parameters
 //    private float[] lightPos;
 //    private float[] lightColor;
+    /**
+	 * @uml.property  name="lightAmbient" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] lightAmbient;
+    /**
+	 * @uml.property  name="lightDiffuse" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] lightDiffuse;
     // angle rotation for light
+    /**
+	 * @uml.property  name="angle"
+	 */
     float angle = 0.0f;
+    /**
+	 * @uml.property  name="lightRotate"
+	 */
     boolean lightRotate = true; 
     
     
@@ -52,40 +64,108 @@ public class Bs3DObject {
 //    private float matShininess;
     
     // eye pos
+    /**
+	 * @uml.property  name="eyePos" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] eyePos = {-5.0f, 0.0f, 0.0f};
     
+	/**
+	 * @uml.property  name="mScaleMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
 	private float[] mScaleMatrix = new float[16];   // scaling
+    /**
+	 * @uml.property  name="mRotXMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] mRotXMatrix = new float[16];    // rotation x
+    /**
+	 * @uml.property  name="mRotYMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] mRotYMatrix = new float[16];    // rotation y
+    /**
+	 * @uml.property  name="mRotMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] mRotMatrix = new float[16];		// Rotation
+    /**
+	 * @uml.property  name="mTransMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] mTransMatrix = new float[16];	// Translation
+    /**
+	 * @uml.property  name="mMMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] mMMatrix = new float[16];       // rotation
+    /**
+	 * @uml.property  name="normalMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] normalMatrix = new float[16];   // modelview normal
     
 	// scaling
+    /**
+	 * @uml.property  name="scaleX"
+	 */
     private float scaleX = 1.0f;
+    /**
+	 * @uml.property  name="scaleY"
+	 */
     private float scaleY = 1.0f;
+    /**
+	 * @uml.property  name="scaleZ"
+	 */
     private float scaleZ = 1.0f;
     
     // rotation 
+    /**
+	 * @uml.property  name="mAngleX"
+	 */
     private float mAngleX;
+    /**
+	 * @uml.property  name="mAngleY"
+	 */
     private float mAngleY;
     
     // translating
+    /**
+	 * @uml.property  name="m_transX"
+	 */
     private float m_transX = 0.0f;
+    /**
+	 * @uml.property  name="m_transY"
+	 */
     private float m_transY = 0.0f;
+    /**
+	 * @uml.property  name="m_transZ"
+	 */
     private float m_transZ = 0.0f;
     
     // Context
+    /**
+	 * @uml.property  name="context"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     Context context;
         
     // Mesh
+    /**
+	 * @uml.property  name="mesh"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     BsMesh mesh;                                              // The mesh of triangles
+    /**
+	 * @uml.property  name="meshID"
+	 */
     int meshID;                                             // Mesh file (.OFF) from resources
     
     // texture
+    /**
+	 * @uml.property  name="hasTexture"
+	 */
     private boolean hasTexture;
+    /**
+	 * @uml.property  name="texFiles" multiplicity="(0 -1)" dimension="1"
+	 */
     private int[] texFiles;
+    /**
+	 * @uml.property  name="_texIDs" multiplicity="(0 -1)" dimension="1"
+	 */
     private int[] _texIDs;
     
     // lighting
@@ -261,21 +341,34 @@ public class Bs3DObject {
     	this.m_transY+=WieVielUmY;
     }
     
-    /***************************
-     * GET/SET
-     *************************/
+    /**
+	 * GET/SET
+	 * @uml.property  name="mesh"
+	 */
     public BsMesh getMesh() {
             return mesh;
     }
 
+    /**
+	 * @param mesh
+	 * @uml.property  name="mesh"
+	 */
     public void setMesh(BsMesh mesh) {
             this.mesh = mesh;
     }
 
+    /**
+	 * @return
+	 * @uml.property  name="meshID"
+	 */
     public int getMeshID() {
             return meshID;
     }
 
+    /**
+	 * @param meshID
+	 * @uml.property  name="meshID"
+	 */
     public void setMeshID(int meshID) {
             this.meshID = meshID;
     }
@@ -284,6 +377,10 @@ public class Bs3DObject {
             return hasTexture;
     }
 
+    /**
+	 * @param hasTexture
+	 * @uml.property  name="hasTexture"
+	 */
     public void setHasTexture(boolean hasTexture) {
             this.hasTexture = hasTexture;
     }

@@ -18,8 +18,16 @@ public class Map {
 	/*
 	 * Attribute
 	 */
+	/**
+	 * @uml.property  name="felderY"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.util.ArrayList"
+	 */
 	private List<ArrayList<Feld>> felderY = new ArrayList<ArrayList<Feld>>();
 
+	/**
+	 * @uml.property  name="kugeln"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="de.bubbleshoo.units.NormaleKugel"
+	 */
 	private Queue<Kugel> kugeln = new LinkedList<Kugel>();
 
 	public Map() {

@@ -12,17 +12,48 @@ import android.opengl.Matrix;
 public class BsCamera {
 	/**
 	 * Parameters
+	 * @uml.property  name="m_mVMatrix" multiplicity="(0 -1)" dimension="1"
 	 */
 	private float[]	m_mVMatrix; 	// returns the result 
+	/**
+	 * @uml.property  name="m_rmOffset"
+	 */
 	private int 	m_rmOffset; 	// index into rm where the result matrix starts 
+	/**
+	 * @uml.property  name="m_eyeX"
+	 */
 	private float 	m_eyeX;  		// eye point X 
+	/**
+	 * @uml.property  name="m_eyeY"
+	 */
 	private float 	m_eyeY;  		// eye point Y 
+	/**
+	 * @uml.property  name="m_eyeZ"
+	 */
 	private float 	m_eyeZ;  		// eye point Z 
+	/**
+	 * @uml.property  name="m_centerX"
+	 */
 	private float 	m_centerX;  	// center of view X 
+	/**
+	 * @uml.property  name="m_centerY"
+	 */
 	private float 	m_centerY; 	 	// center of view Y 
+	/**
+	 * @uml.property  name="m_centerZ"
+	 */
 	private float 	m_centerZ;  	// center of view Z 
+	/**
+	 * @uml.property  name="m_upX"
+	 */
 	private float 	m_upX;  		// up vector X 
+	/**
+	 * @uml.property  name="m_upY"
+	 */
 	private float 	m_upY;  		// up vector Y 
+	/**
+	 * @uml.property  name="m_upZ"
+	 */
 	private float 	m_upZ;  		// up vector Z  
 
 	/**

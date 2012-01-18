@@ -12,12 +12,30 @@ import android.opengl.GLUtils;
 import android.util.Log;
 
 public class TextureManager {
+	/**
+	 * @uml.property  name="mTextureInfoList"
+	 * @uml.associationEnd  multiplicity="(0 -1)" inverse="this$0:de.bubbleshoo.graphics.TextureManager$TextureInfo"
+	 */
 	private ArrayList<TextureInfo> mTextureInfoList;
+	/**
+	 * @uml.property  name="mTextureSlots"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.lang.Integer"
+	 */
 	private ArrayList<Integer> mTextureSlots;
 	
+	/**
+	 * @uml.property  name="m_texZuoord"
+	 * @uml.associationEnd  qualifier="ntexID:java.lang.Integer de.bubbleshoo.graphics.TextureManager$TextureInfo"
+	 */
 	private HashMap<Integer, TextureInfo> 	m_texZuoord;
 	
+	/**
+	 * @uml.property  name="mMaxTextures"
+	 */
 	private int mMaxTextures;
+	/**
+	 * @uml.property  name="cUBE_FACES" multiplicity="(0 -1)" dimension="1"
+	 */
 	private final int[] CUBE_FACES = new int[] {
 			GLES20.GL_TEXTURE_CUBE_MAP_POSITIVE_X,
 			GLES20.GL_TEXTURE_CUBE_MAP_NEGATIVE_X,

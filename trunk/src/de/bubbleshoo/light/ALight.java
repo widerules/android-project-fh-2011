@@ -1,9 +1,28 @@
 package de.bubbleshoo.light;
 
 public abstract class ALight {
+	/**
+	 * @uml.property  name="mColor" multiplicity="(0 -1)" dimension="1"
+	 */
 	protected float[] mColor = new float[] { 1.0f, 1.0f, 1.0f };
 	
-	protected float mX, mY, mZ;
+	/**
+	 * @uml.property  name="mX"
+	 */
+	protected float mX;
+
+	/**
+	 * @uml.property  name="mY"
+	 */
+	protected float mY;
+
+	/**
+	 * @uml.property  name="mZ"
+	 */
+	protected float mZ;
+	/**
+	 * @uml.property  name="mUseObjectTransform"
+	 */
 	protected boolean mUseObjectTransform;
 	
 	public void setColor(final float r, final float g, final float b) {

@@ -24,9 +24,10 @@ import android.util.Log;
  *
  */
 public class BsMesh {
-        /*************************
-         * PROPERTIES
-         ************************/
+        /**
+		 * PROPERTIES
+		 * @uml.property  name="meshID"
+		 */
         int meshID; // The id of the stored mesh file (raw resource)
 
         // Constants
@@ -34,34 +35,74 @@ public class BsMesh {
         private static final int SHORT_SIZE_BYTES = 2;
         // the number of elements for each vertex
         // [coordx, coordy, coordz, normalx, normaly, normalz....]
+        /**
+		 * @uml.property  name="vERTEX_ARRAY_SIZE"
+		 */
         private final int VERTEX_ARRAY_SIZE = 8;
         
         // if tex coords exist
+        /**
+		 * @uml.property  name="vERTEX_TC_ARRAY_SIZE"
+		 */
         private final int VERTEX_TC_ARRAY_SIZE = 8;
 
         // Vertices
+        /**
+		 * @uml.property  name="_vertices"
+		 */
         private float _vertices[];
 
         // Normals
+        /**
+		 * @uml.property  name="_normals" multiplicity="(0 -1)" dimension="1"
+		 */
         private float _normals[];
         
         // Texture coordinates
+        /**
+		 * @uml.property  name="_texCoords" multiplicity="(0 -1)" dimension="1"
+		 */
         private float _texCoords[];
         
         // Indices
+        /**
+		 * @uml.property  name="_indices"
+		 */
         private short _indices[];       
         
         // Buffers - index, vertex, normals and texcoords
+        /**
+		 * @uml.property  name="_vb"
+		 */
         private FloatBuffer _vb;
+        /**
+		 * @uml.property  name="_nb"
+		 */
         private FloatBuffer _nb;
+        /**
+		 * @uml.property  name="_ib"
+		 */
         private ShortBuffer _ib;
+        /**
+		 * @uml.property  name="_tcb"
+		 */
         private FloatBuffer _tcb;
 
         // Normals
+        /**
+		 * @uml.property  name="_faceNormals" multiplicity="(0 -1)" dimension="1"
+		 */
         private float[] _faceNormals;
+        /**
+		 * @uml.property  name="_surroundingFaces" multiplicity="(0 -1)" dimension="1"
+		 */
         private int[]   _surroundingFaces; // # of surrounding faces for each vertex
 
         // Store the context
+        /**
+		 * @uml.property  name="activity"
+		 * @uml.associationEnd  
+		 */
         Context activity; 
 
 
@@ -564,37 +605,66 @@ public class BsMesh {
 
 
 
-        /***************************
-         * GET/SET
-         *************************/
+        /**
+		 * GET/SET
+		 * @uml.property  name="meshID"
+		 */
 
         public int getMeshID() {
                 return meshID;
         }
 
+        /**
+		 * @param meshID
+		 * @uml.property  name="meshID"
+		 */
         public void setMeshID(int meshID) {
                 this.meshID = meshID;
         }
 
+        /**
+		 * @return
+		 * @uml.property  name="_vertices"
+		 */
         public float[] get_vertices() {
                 return _vertices;
         }
 
+        /**
+		 * @param _vertices
+		 * @uml.property  name="_vertices"
+		 */
         public void set_vertices(float[] _vertices) {
                 this._vertices = _vertices;
         }
+        /**
+		 * @return
+		 * @uml.property  name="_indices"
+		 */
         public short[] get_indices() {
                 return _indices;
         }
 
+        /**
+		 * @return
+		 * @uml.property  name="_vb"
+		 */
         public FloatBuffer get_vb() {
                 return this._vb;
         }
         
+        /**
+		 * @return
+		 * @uml.property  name="_nb"
+		 */
         public FloatBuffer get_nb() {
                 return this._nb;
         }
         
+        /**
+		 * @return
+		 * @uml.property  name="_ib"
+		 */
         public ShortBuffer get_ib() {
                 return this._ib;
         }

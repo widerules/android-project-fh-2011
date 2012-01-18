@@ -12,23 +12,73 @@ import android.util.Log;
 
 
 public abstract class AMaterial {
+	/**
+	 * @uml.property  name="mVertexShader"
+	 */
 	protected String mVertexShader;
+	/**
+	 * @uml.property  name="mFragmentShader"
+	 */
 	protected String mFragmentShader;
 	
+	/**
+	 * @uml.property  name="mProgram"
+	 */
 	protected int mProgram;
+	/**
+	 * @uml.property  name="muMVPMatrixHandle"
+	 */
 	protected int muMVPMatrixHandle;
+	/**
+	 * @uml.property  name="maPositionHandle"
+	 */
 	protected int maPositionHandle;
+	/**
+	 * @uml.property  name="maTextureHandle"
+	 */
 	protected int maTextureHandle;
+	/**
+	 * @uml.property  name="maNormalHandle"
+	 */
 	protected int maNormalHandle;
+	/**
+	 * @uml.property  name="muCameraPositionHandle"
+	 */
 	protected int muCameraPositionHandle;
+	/**
+	 * @uml.property  name="muMMatrixHandle"
+	 */
 	protected int muMMatrixHandle;
+	/**
+	 * @uml.property  name="muVMatrixHandle"
+	 */
 	protected int muVMatrixHandle;
+	/**
+	 * @uml.property  name="mLight"
+	 * @uml.associationEnd  
+	 */
 	protected ALight mLight;
 	
+	/**
+	 * @uml.property  name="numTextures"
+	 */
 	protected int numTextures = 0;
+	/**
+	 * @uml.property  name="mModelViewMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
 	protected float[] mModelViewMatrix;
+	/**
+	 * @uml.property  name="mViewMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
 	protected float[] mViewMatrix;
+	/**
+	 * @uml.property  name="mTextureInfoList"
+	 * @uml.associationEnd  multiplicity="(0 -1)" elementType="de.bubbleshoo.graphics.TextureManager$TextureInfo"
+	 */
 	protected ArrayList<TextureInfo> mTextureInfoList;
+	/**
+	 * @uml.property  name="usesCubeMap"
+	 */
 	protected boolean usesCubeMap = false;
 	
 	public AMaterial() {

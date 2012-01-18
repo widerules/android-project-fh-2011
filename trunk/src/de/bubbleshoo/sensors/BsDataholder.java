@@ -5,8 +5,17 @@ public class BsDataholder {
 	 * Konstanten	
 	 */
     // Touch Events
+    /**
+	 * @uml.property  name="nONE"
+	 */
     private final int NONE = 0;
+    /**
+	 * @uml.property  name="dRAG"
+	 */
     private final int DRAG = 0;
+    /**
+	 * @uml.property  name="zOOM"
+	 */
     private final int ZOOM = 0;
     
     

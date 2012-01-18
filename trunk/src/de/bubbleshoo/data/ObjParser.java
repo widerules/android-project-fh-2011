@@ -15,15 +15,45 @@ import android.util.Log;
 
 
 public class ObjParser extends AParser {
+    /**
+	 * @uml.property  name="vERTEX"
+	 */
     protected final String VERTEX = "v";
+    /**
+	 * @uml.property  name="fACE"
+	 */
     protected final String FACE = "f";
+    /**
+	 * @uml.property  name="tEXCOORD"
+	 */
     protected final String TEXCOORD = "vt";
+    /**
+	 * @uml.property  name="nORMAL"
+	 */
     protected final String NORMAL = "vn";
+    /**
+	 * @uml.property  name="oBJECT"
+	 */
     protected final String OBJECT = "o";
+    /**
+	 * @uml.property  name="mATERIAL_LIB"
+	 */
     protected final String MATERIAL_LIB = "mtllib";
+    /**
+	 * @uml.property  name="uSE_MATERIAL"
+	 */
     protected final String USE_MATERIAL = "usemtl";
+    /**
+	 * @uml.property  name="nEW_MATERIAL"
+	 */
     protected final String NEW_MATERIAL = "newmtl";
+    /**
+	 * @uml.property  name="dIFFUSE_COLOR"
+	 */
     protected final String DIFFUSE_COLOR = "Kd";
+    /**
+	 * @uml.property  name="dIFFUSE_TEX_MAP"
+	 */
     protected final String DIFFUSE_TEX_MAP = "map_Kd";
 	
 	public ObjParser(Resources resources, TextureManager textureManager, int resourceId) {
@@ -142,7 +172,14 @@ public class ObjParser extends AParser {
 		}
 	}
 	
+	/**
+	 * @author  Admin
+	 */
 	protected class ObjIndexData {
+		/**
+		 * @uml.property  name="targetObj"
+		 * @uml.associationEnd  
+		 */
 		public BaseObject3D targetObj;
 		
 		public ArrayList<Short> vertexIndices;

@@ -67,12 +67,23 @@ public class BsRenderer implements GLSurfaceView.Renderer{
      ******************************/
 	/**
 	 * Needed for projectionmatrix
+	 * @uml.property  name="muMVPMatrixHandle"
 	 */
 	private int muMVPMatrixHandle;
+	/**
+	 * @uml.property  name="mTextureManager"
+	 * @uml.associationEnd  
+	 */
 	protected TextureManager mTextureManager;
 	
     // rotation 
+    /**
+	 * @uml.property  name="mAngleX"
+	 */
     public float mAngleX;
+    /**
+	 * @uml.property  name="mAngleY"
+	 */
     public float mAngleY;
 
     private static final int FLOAT_SIZE_BYTES = 4;
@@ -82,81 +93,206 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     private static final int TRIANGLE_VERTICES_DATA_TEX_OFFSET = 6;
 
     // shader constants
+    /**
+	 * @uml.property  name="gOURAUD_SHADER"
+	 */
     private final int GOURAUD_SHADER = 0;
+    /**
+	 * @uml.property  name="pHONG_SHADER"
+	 */
     private final int PHONG_SHADER = 1;
+    /**
+	 * @uml.property  name="nORMALMAP_SHADER"
+	 */
     private final int NORMALMAP_SHADER = 2;
     //private static final int GOURAUD_SHADER = 0;
 
     // array of shaders
+    /**
+	 * @uml.property  name="_shaders"
+	 * @uml.associationEnd  multiplicity="(0 -1)"
+	 */
     BsShader _shaders[] = new BsShader[4];
+    /**
+	 * @uml.property  name="_currentShader"
+	 */
     private int _currentShader;
 
-    /** Shader code **/
+    /**
+	 * Shader code
+	 * @uml.property  name="vShaders" multiplicity="(0 -1)" dimension="1"
+	 */
     private int[] vShaders;
+    /**
+	 * @uml.property  name="fShaders" multiplicity="(0 -1)" dimension="1"
+	 */
     private int[] fShaders;
 
     // object constants
+    /**
+	 * @uml.property  name="oCTAHEDRON"
+	 */
     private final int OCTAHEDRON = 0;
+    /**
+	 * @uml.property  name="tETRAHEDRON"
+	 */
     private final int TETRAHEDRON = 1;
+    /**
+	 * @uml.property  name="cUBE"
+	 */
     private final int CUBE = 2;
 
     // current object
+    /**
+	 * @uml.property  name="_currentObject"
+	 */
     private int _currentObject;
 
     // Modelview/Projection matrices
+    /**
+	 * @uml.property  name="mMVPMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] mMVPMatrix 		= new float[16];
+    /**
+	 * @uml.property  name="mProjMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] mProjMatrix 	= new float[16];
+    /**
+	 * @uml.property  name="mScaleMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] mScaleMatrix 	= new float[16];   // scaling
+    /**
+	 * @uml.property  name="mRotXMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] mRotXMatrix 	= new float[16];    // rotation x
+    /**
+	 * @uml.property  name="mRotYMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] mRotYMatrix 	= new float[16];    // rotation x
+    /**
+	 * @uml.property  name="mMMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] mMMatrix 		= new float[16];               // rotation
+    /**
+	 * @uml.property  name="mVMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] mVMatrix 		= new float[16];               // modelview
+    /**
+	 * @uml.property  name="normalMatrix" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] normalMatrix 	= new float[16];   // modelview normal
 
     // textures enabled?
+    /**
+	 * @uml.property  name="enableTexture"
+	 */
     private boolean enableTexture = true;
+    /**
+	 * @uml.property  name="_texIDs" multiplicity="(0 -1)" dimension="1"
+	 */
     private int[] _texIDs;
     
     // light parameters
+    /**
+	 * @uml.property  name="lightPos" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] lightPos;
+    /**
+	 * @uml.property  name="lightColor" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] lightColor;
+    /**
+	 * @uml.property  name="lightAmbient" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] lightAmbient;
+    /**
+	 * @uml.property  name="lightDiffuse" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] lightDiffuse;
     // angle rotation for light
+    /**
+	 * @uml.property  name="angle"
+	 */
     float angle = 0.0f;    
     
     // material properties
+    /**
+	 * @uml.property  name="matAmbient" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] matAmbient;
+    /**
+	 * @uml.property  name="matDiffuse" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] matDiffuse;
+    /**
+	 * @uml.property  name="matSpecular" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] matSpecular;
+    /**
+	 * @uml.property  name="matShininess"
+	 */
     private float 	
     matShininess;
 
     // eye pos
+    /**
+	 * @uml.property  name="eyePos" multiplicity="(0 -1)" dimension="1"
+	 */
     private float[] eyePos = {-5.0f, 0.0f, 0.0f};
 
     // scaling
+    /**
+	 * @uml.property  name="scaleX"
+	 */
     float scaleX = 1.0f;
+    /**
+	 * @uml.property  name="scaleY"
+	 */
     float scaleY = 1.0f;
+    /**
+	 * @uml.property  name="scaleZ"
+	 */
     float scaleZ = 1.0f;
     
     /**
-     * Rotationswinkel
-     */
+	 * Rotationswinkel
+	 * @uml.property  name="fAngle_X"
+	 */
     private float fAngle_X;
+    /**
+	 * @uml.property  name="fAngle_Y"
+	 */
     private float fAngle_Y;
     
-    private float MAXANGLEVIEW	= 1.0f;
+
+    private float MAXANGLEVIEW	= 5.0f;
+
+    /**
+	 * @uml.property  name="tOUCH_SCALE_FACTOR"
+	 */
     private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
 
     /**
 	 * Elements to draw
+	 * @uml.property  name="m_lstElements"
 	 */
     protected Stack<BaseObject3D>	m_lstElements;
     
+	/**
+	 * @uml.property  name="mCamera"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
 	protected Camera3D mCamera;
+    /**
+	 * @uml.property  name="mContext"
+	 * @uml.associationEnd  multiplicity="(1 1)"
+	 */
     private Context mContext;
     private static String TAG = "Renderer";
+    /**
+	 * @uml.property  name="m_map"
+	 * @uml.associationEnd  
+	 */
     protected Map m_map;
     
     // fps
@@ -164,6 +300,10 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     int frames = 0;	
 
     //Logic 
+    /**
+	 * @uml.property  name="m_logic"
+	 * @uml.associationEnd  
+	 */
     private LogicThread m_logic;
     
     /***************************
