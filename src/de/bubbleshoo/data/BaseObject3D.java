@@ -61,6 +61,7 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 
 	public BaseObject3D() {
 		mChildren = new ArrayList<BaseObject3D>();
+		doTransformations(null);
 	}
 
 	public BaseObject3D(String name) {
@@ -69,6 +70,7 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 	}
 
 	public BaseObject3D(BaseObject3D objSrc) {
+		this();
 		SerializedObject3D ser = objSrc.toSerializedObject3D();
 		setData(ser.getVertices(), ser.getNormals(), ser.getTextureCoords(),
 				ser.getIndices());
@@ -79,8 +81,6 @@ public class BaseObject3D implements IObject3D, Comparable<BaseObject3D> {
 		this.setMaterial(objSrc.getMaterial(), true);
 		this.setLight(objSrc.getLight());
 		this.setName(objSrc.getName());
-		
-		doTransformations(null);
 	}
 
 	public BaseObject3D(SerializedObject3D ser) {
