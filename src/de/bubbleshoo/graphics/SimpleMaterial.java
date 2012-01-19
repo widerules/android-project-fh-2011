@@ -25,4 +25,8 @@ public class SimpleMaterial extends AMaterial {
 	public SimpleMaterial() {
 		super(mVShader, mFShader);
 	}
+	
+	public SimpleMaterial(AMaterial aMat) {
+		super(aMat);
+	}
 }

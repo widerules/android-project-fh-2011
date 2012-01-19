@@ -6,7 +6,9 @@ package de.bubbleshoo.data;
 import java.util.HashMap;
 
 import android.content.Context;
+import android.util.Log;
 
+import de.bubbleshoo.graphics.BsMaterialManager;
 import de.bubbleshoo.graphics.SimpleMaterial;
 import de.bubbleshoo.graphics.TextureManager;
 import de.bubbleshoo.logic.LogicThread;
@@ -24,6 +26,8 @@ public class BsParser {
 	protected TextureManager 				m_TextureManager;
 	protected Context 						m_context;
 	
+	protected BsMaterialManager				m_MatManager;
+	
 	/**
 	 * Contains all parsed Objects
 	 * Access over Objetname
@@ -37,6 +41,7 @@ public class BsParser {
 	public BsParser(Context context, TextureManager textureManager) {
 		m_TextureManager = textureManager;
 		m_context = context;
+		m_MatManager = new BsMaterialManager();
 		loadObjects();
 	}
 	
@@ -68,7 +73,12 @@ public class BsParser {
 	 */
 	public BaseObject3D getObjectByName(String strName) {
 		BaseObject3D emt = new BaseObject3D(m_parsedObjMap.get(strName).toSerializedObject3D());
+		
+//		long start = System.nanoTime();
 		emt.setShader(new SimpleMaterial());
+		//emt.setShader(m_MatManager.getMaterialFromShader("SimpleMaterial"));
+//		long end = System.nanoTime() - start;
+//		Log.d("bench1", " setShader: " + end);
 		return emt;
 	}
 }
