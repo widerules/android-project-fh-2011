@@ -264,8 +264,8 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 	 */
     private float fAngle_Y;
     
-
-    private float MAXANGLEVIEW	= 5.0f;
+    // 5.0f
+    private float MAXANGLEVIEW	= 0.2f;
 
     /**
 	 * @uml.property  name="tOUCH_SCALE_FACTOR"
@@ -355,10 +355,13 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             
             GLES20.glUseProgram(0);
             
+            //Log.d("bench2", " BsDataholder.getHandykipplageX(): " + BsDataholder.getHandykipplageX());
+            Log.d("bench2", " BsDataholder.getHandykipplageY(): " + BsDataholder.getHandykipplageY());
+            
             fAngle_X = BsDataholder.getHandykipplageX() * TOUCH_SCALE_FACTOR;
     		fAngle_Y = BsDataholder.getHandykipplageY() * TOUCH_SCALE_FACTOR;
-    		fAngle_X = BsDataholder.getHandykipplageX();
-    		fAngle_Y = BsDataholder.getHandykipplageY();
+//    		fAngle_X = BsDataholder.getHandykipplageX();
+//    		fAngle_Y = BsDataholder.getHandykipplageY();
     		if (Math.abs(fAngle_X) > MAXANGLEVIEW) {
     			if (fAngle_X < 0)
     				fAngle_X = -MAXANGLEVIEW;

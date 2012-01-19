@@ -103,8 +103,8 @@ public class BsMainActivity extends Activity implements SensorEventListener{
 	    private static float[] alteXWerte;
 	    private static float[] alteYWerte;
 	    
-	    //Schwellwerte
-	    private static float sensorSchwellwert=(float) 0.1;
+	    //Schwellwerte (0.1)
+	    private static float sensorSchwellwert=(float) 0.0;
 	    
 	    /**
 		 * @uml.property  name="v"
