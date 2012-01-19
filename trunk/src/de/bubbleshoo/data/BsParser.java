@@ -73,12 +73,6 @@ public class BsParser {
 	 */
 	public BaseObject3D getObjectByName(String strName) {
 		BaseObject3D emt = new BaseObject3D(m_parsedObjMap.get(strName).toSerializedObject3D());
-		
-//		long start = System.nanoTime();
-		emt.setShader(new SimpleMaterial());
-		//emt.setShader(m_MatManager.getMaterialFromShader("SimpleMaterial"));
-//		long end = System.nanoTime() - start;
-//		Log.d("bench1", " setShader: " + end);
 		return emt;
 	}
 }

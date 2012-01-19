@@ -349,12 +349,7 @@ public class BsRenderer implements GLSurfaceView.Renderer{
      */
     public void onDrawFrame(GL10 glUnused) {
             // Ignore the passed-in GL10 interface, and use the GLES20
-            // class's static methods instead.
-            GLES20.glClearColor(.0f, .0f, .0f, 1.0f);
-            GLES20.glClear( GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
-            
-            GLES20.glUseProgram(0);
-            
+
             //Log.d("bench2", " BsDataholder.getHandykipplageX(): " + BsDataholder.getHandykipplageX());
             Log.d("bench2", " BsDataholder.getHandykipplageY(): " + BsDataholder.getHandykipplageY());
             
@@ -376,6 +371,19 @@ public class BsRenderer implements GLSurfaceView.Renderer{
     				fAngle_Y = MAXANGLEVIEW;
     		}
     		
+    		// class's static methods instead.
+    		if (fAngle_Y > fAngle_X)
+    			GLES20.glClearColor((1.0f / 15.0f * Math.abs(BsDataholder.getHandykipplageY())), 
+    					(1.0f / 15.0f * Math.abs(BsDataholder.getHandykipplageY())), 
+    					(1.0f / 15.0f * Math.abs(BsDataholder.getHandykipplageY())), 1.0f);
+    		else
+    			GLES20.glClearColor((1.0f / 15.0f * Math.abs(BsDataholder.getHandykipplageX())), 
+    					(1.0f / 15.0f * Math.abs(BsDataholder.getHandykipplageX())), 
+    					(1.0f / 15.0f * Math.abs(BsDataholder.getHandykipplageX())), 1.0f);
+    		GLES20.glClear( GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
+            
+            GLES20.glUseProgram(0);
+            
 //    		mCamera.setX(-fAngle_X);
 //    		mCamera.setY(-fAngle_Y);
     		for (Unit emt : m_logic.getM_lstUnit()) {
