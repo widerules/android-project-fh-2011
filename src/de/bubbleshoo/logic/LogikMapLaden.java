@@ -11,6 +11,7 @@ import android.util.Log;
 import de.bubbleshoo.data.BaseObject3D;
 import de.bubbleshoo.data.BsParser;
 import de.bubbleshoo.data.ObjParser;
+import de.bubbleshoo.graphics.SimpleMaterial;
 import de.bubbleshoo.main.R;
 import de.bubbleshoo.map.Feld;
 import de.bubbleshoo.mapElemente.Baum;
@@ -64,10 +65,13 @@ public class LogikMapLaden {
 							} else if (col_X.getMapElement() instanceof Busch) {
 								nTextureID = R.drawable.bush_tile;
 								
-								start = System.nanoTime();
 								emt = m_parser.getObjectByName("Plane");
-								end = System.nanoTime() - start;
-								Log.d("bench1", "getObjectByName('Plane'): " + end);
+								
+//								start = System.nanoTime();
+								emt.setShader(new SimpleMaterial());
+								//emt.setShader(m_MatManager.getMaterialFromShader("SimpleMaterial"));
+//								end = System.nanoTime() - start;
+//								Log.d("bench1", " setShader: " + end);
 								
 								Bitmap texture = BitmapFactory.decodeResource(
 										LogicThread.mContext.getResources(), nTextureID);
@@ -98,10 +102,13 @@ public class LogikMapLaden {
 							} else if (col_X.getMapElement() instanceof Mauer) {
 								nTextureID = R.drawable.brick_tile;
 								
-								start = System.nanoTime();
 								emt = m_parser.getObjectByName("Plane");
-								end = System.nanoTime() - start;
-								Log.d("bench1", "getObjectByName('Plane'): " + end);
+								
+//								start = System.nanoTime();
+								emt.setShader(new SimpleMaterial());
+								//emt.setShader(m_MatManager.getMaterialFromShader("SimpleMaterial"));
+//								end = System.nanoTime() - start;
+//								Log.d("bench1", " setShader: " + end);
 								
 								Bitmap texture = BitmapFactory.decodeResource(
 										LogicThread.mContext.getResources(), nTextureID);
@@ -128,10 +135,13 @@ public class LogikMapLaden {
 							} else if (col_X.getMapElement() instanceof Rand) {
 								nTextureID = R.drawable.grass_tile;
 								
-								start = System.nanoTime();
 								emt = m_parser.getObjectByName("Plane");
-								end = System.nanoTime() - start;
-								Log.d("bench1", "getObjectByName('Plane'): " + end);
+								
+//								start = System.nanoTime();
+								emt.setShader(new SimpleMaterial());
+								//emt.setShader(m_MatManager.getMaterialFromShader("SimpleMaterial"));
+//								end = System.nanoTime() - start;
+//								Log.d("bench1", " setShader: " + end);
 								
 								Bitmap texture = BitmapFactory.decodeResource(
 										LogicThread.mContext.getResources(), nTextureID);
@@ -197,10 +207,13 @@ public class LogikMapLaden {
 							} else if (col_X.getMapElement() instanceof Ziel) {
 								nTextureID = R.drawable.grass_tile;
 								
-								start = System.nanoTime();
 								emt = m_parser.getObjectByName("Plane");
-								end = System.nanoTime() - start;
-								Log.d("bench1", "getObjectByName('Plane'): " + end);
+								
+//								start = System.nanoTime();
+								emt.setShader(new SimpleMaterial());
+								//emt.setShader(m_MatManager.getMaterialFromShader("SimpleMaterial"));
+//								end = System.nanoTime() - start;
+//								Log.d("bench1", " setShader: " + end);
 								
 								Bitmap texture = BitmapFactory.decodeResource(
 										LogicThread.mContext.getResources(), nTextureID);
@@ -229,10 +242,13 @@ public class LogikMapLaden {
 								nTextureID = R.drawable.grass_tile;
 							}
 							
-							start = System.nanoTime();
 							emt = m_parser.getObjectByName("Plane");
-							end = System.nanoTime() - start;
-							Log.d("bench1", "getObjectByName('Plane'): " + end);
+							
+//							start = System.nanoTime();
+							emt.setShader(new SimpleMaterial());
+							//emt.setShader(m_MatManager.getMaterialFromShader("SimpleMaterial"));
+//							end = System.nanoTime() - start;
+//							Log.d("bench1", " setShader: " + end);
 							
 							Bitmap texture = BitmapFactory.decodeResource(
 									LogicThread.mContext.getResources(), nTextureID);
@@ -274,6 +290,12 @@ public class LogikMapLaden {
 		{
 			BaseObject3D emt = parser.getObjectByName("Sphere");
 	
+//			start = System.nanoTime();
+			emt.setShader(new SimpleMaterial());
+			//emt.setShader(m_MatManager.getMaterialFromShader("SimpleMaterial"));
+//			end = System.nanoTime() - start;
+//			Log.d("bench1", " setShader: " + end);
+			
 			Bitmap texture = BitmapFactory.decodeResource(
 					LogicThread.mContext.getResources(), nTextureID);
 			emt.addTexture(LogicThread.mTextureManager.addTexture(
