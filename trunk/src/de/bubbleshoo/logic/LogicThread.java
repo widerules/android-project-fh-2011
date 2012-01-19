@@ -155,7 +155,7 @@ public class LogicThread extends Thread {
 										if(mapelement instanceof Ziel)
 										{
 											System.out.println(LogicThread.m_lstUnit.get(0));
-											LogicThread.m_lstUnit.remove(0);
+//											LogicThread.m_lstUnit.remove(0);
 //											System.out.println(LogicThread.m_lstUnit.get(0));
 											Unit kugelvomstart = LogicThread.m_map.getKugeln().poll();
 											
