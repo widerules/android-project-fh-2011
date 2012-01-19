@@ -16,6 +16,7 @@ public abstract class AMaterial {
 	 * @uml.property  name="mVertexShader"
 	 */
 	protected String mVertexShader;
+
 	/**
 	 * @uml.property  name="mFragmentShader"
 	 */
@@ -84,6 +85,29 @@ public abstract class AMaterial {
 	public AMaterial() {
 		mTextureInfoList = new ArrayList<TextureManager.TextureInfo>();
 	}
+	
+	/**
+	 * Copyconstructor
+	 * @param aMat
+	 */
+	public AMaterial(AMaterial aMat) {
+		mTextureInfoList = new ArrayList<TextureManager.TextureInfo>();
+		
+		mVertexShader = aMat.getmVertexShader();
+		mFragmentShader = aMat.getmFragmentShader();
+		
+		
+		
+		mProgram = aMat.getmProgram();
+		maPositionHandle = aMat.getMaPositionHandle();
+		maNormalHandle = aMat.getMaNormalHandle();
+		maTextureHandle = aMat.getMaTextureHandle();
+		muCameraPositionHandle = aMat.getMuCameraPositionHandle();
+		muMVPMatrixHandle = aMat.getMuMVPMatrixHandle();
+		muMMatrixHandle = aMat.getMuMMatrixHandle();
+		muVMatrixHandle = aMat.getMuVMatrixHandle();
+	}
+	
 	public AMaterial(String vertexShader, String fragmentShader) {
 		this();
 		mVertexShader = vertexShader;
@@ -273,5 +297,75 @@ public abstract class AMaterial {
 		
 		for(int i=0; i<num; ++i)
 			shader.addTexture(mTextureInfoList.get(i));
+	}
+	
+	/**
+	 * @return the mVertexShader
+	 */
+	public String getmVertexShader() {
+		return mVertexShader;
+	}
+
+	/**
+	 * @return the mFragmentShader
+	 */
+	public String getmFragmentShader() {
+		return mFragmentShader;
+	}
+
+	/**
+	 * @return the mProgram
+	 */
+	public int getmProgram() {
+		return mProgram;
+	}
+
+	/**
+	 * @return the muMVPMatrixHandle
+	 */
+	public int getMuMVPMatrixHandle() {
+		return muMVPMatrixHandle;
+	}
+
+	/**
+	 * @return the maPositionHandle
+	 */
+	public int getMaPositionHandle() {
+		return maPositionHandle;
+	}
+
+	/**
+	 * @return the maTextureHandle
+	 */
+	public int getMaTextureHandle() {
+		return maTextureHandle;
+	}
+
+	/**
+	 * @return the maNormalHandle
+	 */
+	public int getMaNormalHandle() {
+		return maNormalHandle;
+	}
+
+	/**
+	 * @return the muCameraPositionHandle
+	 */
+	public int getMuCameraPositionHandle() {
+		return muCameraPositionHandle;
+	}
+
+	/**
+	 * @return the muMMatrixHandle
+	 */
+	public int getMuMMatrixHandle() {
+		return muMMatrixHandle;
+	}
+
+	/**
+	 * @return the muVMatrixHandle
+	 */
+	public int getMuVMatrixHandle() {
+		return muVMatrixHandle;
 	}
 }

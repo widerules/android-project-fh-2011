@@ -42,6 +42,9 @@ public class LogikMapLaden {
 		int nX = 0;
 		BaseObject3D emt = null;
 		
+		long start = 0;
+		long end = 0;
+		
 		for (ArrayList<Feld> row_Y : LogicThread.m_map.getFelderY()) 
 		{
 			if (row_Y != null) {
@@ -61,18 +64,17 @@ public class LogikMapLaden {
 							} else if (col_X.getMapElement() instanceof Busch) {
 								nTextureID = R.drawable.bush_tile;
 								
-//								ObjParser parser = new ObjParser(
-//										LogicThread.mContext.getResources(),
-//										LogicThread.mTextureManager, R.raw.plane);
-//								parser.parse();
-//								BaseObject3D emt = parser.getParsedObject()
-//										.getChildByName("Plane");
+								start = System.nanoTime();
 								emt = m_parser.getObjectByName("Plane");
-
+								end = System.nanoTime() - start;
+								Log.d("bench1", "getObjectByName('Plane'): " + end);
+								
 								Bitmap texture = BitmapFactory.decodeResource(
 										LogicThread.mContext.getResources(), nTextureID);
+								
 								emt.addTexture(LogicThread.mTextureManager.addTexture(
 										texture, nTextureID));
+								
 								emt.setRotation(0, 0, 0);
 								emt.setScale(1.0f);
 								
@@ -96,18 +98,17 @@ public class LogikMapLaden {
 							} else if (col_X.getMapElement() instanceof Mauer) {
 								nTextureID = R.drawable.brick_tile;
 								
-//								ObjParser parser = new ObjParser(
-//										LogicThread.mContext.getResources(),
-//										LogicThread.mTextureManager, R.raw.plane);
-//								parser.parse();
-//								BaseObject3D emt = parser.getParsedObject()
-//										.getChildByName("Plane");
+								start = System.nanoTime();
 								emt = m_parser.getObjectByName("Plane");
-
+								end = System.nanoTime() - start;
+								Log.d("bench1", "getObjectByName('Plane'): " + end);
+								
 								Bitmap texture = BitmapFactory.decodeResource(
 										LogicThread.mContext.getResources(), nTextureID);
+								
 								emt.addTexture(LogicThread.mTextureManager.addTexture(
 										texture, nTextureID));
+								
 								emt.setRotation(0, 0, 0);
 								emt.setScale(1.0f);
 								// emt.setPosition(-col_X.getFeldposX() +
@@ -127,16 +128,17 @@ public class LogikMapLaden {
 							} else if (col_X.getMapElement() instanceof Rand) {
 								nTextureID = R.drawable.grass_tile;
 								
-//								ObjParser parser = new ObjParser(
-//								LogicThread.mContext.getResources(),
-//								LogicThread.mTextureManager, R.raw.plane);
-//								parser.parse();
-//								BaseObject3D emt = parser.getParsedObject()
-//								.getChildByName("Plane");
+								start = System.nanoTime();
 								emt = m_parser.getObjectByName("Plane");
-
-								Bitmap texture = BitmapFactory.decodeResource(LogicThread.mContext.getResources(), nTextureID);
-								emt.addTexture(LogicThread.mTextureManager.addTexture(texture, nTextureID));
+								end = System.nanoTime() - start;
+								Log.d("bench1", "getObjectByName('Plane'): " + end);
+								
+								Bitmap texture = BitmapFactory.decodeResource(
+										LogicThread.mContext.getResources(), nTextureID);
+								
+								emt.addTexture(LogicThread.mTextureManager.addTexture(
+										texture, nTextureID));
+								
 							    emt.setRotation(0, 0, 0);
 								emt.setScale(1.0f);
 								        
@@ -195,16 +197,17 @@ public class LogikMapLaden {
 							} else if (col_X.getMapElement() instanceof Ziel) {
 								nTextureID = R.drawable.grass_tile;
 								
-//								ObjParser parser = new ObjParser(
-//										LogicThread.mContext.getResources(),
-//										LogicThread.mTextureManager, R.raw.plane);
-//										parser.parse();
-//										BaseObject3D emt = parser.getParsedObject()
-//										.getChildByName("Plane");
+								start = System.nanoTime();
 								emt = m_parser.getObjectByName("Plane");
-
-								Bitmap texture = BitmapFactory.decodeResource(LogicThread.mContext.getResources(), nTextureID);
-								emt.addTexture(LogicThread.mTextureManager.addTexture(texture, nTextureID));
+								end = System.nanoTime() - start;
+								Log.d("bench1", "getObjectByName('Plane'): " + end);
+								
+								Bitmap texture = BitmapFactory.decodeResource(
+										LogicThread.mContext.getResources(), nTextureID);
+								
+								emt.addTexture(LogicThread.mTextureManager.addTexture(
+										texture, nTextureID));
+								
 							    emt.setRotation(0, 0, 0);
 								emt.setScale(1.0f);
 								        
@@ -225,18 +228,18 @@ public class LogikMapLaden {
 								 */
 								nTextureID = R.drawable.grass_tile;
 							}
-//							ObjParser parser = new ObjParser(
-//									LogicThread.mContext.getResources(), LogicThread.mTextureManager,
-//									R.raw.plane);
-//							parser.parse();
-//							BaseObject3D emt = parser.getParsedObject()
-//									.getChildByName("Plane");					
+							
+							start = System.nanoTime();
 							emt = m_parser.getObjectByName("Plane");
-
+							end = System.nanoTime() - start;
+							Log.d("bench1", "getObjectByName('Plane'): " + end);
+							
 							Bitmap texture = BitmapFactory.decodeResource(
 									LogicThread.mContext.getResources(), nTextureID);
-							emt.addTexture(LogicThread.mTextureManager.addTexture(texture,
-									nTextureID));
+							
+							emt.addTexture(LogicThread.mTextureManager.addTexture(
+									texture, nTextureID));
+							
 							emt.setRotation(0, 0, 0);
 							emt.setScale(1.0f);
 							// emt.setPosition(-col_X.getFeldposX() +
@@ -269,8 +272,6 @@ public class LogikMapLaden {
 		
 		for (int i=0; i<1;i++)
 		{
-//			BaseObject3D emt = parser.getParsedObject()
-//					.getChildByName("Sphere");
 			BaseObject3D emt = parser.getObjectByName("Sphere");
 	
 			Bitmap texture = BitmapFactory.decodeResource(
