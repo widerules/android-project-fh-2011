@@ -100,18 +100,18 @@ public class MapLoader {
 
 		//Läd die erste Map
 		int mapid=BsMainActivity.getAnwendungsContex().getResources().getIdentifier( urlZumBild, "drawable", BsMainActivity.getAnwendungsContex().getPackageName() );
-		int heightid=BsMainActivity.getAnwendungsContex().getResources().getIdentifier( "height"+urlZumBild, "drawable", BsMainActivity.getAnwendungsContex().getPackageName() );
-		int enemyid=BsMainActivity.getAnwendungsContex().getResources().getIdentifier( "enemy"+urlZumBild, "drawable", BsMainActivity.getAnwendungsContex().getPackageName() );
-		
+//		int heightid=BsMainActivity.getAnwendungsContex().getResources().getIdentifier( "height"+urlZumBild, "drawable", BsMainActivity.getAnwendungsContex().getPackageName() );
+//		int enemyid=BsMainActivity.getAnwendungsContex().getResources().getIdentifier( "enemy"+urlZumBild, "drawable", BsMainActivity.getAnwendungsContex().getPackageName() );
+//		
 
 		Bitmap mBitmap = BitmapFactory.decodeResource(BsMainActivity
 				.getAnwendungsContex().getResources(), mapid);
 		
-		Bitmap heightmap = BitmapFactory.decodeResource(BsMainActivity
-				.getAnwendungsContex().getResources(), heightid);
-		
-		Bitmap enemymap = BitmapFactory.decodeResource(BsMainActivity
-				.getAnwendungsContex().getResources(), enemyid);
+//		Bitmap heightmap = BitmapFactory.decodeResource(BsMainActivity
+//				.getAnwendungsContex().getResources(), heightid);
+//		
+//		Bitmap enemymap = BitmapFactory.decodeResource(BsMainActivity
+//				.getAnwendungsContex().getResources(), enemyid);
 		
 //		Resources r = BsMainActivity.getAnwendungsContex().getResources();
 //		Bitmap mBitmap = loadBitmap(r.getDrawable(R.drawable.map1));
@@ -148,7 +148,7 @@ public class MapLoader {
 			
 			neuesFeld = new Feld(" !" + 0 + " : " + 0 + " : " + i
 					+ "! ");
-			hoehe= heightmap.getPixel(i, 0);
+//			hoehe= heightmap.getPixel(i, 0);
 			mapElement = new Rand();
 			neuesFeld.setMapElement(mapElement);
 			neuesFeld.setFeldposX(i);
@@ -169,8 +169,8 @@ public class MapLoader {
 				neuesFeld = new Feld(" !" + (i+1) + " : " + 0 + " : " + 0
 						+ "! ");
 				
-				hoehe= heightmap.getPixel(0, i);
-				enemeColor= enemymap.getPixel(0, i);
+//				hoehe= heightmap.getPixel(0, i);
+//				enemeColor= enemymap.getPixel(0, i);
 			//Hier müsste man eine weitere Map Hinzufügen
 				
 				mapElement = new Rand();
@@ -186,8 +186,8 @@ public class MapLoader {
 			for (int b = 0; b < pic_width; b++) {
 				int c = mBitmap.getPixel(b, i);
 				
-				hoehe= heightmap.getPixel(b+1, i+1);
-				enemeColor= enemymap.getPixel(b, i);
+//				hoehe= heightmap.getPixel(b+1, i+1);
+//				enemeColor= enemymap.getPixel(b, i);
 			//Hier müsste man eine weitere Map Hinzufügen
 				
 				enemy = checkForEnemys(enemeColor);
