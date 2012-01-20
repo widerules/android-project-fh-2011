@@ -419,7 +419,8 @@ public class BsRenderer implements GLSurfaceView.Renderer{
 //            	}
 //            	else
 //            	{
-            	bsEmt.getM_3dobject().render(mCamera, mProjMatrix, mVMatrix);
+            	if (bsEmt != null) 
+            		bsEmt.getM_3dobject().render(mCamera, mProjMatrix, mVMatrix);
 //            	bsEmt.drawObject(_shaders[this._currentShader].get_program(), mMVPMatrix, mVMatrix, mProjMatrix,
 //            			lightPos, lightColor, matAmbient, matDiffuse, matSpecular, matShininess);
     		
@@ -427,9 +428,10 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             } 
             
             for (Unit bsUnit : m_logic.getM_lstUnit()) {
-            	if(bsUnit.isM_isShown())
-            	bsUnit.getM_3dobject().render(mCamera, mProjMatrix, mVMatrix);
-            	
+            	if (bsUnit != null) {
+            		if(bsUnit.isM_isShown())
+                    	bsUnit.getM_3dobject().render(mCamera, mProjMatrix, mVMatrix);
+            	}            	
             }
             
             GLES20.glUseProgram(0);
