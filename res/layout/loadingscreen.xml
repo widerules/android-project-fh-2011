@@ -2,18 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" android:background="@drawable/bg">
+    android:orientation="vertical"
+    android:background="@drawable/bg_1280x800">
 
-    <ImageButton
-        android:id="@+id/button1"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play" android:layout_gravity="center_horizontal" android:layout_marginTop="40dp" android:src="@drawable/button1"/>
-
-    <ImageButton
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Credits" android:layout_gravity="center_horizontal" android:layout_marginTop="40dp" android:src="@drawable/button2"/>
-   
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center" >
+        <ImageButton
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/map150"
+            android:text="Play" />
+        <ImageButton
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/play_150"
+            android:text="Play" />
+        <ImageButton
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/credits150"
+                android:text="Credits" />
+     </LinearLayout>
+     
 </LinearLayout>

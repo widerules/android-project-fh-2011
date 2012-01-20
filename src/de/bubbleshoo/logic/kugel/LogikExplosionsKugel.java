@@ -7,6 +7,7 @@ import android.os.Vibrator;
 import android.util.Log;
 import de.bubbleshoo.data.BaseObject3D;
 import de.bubbleshoo.graphics.BsRenderer;
+import de.bubbleshoo.logic.LogicThread;
 import de.bubbleshoo.main.BsMainActivity;
 import de.bubbleshoo.mapElemente.MapElement;
 import de.bubbleshoo.mapElemente.Mauer;
@@ -196,8 +197,6 @@ public class LogikExplosionsKugel {
 							unit.getM_3dobject().setX(a+(durchmesserKugel)); 
 							
 							wandexplodiert(m_lstMapEmt,mapelement);
-							kugelexplodiert(unit);
-							
 							wasgefunden=true;
 							
 						}
@@ -214,9 +213,7 @@ public class LogikExplosionsKugel {
 							unit.getM_3dobject().move(0, unit.getSpeed()[1]/10);
 							unit.getM_3dobject().setX(b-(durchmesserKugel));
 							
-							wandexplodiert(m_lstMapEmt,mapelement);
-							kugelexplodiert(unit);
-							
+							wandexplodiert(m_lstMapEmt,mapelement);							
 							wasgefunden=true;
 						}
 					}
@@ -234,8 +231,6 @@ public class LogikExplosionsKugel {
 							unit.getM_3dobject().setY(c+(durchmesserKugel));
 							
 							wandexplodiert(m_lstMapEmt,mapelement);
-							kugelexplodiert(unit);
-							
 							wasgefunden=true;
 						}
 					}
@@ -252,8 +247,6 @@ public class LogikExplosionsKugel {
 							unit.getM_3dobject().setY(d-(durchmesserKugel));
 							
 							wandexplodiert(m_lstMapEmt,mapelement);
-							kugelexplodiert(unit);
-							
 							wasgefunden=true;
 						}
 					}
@@ -276,9 +269,13 @@ public class LogikExplosionsKugel {
 //		}
 	}
 	if(wasgefunden)
+	{
+//		unit.setM_isShown(false);
 		return true;
-	else
-	return false;
+	}
+	else{
+		return false;
+	}
 }
 	
 	
@@ -295,8 +292,5 @@ public class LogikExplosionsKugel {
 		
 	}
 
-	private static void kugelexplodiert(Unit unit) {
-		
-		
-	}
+
 }
