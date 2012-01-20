@@ -54,8 +54,10 @@ public class LogicThread extends Thread {
 
 	//Logische Konstanten:
 	private static double decreaseGras=-1.0f;
+	private static double decreaseFelsen=-1.0f;
 	private static double decreaseOel=1.0f;
-	private static double decreaseWasser=-2.0f;
+	private static double decreaseWasser=-1.0f;
+	
 	
 	public LogicThread(Context context, TextureManager textureManager) {
 		m_lstMapEmt 			= Collections.synchronizedList(new ArrayList<MapElement>());
@@ -95,10 +97,7 @@ public class LogicThread extends Thread {
 				
 				setSpeedOfUnits();
 				allekugelnbewegen();
-				
-				
 				checkKugelposition();
-				
 				
 				try {
 					Thread.sleep(20);
@@ -135,9 +134,12 @@ public class LogicThread extends Thread {
 	 * 
 	 */
 	private void checkKugelposition() {
+		boolean zielangekommen=false;
+		boolean mauerAngekommen=false;
 		for(Unit unit: m_lstUnit ){
 //			System.out.println("Unit1"+unit.getClass());
 			//Alle KugelN
+			if(unit.isM_isShown())
 				for(MapElement mapelement: m_lstMapEmt )
 				{
 						if(unit!=null)
@@ -149,19 +151,16 @@ public class LogicThread extends Thread {
 								{		
 									if(((unit.getM_3dobject().getY())<=(mapelement.getM_3dobject().getY()+1.0f)))
 									{
-//										Log.d(GeneralSettings.LoggerKategorie,"Kugelbefindet sich im feld: "+mapelement.getClass()+" Pos:"+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY());
+										Log.d(GeneralSettings.LoggerKategorie,"Kugelbefindet sich im feld: "+mapelement.getClass()+" Pos:"+mapelement.getM_3dobject().getX()+":"+mapelement.getM_3dobject().getY());
 										
 										//Was passiert im Ziel
 										if(mapelement instanceof Ziel)
 										{
-											System.out.println(LogicThread.m_lstUnit.get(0));
+//											System.out.println(LogicThread.m_lstUnit.get(0));
+											zielangekommen=true;
 //											LogicThread.m_lstUnit.remove(0);
 //											System.out.println(LogicThread.m_lstUnit.get(0));
-											Unit kugelvomstart = LogicThread.m_map.getKugeln().poll();
-											
-											if(kugelvomstart!=null)
-													LogicThread.m_lstUnit.add(kugelvomstart);
-											
+											unit.setM_isShown(false);
 										}
 										//Was passiert auf Öl
 										if(mapelement instanceof Oelteppich)
@@ -171,7 +170,7 @@ public class LogicThread extends Thread {
 										//Was passiert auf Felsen
 										if(mapelement instanceof Felsen)
 										{
-												
+											veraendereUnitSpeed(unit,decreaseFelsen);	
 										}
 										//Was passiert auf Baum
 										if(mapelement instanceof Baum)
@@ -191,12 +190,13 @@ public class LogicThread extends Thread {
 										//Was passiert auf Mauer (Muss kaputte Mauer sein)
 										if(mapelement instanceof Mauer)
 										{
-														
+//											mauerAngekommen=true;
+//											unit.setM_isShown(false);
 										}
 										//Was passiert auf Sand
 										if(mapelement instanceof Sand)
 										{
-														
+											veraendereUnitSpeed(unit,decreaseFelsen);			
 										}
 										//Was passiert auf Stacheln
 										if(mapelement instanceof Stacheln)
@@ -211,7 +211,7 @@ public class LogicThread extends Thread {
 										//Was passiert auf Weg
 										if(mapelement instanceof Weg)
 										{
-														
+													
 										}
 									}
 								}
@@ -223,8 +223,20 @@ public class LogicThread extends Thread {
 				{
 					
 				}
-			
-			
+		}
+		if(zielangekommen)
+		{
+			Unit kugelvomstart = LogicThread.m_map.getKugeln().poll();
+			kugelvomstart.setM_isShown(true);
+			if(kugelvomstart!=null)
+					LogicThread.m_lstUnit.add(kugelvomstart);
+		}
+		if(mauerAngekommen)
+		{
+			Unit kugelvomstart = LogicThread.m_map.getKugeln().poll();
+			kugelvomstart.setM_isShown(true);
+			if(kugelvomstart!=null)
+					LogicThread.m_lstUnit.add(kugelvomstart);
 		}
 	}
 
@@ -246,6 +258,17 @@ public class LogicThread extends Thread {
 			}
 		}
 		
+	}
+	
+	/*
+	 * Eine Kugel geht weg und eine neue kommt rein
+	 */
+	private static void generateNewKugel() {
+		
+		Unit kugelvomstart = LogicThread.m_map.getKugeln().poll();
+		kugelvomstart.setM_isShown(true);
+		if(kugelvomstart!=null)
+				LogicThread.m_lstUnit.add(kugelvomstart);
 	}
 	
 	/**
@@ -284,6 +307,7 @@ public class LogicThread extends Thread {
 	 * 
 	 */
 	private void allekugelnbewegen() {
+		boolean newKugel=false;
 		for(Unit unit: m_lstUnit ){
 			/*
 			 * Normale Kugel bewegen
@@ -308,7 +332,8 @@ public class LogicThread extends Thread {
 				//Kollisionsabfrage Wand
 				if(LogikExplosionsKugel.checkForWallKollisions(unit,m_lstMapEmt))
 				{
-					
+//					unit.setM_isShown(false);
+//					newKugel=true;
 				}
 				else //Ansonsten normal bewegen
 				{
@@ -318,6 +343,8 @@ public class LogicThread extends Thread {
 			
 			
 		}
+//		if(newKugel)
+//		generateNewKugel();
 		
 	}
 	

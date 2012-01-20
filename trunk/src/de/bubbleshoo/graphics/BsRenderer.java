@@ -427,9 +427,9 @@ public class BsRenderer implements GLSurfaceView.Renderer{
             } 
             
             for (Unit bsUnit : m_logic.getM_lstUnit()) {
-            	
+            	if(bsUnit.isM_isShown())
             	bsUnit.getM_3dobject().render(mCamera, mProjMatrix, mVMatrix);
-      	
+            	
             }
             
             GLES20.glUseProgram(0);

@@ -17,5 +17,7 @@
         </activity>
 		 
 		 <activity android:name=".BsMainActivity"></activity>
+		 <activity android:name=".BsSubActivityMapChoose"></activity>
+		 
     </application>
 </manifest>

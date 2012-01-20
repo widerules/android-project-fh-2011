@@ -30,7 +30,9 @@ import de.bubbleshoo.mapElemente.Weg;
 import de.bubbleshoo.mapElemente.Ziel;
 import de.bubbleshoo.settings.GeneralSettings;
 import de.bubbleshoo.units.ExplosionsKugel;
+import de.bubbleshoo.units.Kugel;
 import de.bubbleshoo.units.NormaleKugel;
+import de.bubbleshoo.units.Unit;
 
 public class LogikMapLaden {
 	
@@ -286,7 +288,7 @@ public class LogikMapLaden {
 	{
 		Random zufallszahl= new Random();
 		
-		for (int i=0; i<1;i++)
+		for (int i=0; i<60;i++)
 		{
 			BaseObject3D emt = parser.getObjectByName("Sphere");
 	
@@ -314,14 +316,19 @@ public class LogikMapLaden {
 							+ (LogicThread.m_map.getFelderY()
 									.size()), -0.75f);
 			int zahl =zufallszahl.nextInt(3);
+			Kugel normaleKugel = new NormaleKugel(emt);
+			normaleKugel.setM_isShown(true);
+			Kugel explosionsKugel=new ExplosionsKugel(emt);
+			explosionsKugel.setM_isShown(true);
+			
 			if(zahl==3)
-				LogicThread.m_map.getKugeln().add(new ExplosionsKugel(emt));
+				LogicThread.m_map.getKugeln().add(explosionsKugel);
 			else if(zahl==2)
-				LogicThread.m_map.getKugeln().add(new ExplosionsKugel(emt));
+				LogicThread.m_map.getKugeln().add(explosionsKugel);
 			else if(zahl==1)
-				LogicThread.m_map.getKugeln().add(new NormaleKugel(emt));
+				LogicThread.m_map.getKugeln().add(normaleKugel);
 			else 
-				LogicThread.m_map.getKugeln().add(new NormaleKugel(emt));
+				LogicThread.m_map.getKugeln().add(normaleKugel);
 				
 		}
 	}

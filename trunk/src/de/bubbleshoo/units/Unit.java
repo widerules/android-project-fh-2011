@@ -24,6 +24,7 @@ public class Unit {
 	 * @uml.associationEnd  
 	 */
 	private BaseObject3D m_3dobject;
+	private boolean m_isShown=false;
 	
 	
 	public Unit(int[] texFile, int meshID, boolean hasTexture, Context context) 
@@ -98,5 +99,15 @@ public class Unit {
 	public void setGeschwindigkeitsverhalten(float geschwindigkeitsverhalten) {
 		this.geschwindigkeitsverhalten = geschwindigkeitsverhalten;
 	}
+
+	public boolean isM_isShown() {
+		return m_isShown;
+	}
+
+	public void setM_isShown(boolean m_isShown) {
+		this.m_isShown = m_isShown;
+	}
+	
+	
 
 }
