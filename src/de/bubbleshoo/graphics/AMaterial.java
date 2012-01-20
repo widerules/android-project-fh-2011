@@ -16,7 +16,7 @@ public abstract class AMaterial {
 	 * @uml.property  name="mVertexShader"
 	 */
 	protected String mVertexShader;
-
+ 
 	/**
 	 * @uml.property  name="mFragmentShader"
 	 */
