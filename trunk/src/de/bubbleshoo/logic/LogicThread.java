@@ -139,7 +139,7 @@ public class LogicThread extends Thread {
 		for(Unit unit: m_lstUnit ){
 //			System.out.println("Unit1"+unit.getClass());
 			//Alle KugelN
-			if(unit!=null)
+//			if(unit!=null)
 			if(unit.isM_isShown())
 				for(MapElement mapelement: m_lstMapEmt )
 				{

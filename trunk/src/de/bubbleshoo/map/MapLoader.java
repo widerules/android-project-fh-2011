@@ -190,6 +190,7 @@ public class MapLoader {
 //				enemeColor= enemymap.getPixel(b, i);
 			//Hier müsste man eine weitere Map Hinzufügen
 				
+				
 				enemy = checkForEnemys(enemeColor);
 				neuesFeld = new Feld(" !!" + (i+1) + " : " +c + " : " + (b+1)
 						+ "! ");
