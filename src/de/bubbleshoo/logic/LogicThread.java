@@ -64,10 +64,11 @@ public class LogicThread extends Thread {
 		m_lstUnit 				= Collections.synchronizedList(new ArrayList<Unit>());
 		this.mContext 			= context;
 		this.mTextureManager 	= textureManager;
+	
 		
 		// Map laden
 		try {
-			m_map = MapLoader.laodMap("map1");
+			m_map = MapLoader.laodMap("mastermap1");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -166,12 +167,12 @@ public class LogicThread extends Thread {
 										//Was passiert auf Öl
 										if(mapelement instanceof Oelteppich)
 										{
-											veraendereUnitSpeed(unit,decreaseOel);
+//											veraendereUnitSpeed(unit,decreaseOel);
 										}
 										//Was passiert auf Felsen
 										if(mapelement instanceof Felsen)
 										{
-											veraendereUnitSpeed(unit,decreaseFelsen);	
+//											veraendereUnitSpeed(unit,decreaseFelsen);	
 										}
 										//Was passiert auf Baum
 										if(mapelement instanceof Baum)
@@ -186,7 +187,7 @@ public class LogicThread extends Thread {
 										//Was passiert auf Gras
 										if(mapelement instanceof Gras)
 										{
-											veraendereUnitSpeed(unit,decreaseGras);	
+//											veraendereUnitSpeed(unit,decreaseGras);	
 										}
 										//Was passiert auf Mauer (Muss kaputte Mauer sein)
 										if(mapelement instanceof Mauer)
@@ -197,7 +198,7 @@ public class LogicThread extends Thread {
 										//Was passiert auf Sand
 										if(mapelement instanceof Sand)
 										{
-											veraendereUnitSpeed(unit,decreaseFelsen);			
+//											veraendereUnitSpeed(unit,decreaseFelsen);			
 										}
 										//Was passiert auf Stacheln
 										if(mapelement instanceof Stacheln)
@@ -207,7 +208,7 @@ public class LogicThread extends Thread {
 										//Was passiert auf Wasser
 										if(mapelement instanceof Wasser)
 										{
-											veraendereUnitSpeed(unit,decreaseWasser);			
+//											veraendereUnitSpeed(unit,decreaseWasser);			
 										}
 										//Was passiert auf Weg
 										if(mapelement instanceof Weg)
@@ -232,13 +233,13 @@ public class LogicThread extends Thread {
 			if(kugelvomstart!=null)
 					LogicThread.m_lstUnit.add(kugelvomstart);
 		}
-		if(mauerAngekommen)
-		{
-			Unit kugelvomstart = LogicThread.m_map.getKugeln().poll();
-			kugelvomstart.setM_isShown(true);
-			if(kugelvomstart!=null)
-					LogicThread.m_lstUnit.add(kugelvomstart);
-		}
+//		if(mauerAngekommen)
+//		{
+//			Unit kugelvomstart = LogicThread.m_map.getKugeln().poll();
+//			kugelvomstart.setM_isShown(true);
+//			if(kugelvomstart!=null)
+//					LogicThread.m_lstUnit.add(kugelvomstart);
+//		}
 	}
 
 	/** Setzt die aktuelle Geschwindigkeit der Kugel
