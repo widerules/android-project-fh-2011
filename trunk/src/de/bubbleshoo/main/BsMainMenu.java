@@ -49,7 +49,7 @@ public class BsMainMenu extends Activity {
 			VideoView vd = (VideoView) findViewById(R.id.myvideoview);
 	
 			Uri uri = Uri.parse("android.resource://" + getPackageName() + "/"
-					+ R.raw.loading);
+					+ R.raw.a3dlogo);
 	
 			vd.setVideoURI(uri);
 			vd.start();

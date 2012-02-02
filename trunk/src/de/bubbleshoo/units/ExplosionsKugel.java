@@ -17,6 +17,7 @@ public class ExplosionsKugel extends Kugel{
 	public ExplosionsKugel(BaseObject3D emt) {
 		super(emt);
 		setGeschwindigkeitsverhalten(5.0f);
+		this.setM_isShown(true);
 	}
 	
 

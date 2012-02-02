@@ -169,7 +169,7 @@ public class LogikMapLaden {
 							} else if (col_X.getMapElement() instanceof Stacheln) {
 								nTextureID = R.drawable.grass_tile;
 							} else if (col_X.getMapElement() instanceof Start) {
-								nTextureID = R.drawable.heightmap1;
+								nTextureID = R.drawable.grass_tile;
 								
 //								ObjParser parser = new ObjParser(
 //										LogicThread.mContext.getResources(),
@@ -288,7 +288,7 @@ public class LogikMapLaden {
 	{
 		Random zufallszahl= new Random();
 		
-		for (int i=0; i<60;i++)
+		for (int i=0; i<10;i++)
 		{
 			BaseObject3D emt = parser.getObjectByName("Sphere");
 	
@@ -316,19 +316,15 @@ public class LogikMapLaden {
 							+ (LogicThread.m_map.getFelderY()
 									.size()), -0.75f);
 			int zahl =zufallszahl.nextInt(3);
-			Kugel normaleKugel = new NormaleKugel(emt);
-			normaleKugel.setM_isShown(true);
-			Kugel explosionsKugel=new ExplosionsKugel(emt);
-			explosionsKugel.setM_isShown(true);
-			
+
 			if(zahl==3)
-				LogicThread.m_map.getKugeln().add(explosionsKugel);
+				LogicThread.m_map.getKugeln().add(new NormaleKugel(emt));
 			else if(zahl==2)
-				LogicThread.m_map.getKugeln().add(explosionsKugel);
+				LogicThread.m_map.getKugeln().add(new NormaleKugel(emt));
 			else if(zahl==1)
-				LogicThread.m_map.getKugeln().add(normaleKugel);
+				LogicThread.m_map.getKugeln().add(new ExplosionsKugel(emt));
 			else 
-				LogicThread.m_map.getKugeln().add(normaleKugel);
+				LogicThread.m_map.getKugeln().add(new ExplosionsKugel(emt));
 				
 		}
 	}
